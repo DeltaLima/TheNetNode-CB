@@ -1,0 +1,83 @@
+
+= Neues Feature: direktes IP-Interface zu Linux-Kernel,
+  in include/all.h per #define aktivierbar, defaultmaessig deaktiviert
+= Befehl "KERNELIF", kurz "KERN"
+= KERN INIT: Initialisiert das Interface, es wird geprueft ob der Kernel die
+             benoetigten Funktionen bereitstellt. Unterstuetzt werden die
+             Kernel 2.0.x, 2.2.x und 2.4.x. Bei 2.0.x und 2.2.x muss die
+             benoetigte Funktionalitaet ueber ein Zusatzpaket hinzugefuegt
+             werden, bei 2.4.x ist nur eine Option beim Kernelcompilieren
+             entsprechend zu setzen. 
+             
+             Kernel 2.0.x/2.2.x: es sind zusaetzliche Programmpakete
+             erforderlich.
+
+             Kernel 2.4.x : bei "Network device support" der Unterpunkt
+             "Universal TUN/TAP device driver support", moeglichst fest in
+             den Kernel bauen, als Modul bisher nicht getestet.
+
+             Das Interface initialisiert sich NICHT von selbst, dies muss
+             explizit mit INIT erfolgen !!! Es ist sonst nicht nutzbar
+             und zeigt sich ziemlich bockig ;) Es erfolgt ein Warnhinweis,
+             falls zu diesem Zeitpunkt mit IPA noch keine Node-IP
+             festgelegt wurde. Die Interfacestatistik wird geloescht.
+
+= KERN STATUS: Zeigt den momentanen Status und die Statistik des Interfaces an.
+
+= KERN CLEAR: Loescht die Statistik, dies passiert auch bei "CLEAR" fuer
+              die Gesamtstatistik.
+
+= KERN SETKIP: Setzt die IP des Linuxkernels. Hier kann entweder eine IP-
+               Adresse oder ein Hostname angegeben werden, letzterer wird
+               entsprechend aufgeloest *wenn* ein Nameserver verfuegbar ist.
+               Die Angabe einer IP-Nummer ist deshalb zu bevorzugen !
+
+               Bsp: "KERN SETKIP 44.130.13.110" oder 
+                    "KERN SETKIP db0uhi.ampr.org"
+               
+               Dies muss passieren, bevor das Interface geUPt wird, ist dies
+               nicht geschehen kann das Interface nicht benutzt werden !!! Die
+               IP von tnn wird wie ueblich mit dem IPA-Kommando gesetzt, dies
+               muss ebenfalls vor dem UPpen passiert sein.
+
+= KERN UP: Aktiviert das konfigurierte Interface. Es wird im Kernel ein
+           Interface mit dem Namen "tnn" erzeugt (mit ifconfig pruefbar)
+           und eine Route fuer tnn eingetragen (route). Dies passiert alles
+           automatisch auf der Basis der gesetzten IPs. Im tnn-IP-Router wird
+           ebenfalls ein passender Routeneintrag erzeugt.
+                      
+           Das Interface laesst sich nur UPpen wenn folgendes vorher passiert
+           ist: IPA, KERN INIT, KERN SETKIP <ip/hostname>.
+
+= KERN DOWN: Deaktiviert das Interface zum Kernel. Das eingetragene Interface
+             und die automatisch im Kernel und tnn eingetragenen IP-Routen 
+             werden geloescht, sonstige Routen im tnn-Router die auf das
+             Interface zeigen, bleiben eingetragen, sie funktionieren
+             aber natuerlich nicht mehr. Daten, die bei deDOWNtem Interface
+             durch noch bestehende Routeneintraege auf ein solches geroutet
+             werden, werden in den Biteimer befoerdert.
+             
+= allgemeines: etliche Kommandos sind nur nach vorheriger, erfolgreicher
+               Ausfuehrung anderer Kommandos moeglich oder haengen vom
+               derzeitigen Zustand des Interfaces ab. Wenn man etwas machen
+               will was derzeit nicht geht, erhaelt man (mehr oder weniger)
+               ausfuehrliche Meckermeldungen. Die Konfiguration eines Inter-
+               faces kann nur geaendert werden wenn es DOWN ist. Ausnahme:
+               IPA-Aenderungen, aber die werden bei aktivem Interface (noch)
+               nicht an den Kernel durchgereicht. Das Resultat ist denkbar
+               einfach: das Interface geht dann nicht mehr.
+
+= Ablaufbeispiel:
+    - IPA 44.130.13.100
+    - KERN INIT
+    - KERN SETKIP 44.130.13.102 bzw. KERN SETKIP db0uhi.ampr.org
+    - (KERN STATUS zum gucken)
+    - KERN UP
+    - ...
+    - (eventuell zusaetzliche Routeneintraege mit IPR)
+    - ...
+    - KERN DOWN
+
+= STAT zeigt auch die Statistik des Kernelinterfaces mit an, diese kann auch
+  direkt mit "STAT K" abgefragt werden wenn eincompiliert.
+= Versionsbefehl zeigt Feature und Kernel als Interface an wenn eincompiliert

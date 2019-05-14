@@ -1,0 +1,35 @@
+= INP: die stuendliche Nodes-Meldung an den Nachbarn konnte Nodes aus der
+       Tabelle entfernen die noch abgemeldet werden sollten. Jetzt werden
+       nur noch Nodes angefasst die eine Laufzeit haben.
+
+= ALIAS-Kommando komplett neu implementiert, die alte Variante schien
+  Memory-Leaks zu produzieren, neue Variante arbeitet jetzt mit der
+  Listenverwaltung aehnlich wie MHeard.
+
+= Kommando-Aliasse werden bei SP in die Parameterdatei geschrieben
+
+= NETROM: Filter ergaenzt der verhindert, dass Nodes mit geheimen
+          Alias beim RX des alten NETROM Nodes-Broadcasts eingetragen werden
+	  (nur altes NETROM, UI-Broadcasts) (DG8BR)
+
+= FlexNet: Maxtime-Meldung wieder ausgebaut, laesst manchmal den Link stehen
+           bleiben (DG8BR)
+
+= L2: pollt der Digi einen User und erreicht die maximale Anzahl an Polls
+      (N2-Zaehler) weil keine Antwort erhalten wurde, dann bekommt der User
+      ein DISC. Bisher erfolgte keine Reaktion ausser dem stillen "vergessen"
+      der Verbindung.
+
+= Callcheck beim Connect-Befehl nicht machen wenn der User Sysop ist
+
+= Linux: Kernel-AX.25 Interfaces konnten nicht immer geoeffnet werden wegen
+         einem Fehler in der Fehlerbehandlung. Es werden jetzt detaillierte
+         Fehlermeldungen geschrieben wenn Operationen fehlschlagen.
+
+= Linux: Funktion xtempnam() neu implementiert wegen Meldung des Compilers
+         dass die bisher verwendete Systemfunktion tempnam() nicht sicher sei.
+         Jetzt wird mkstemp() verwendet.
+
+= Problem mit nicht ausgetragenen Nodes war wieder aufgetreten, Erkennung
+  ob ein Peer-Eintrag benutzt ist oder nicht in drop_unreachable_nodes()
+  geaendert (pp->used anstelle von pp->routes)

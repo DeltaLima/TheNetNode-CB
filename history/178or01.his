@@ -1,0 +1,32 @@
+Änderungen in or01:
+- fdfl und co sind weg, ersetzt durch etwas flexibleres, kein fdefblk
+  mehr, sondern fname, was man auch noch ausbauen könnte, um die
+  Begrenzung bei edit oder uploads auf ein File zu umgehen.
+
+- Der Convers ist ausschaltbar, er wird zwar nur durch Leeroutinen
+  ersetzt, aber zum Platz sparen reicht das.
+  
+- NOPORTINMON baut die Monitorausgabe etwas um, damit bestimmte
+  Hostmodeprg etwas glücklicher sind, leider beeinflußt dies auch
+  die Ausgabe beim Monitortrace.
+  
+- SETTAILTIME schaltet das Setzen der Tailtime ein, ist für TNC3
+  recht nützlich. Langfristig würde ich es begrüßen, wenn in der
+  Expert-version alle Pars des L1 setzbar sind, sie können ja gerne
+  automatisch vorberechnet werden, aber wenn man was dran drehen will,
+  kann man es dann wenigstens.
+  
+- Einige Funktionen, die ich in Assembler progr. hab, sind ausgedef't
+
+
+
+
+---snip---
+
+Notiz für Nils:
+AutoIPR Prüfung... die Netzeeinteilung in Klassen gibs nimmer, folglich
+ist die Prüfung auf *.255 *.0 nicht korrekt, dies muß abhängig von der
+Maske passieren. HHB hat zB .64 und .127 als verbotene Adr. (/26).
+in dem Sinne kann es auch keine /31er Maske geben, weil die beiden
+entstehenden Adr. ebensolche Netz und BC Adr wären.
+

@@ -1,0 +1,9 @@
+= MH zeigt bei gehoerten Stationen die EAX.25 verwenden dies hinter dem
+  Rufzeichen an
+
+= kleine Aenderungen von Bernd DG8BR an l3vc.c.
+
+= AX25IP-Routen konnten doppelt eingetragen werden, jetzt werden Routen
+  fuer ein Call das schon in der Liste steht nicht mehr angenommen,
+  der Eintrag muss zuerst geloescht werden. Es erfolgt eine Meckermeldung.
+  

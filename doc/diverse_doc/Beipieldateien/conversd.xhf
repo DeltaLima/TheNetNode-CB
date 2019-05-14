@@ -1,0 +1,205 @@
+Kommandos koennen abgekuerzt werden. Kommandos:
+/Away [Text]            markiert Dich als abwesend
+/ALl Text               Text an alle User Deines Kanals
+/Beep                   Beep-Modus an/aus
+/Channel n              wechselt auf Kanal n
+/CHARset [rein [raus]]  setzt Zeichenwandler (ANSI ist Voreinstellung)
+/Destinations           listet erreichbare ping-pong Hosts
+/EXClude User Text      sendet Text an alle auf Deinem Kanal ausser User
+/Filter [Calls]         setzt Calls, deren Texte gefiltert werden sollen
+/Help [Kommando]        gibt Hilfe-Informationen
+/Invite User            laedt User auf Deinen Kanal ein
+/Links [args]           listet oder setzt (Sysops) conversd-Partner
+/LISt                   listet alle Kanaele und ihre Themen
+/LEave [Kanal]          verlaesst Kanal oder derzeitigen Kanal
+/Msg User|#Kanal Text   sendet Text an User oder verbundenen Kanal
+/ME Text                sendet einen Aktionstext
+/MOde [Kanal] Optionen  setzt Kanaloptionen
+/NOtify [Calls]         setzt Calls, deren Erscheinen gemeldet werden soll
+/Personal [Text]        setzt persoenliche Beschreibung
+/PRompt abcd            Prompt setzen a=Query b=Normal c=Ctrl-g d=Ctrl-h
+/Quit                   convers verlassen
+/QUEry [User]           startet/beendet private Konversation
+/Topic [#Kanal] [Text]  setzt Thema des Kanals. Thema=@ entfernt Thema
+/UPtime                 wie lange laeuft dieser conversd ueberhaupt schon ?
+/Verbose                Laber-Modus an/aus
+/VERSion                zeigt Info zu dieser Version
+/Who [N|*|A|L|U|@]      zeigt User und Ihre Kanaele
+/WIdth [Wert]           setzt/zeigt Zeilenbreite
+@@ALL
+Wenn Du im /query Modus bist, wird Text mit vorangestelltem /all behandelt,
+als wuerdest Du ohne /query arbeiten.
+@@AWAY
+/away setzt den Abwesendheitstext, den die anderen lesen koennen. Beim
+Aufruf ohne Argument wird der Text geloescht und man gilt wieder als anwesend.
+@@BEEP
+(/beep /bell)
+Hiermit wird das Klingelzeichen (^G), welches vor jeder Mitteilung gesendet
+werden kann, ein- oder ausgeschaltet. Diese Kommando ist eigentlich eine
+Untermenge des /prompt Befehls, siehe dort.
+@@CHAR
+Mit diesem Befehl kannst Du dem Convers mitteilen, welche Zeichensatzwandlung
+Du haben moechtest. Die Syntax ist
+/char [In-Typ [Out-Typ]]
+Wenn Du z.B. mit einem Atari ST arbeitest, koenntest Du "/char atari" eingeben.
+Wenn Du einen PC benutzt und Umlaute im TeX-Stil schreiben moechtest, gebe
+"/char tex pc" ein, "/char ?" listet die Moeglichkeiten auf.  Spiel ein
+bisschen mit dieser Funktion.
+Der Dank dafuer geht an Thommy,<dl9sau@zedat.fu-berlin.de> (Internet mail)
+<dl9sau@db0sao.ampr.org> (AmPR-Net mail). Vorschlaege sollten an ihm
+weitergeleitet werden.
+Diese Einstellung wird bei "/pers" gespeichert (siehe dort).
+Wichtig ist hier weniger der Rechnertyp, sondern der Zeichensatz, den das
+verwendete Programm benutzt.
+@@DEST
+(/destinations /hosts)
+Alle Pingpong-Hosts, die miteinander verbunden sind, werden aufgelistet. Die
+Zahlen zeigen die Antwortszeiten in Sekunden. Mit "/d #" kann eine andere
+Darstellung gewaehlt werden.
+@@EXCL
+(/exclude /imsg /iwrite)
+Dieses Kommando ist das Gegenteil des /msg Befehls. Hiermit sendest Du Text
+an alle User dieses Kanals ausser dem einen als ersten Parameter angegebenen.
+Da der Text intern als privater Text an die Anderen verschickt wird, werden
+die Links etwas mehr belastet :-)
+@@FAID
+Willkommen im Convers, passe die Wandlung der Umlaute an (/char),
+setze Deine persoenliche Beschreibung (/pers)
+und wechsele (/join) wenn Du moechtest auf einen anderen Kanal Deiner Wahl.
+Eine Uebersicht der Kanaele erhaeltst Du mit /who , weitere Hilfe mit /help.
+Viel Spass.
+@@FILT
+Wenn Du die Texte bestimmter User nicht lesen moechtest, so kannst Du sie
+hiermit in eine Liste einfuegen. Alle Texte werden dann ausgefiltert, bei
+persoenlichen Texten ("/msg") wird eine Rueckmeldung an den Absender geschickt.
+Das Setzen/Loeschen geschieht wie bei "/notify", also z.B.
+"/filter + dg7ncq - db4ut" setzt dg7ncq und loescht db4ut aus der Liste.
+@@HELP
+(/? /help)
+Das Hilfekommando kann von zusaetzlichen Parametern gefolgt sein. Du hattest
+bestimmt "/help help" eingetippt um dies hier zu sehen, gelle ? :-)
+Der Schraegstrich darf hier nicht vor den fraglichen Kommandos stehen.
+@@INVI
+Es wird eine Einladung zum genannten User geschickt. Diese Einladung wird
+durch das gesamte Netz geleitet. Wenn derjenige auf einem anderen Kanal
+ist und Dein Kanal als privat eingerichtet ist, so kann er auf Deinen
+Privatkanal wechseln. Wenn er im Befehlsinterpreter eines Knotens ist, so
+empfaengt er die Einladung, er kann dann aber nicht direkt auf Deinen
+Privatkanal kommen, weshalb er nochmals einzuladen ist.
+@@JOIN
+(/channel /join)
+Verbindet Dich zusaetzlich mit dem gewuenschten Kanal. Im Gegensatz zu aelteren
+conversd-Implementationen, verbleibt man auch noch im vorherigen Kanal, denn
+es wird eine Mehrfach-Kanal-Verbindung unterstuetzt. Um einen Kanal zu
+verlassen, musst Du "/leave" verwenden. Ohne Angabe eines Kanals, werden Infos
+zu den von Dir benutzten Kanaelen ausgegeben.
+@@LEAV
+Mit diesem Befehl kannst Du entweder den derzeitigen oder den angegebenen
+Kanal verlassen. Wenn dieser der letzte ist, so wird conversd verlassen.
+@@LINK
+Der momentane Linkstatus wird angezeigt. Dies sind normalerweise Hostname,
+Linkstatus, Laufzeiten, Versionskodes und Statuszeit, gefolgt von der Zeit
+des naechsten Connectversuches und Anzahl der Versuche (auf Disconnecteten
+oder im Aufbau befindlichen Links), bei bestehender Verbindung werden die
+Queue-Laengen und Byte-Statistiken angezeigt.
+Wenn Du Sysop bist, kannst Du Verbindungen Setzen oder Loeschen. Es wird
+dann auch noch zusaetzlich in Klammern der Verbindungsweg angezeigt.
+Syntax: /l [@ Host]|[[+]|[-] Host [Port [via]]]
+Mit "/l @ Host" koennen andere Hosts fernabgefragt werden (wird nicht von
+allen Versionen unterstuetzt).
+@@LIST
+Alle Kanaele, ihre Themen, Optionen und User werden angezeigt.
+@@ME
+(/me /action)
+Dieser Befehl dient dazu, den Usern auf Deinem Kanal eine Taetigkeit
+anzuzeigen. Wenn du z.B. "/me gaehnt" eingibst, bekommen alle User dieses
+Kanals folgendes angezeigt:
+*** dc6iq gaehnt
+@@MODE
+Das mode-Kommando ist eines der kompliziertesten. Es wird wie folgt benutzt:
+/mode [<Kanal>] <+|-><t|i|s|m|p|l|o<User>>.
+  Die Optionen bedeuten folgendes:
+    t       - Das Thema des Kanals laesst sich NUR von Kanal-Sysops aendern
+    i       - Der Kanal wird Usern anderer Kanaele verheimlicht
+    s       - Der Kanal ist geheim, die Kanalnummer wird nicht mehr angezeigt
+    m       - Der Kanal ist moderiert, nur Kanal-Sysops duerfen schreiben
+    p       - Der Kanal ist privat, man benoetigt eine Einladung zum Einloggen
+    l       - Der Kanal ist lokal, Texte werden nicht weiterverteilt
+    o<User> - macht <User> zum Kanal-Sysop (kein - moeglich)
+
+Das Plus setzt eine Option, der Strich loescht sie. Es sind Kombinationen
+erlaubt, so wuerde "/mode 69 -s+todc6iq" folgendes bewirken: Kanal 69 ist
+nicht mehr geheim, aber die Themen duerfen nur vom Kanal-Sysop gesetzt
+werden. Zusaetzlich wird dc6iq ein Kanal-Sysop.
+Ohne Angabe von Parametern werden die derzeitigen Optionen angezeigt.
+Auf Kanal 0 sind keine Modes setzbar!
+@@MSG
+(/msg /send /write)
+Sendet einen Text an einen speziellen User oder an einen verbundenem Kanal.
+Wenn der Text an einen Kanal gehen soll, so muss man folgendes eingeben:
+"/msg #<Kanal> <text>". Wenn das Ziel ein User ist, so kann er den Text
+an den zusaetzlichen Sternchen erkennen. Z.B. wenn dc6iq eine Nachricht an
+dc1ik mit "/m dc1ik Das ist ein Test" sendet, so erhaelt dc1ik folgendes:
+"<*dc6iq*>: Das ist ein test".
+@@NOTI
+Du wirst informiert, wenn eine bestimmte Person in der Personenliste im
+convers erscheint. Z.B. fuegt "/notify + dc1ik" dc1ik in die Liste ein,
+"/notify - db4ut" entfernt db4ut aus der Liste. Das Einfuegen/Loeschen
+mehrerer Calls in einem Kommando ist moeglich, z.b. bewirkt
+"/notify + dc1ik db4ut - dc6iq dh2paf +dg3kcr", dass dc1ik, db4ut und dg3kcr
+eingefuegt und dc6iq und dh2paf entfernt werden. Das Entfernen von Calls,
+die nicht in der Liste stehen wird ignoriert.
+@@PERS
+(/note /personal)
+Es kann eine kurze Beschreibung zu Deiner Person gesetzt werden, den die
+anderen User mit "/who" sehen koennen. Z.B: "/pers Fred, Buechig, JN49fb".
+Mit einem @ als Text wird sie geloescht. Diese Implementation merkt sich
+bis zu 118 Zeichen der Beschreibung und setzt diese dann automatisch beim
+Einloggen (die "/char" und "/width" Einstellungen werden dann auch
+gespeichert und beim Einloggen gesetzt). Speichern ist auch ohne Setzen
+moeglich, einfach ohne Text aufrufen.
+@@PROM
+Das prompt-Kommando nimmt vier Argumente in einer zusammenhaengenden Zeichen-
+kette. "/prompt abcd" setzt "a" als "/query"-Prompt, "b" fuer den normalen
+Prompt. "d" ist ein Zeichen um den Prompt zu loeschen (also normalerweise
+Backspace (^H) oder Delete). "c" ist ein Zeichen, welches vor jedem Text,
+den Du empfaengst, gesendet wird (normalerweise also ^G).
+@@QUER
+Der angegebene User ist in Zukunft der einzige Empfaenger fuer alle Texte,
+die Du eingibst. Diese werden dann als private Texte an den User geschickt,
+wie bei "/m". Zum Ausschalten, ohne Argument aufrufen, danach geht alles
+wieder wie gewohnt an den Kanal. Sozusagen ein Privatmodus.
+@@QUIT
+(/bye /exit /quit)
+Wenn Du das eingibst, verlaesst Du diesen wunderbaren Ping-Pong-Convers.
+Das willst Du doch nicht wirklich? :-)
+@@TOPI
+Hiermit kann fuer den Kanal ein Thema gesetzt werden. Die anderen User
+koennen dieses sehen, wenn sie "/who" oder "/list" eingeben. Wenn keine
+Kanalnummer angegeben wird, so wird das Thema des aktiven Kanals gesetzt.
+Wird eine Nummer angegeben, so musst Du auch auf diesem Kanal eingeloggt sein.
+Um das Thema zu loeschen, ist als Thema ein "@" einzusetzen.
+@@UPTI
+Dieser Befehl zeigt an, wielange conversd schon aktiv ist.
+@@VERB
+Schaltet die Laber-Option ein/aus. Du bekommst dann viele Informationen
+ueber Aktionen der User (Einloggen/Ausloggen/Texte-setzen/...), auch wenn
+diese nicht auf Deinem Kanal sind.
+@@VERS
+Zeigt etwas Text zu dieser Version (in englisch).
+@@WHO
+(/users /who)
+Dieser Befehl zeigt die eingeloggten User und hat mehrere Optionen:
+ n [Kanal]    tabellarische Darstellung (auf einen Kanal begrenzbar)
+ a [Kanal]    Abwesendheitsliste        (auf einen Kanal begrenzbar)
+ l [Kanal]    ausfuehrliche Liste        (auf einen Kanal begrenzbar)
+ u Userliste  ausfuehrliche Infos zu den Usern in der Userliste
+ * [Kanal]    Liste der Idlezeiten      (eigener oder angegebener Kanal)
+ @ Host       auf Host begrenzte tabellarische Darstellung
+ohne Option wird die kurze Darstellung, wie bei "/list", ausgegeben.
+@@WIDT
+Macht conversd Deine Bildschirmbreite (Zeichen/Zeile) bekannt. Die Meldungen
+der anderen wird dann auf diese Breite gebracht. Voreingestellt ist 80.
+Diese Einstellung wird bei "/pers" gespeichert (siehe dort).
+@@----
+rev3.12c/20001003

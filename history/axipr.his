@@ -1,0 +1,67 @@
+
+
+!!!! ACHTUNG
+!!!! Dies ist die ALTE Syntax des AXIPR-Kommandos !
+!!!! ( siehe 179mh02.his fuer neue Syntax !!! )
+
+-----------------------------------------------------------------------------
+
+Die Datei ax25ip.cfg wird (erstmal) noch benoetigt fuer die Socket-
+Initialisierung und Einstellung des Loglevel.
+
+Syntax:
+=======
+
+AXIPR
+
+Zeigt die derzeit gueltigen AXIP-Routen. Diese werden auch angezeigt, wenn
+erfolgreich ein Eintrag zugefuegt oder geloescht wurde.
+
+AXIPR R + <call> <host> [mode [udp-Port]]
+
+Es wird eine Route eingetragen zum Rufzeichen <call> ueber den Host <host>.
+Fuer <call> muss ein gueltiges Rufzeichen verwendet werden. Fuer <host> kann
+sowohl eine IP-Adresse als auch ein Hostname (max. 32 Zeichen) angegeben
+werden. Optional kann der fuer mode "IP" oder "UDP" gewaehlt werden. Fuer
+mode UDP kann zusaetzlich der udp-Port des Zieles angegeben werden.
+
+AXIPR R - <call>
+
+Die Route zu <call> wird aus der Liste entfernt.
+
+AXIPR D + <host> [mode [udp-Port]]
+
+Es wird eine Default-Route eingetragen zum Host <host>. Fuer <host> kann
+sowohl eine IP-Adresse als auch ein Hostname (max. 32 Zeichen) angegeben
+werden. Optional kann der fuer mode "IP" oder "UDP" gewaehlt werden. Fuer
+mode UDP kann zusaetzlich der udp-Port des Zieles angegeben werden.
+
+AXIPR D -
+
+Die Default-Route wird geloescht.
+
+
+Wichtig! Man kann (vorerst) nur entweder IP-Routen verwenden, wenn man selbst
+einen IP-Socket verwendet, oder es muessen UDP-Routen verwendet werden, wenn
+man selbst einen UDP-Socket verwendet.
+
+
+Beispiele:
+==========
+
+AXIPR R + DB0ABC db0abc.ampr.org
+    Traegt ein IP-Route zu DB0ABC mit der IP-Adresse von db0abc.ampr.org ein
+       
+AXIPR D + 44.55.66.77 UDP
+    Setzt die Defaultroute auf die IP 44.55.66.77 mit UDP-Protokoll auf dem
+    UDP-Defaultport (10093)
+
+AXIPR R + DB0ABC-10 db0abc-u.ampr.org UDP 34567
+    Traegt eine UDP-Route auf Port 34567 bei DB0ABC-10 mit der IP-Adresse
+    von db0abc-u.ampr.org ein
+
+AXIPR R - DB0ABC
+    Loescht den Routeneintrag fuer DB0ABC
+
+AXIPR D -
+    Loescht die Default-Route

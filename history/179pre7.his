@@ -1,0 +1,8 @@
+= einige History-Files nachtraeglich geupdated
+
+= Linux: Race-Condition bei Verwendung des Hostmode-Sockets behoben. Es
+         konnte vorkommen, dass TNN sich nicht starten liess, wenn der
+	 Socket verwendet werden sollte. Starts mit Konsole gingen in diesem
+	 Fall jedoch problemlos.
+
+= Linux: kernelif.c: einige Newlines in Ausgaben in Returns geaendert

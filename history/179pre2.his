@@ -1,0 +1,11 @@
+= EAX.25: Keine Auswertung des EAX-Flags im Frame bei eingehenden Connects
+          mehr, die Umschaltung erfolgt nun nur noch bei Empfang von SABME.
+
+= EAX.25: Neues Monitorformat bei I-Frames
+
+= Fixes von DL1XAO an MHeard, Port und L7 eingearbeitet
+
+= Externe Programme dem Paket hinzugefuegt, Copyrights aktualisiert
+
+= Aenderungen am externen Programm pfhadd wegen Compilermeldung ueber
+  unklare Schleife

@@ -1,0 +1,39 @@
+Änderungen in or02, ausgehend von mh09:
+
+-Beenden der TNN bei < 100 Buffer in buffers.c nicht übernommen.
+
+-Variablen in l2rx.c für MaxCon lokalisiert und abgemagert.
+
+-Erweiterungen beim BC in eigne Funktion ausgelagert.
+
+-In l3nbr.c eine Variable eingespart.
+
+-ALIASCMD überarbeitet, Ersatz findet zentraler in ccpcmd() statt, wird mit
+ Listen realisiert und erlaubt es Parameter hinter den Aliassen zu übernehmen,
+ nur der Alias selbst wird in Großschreibung konvertiert.
+
+-bezugnehmend auf mh05 History, ccpport überarbeitet, sodaß auch nichtaktivierte
+ Sachen "gesetzt" werden können, sie werden halt einfach überlesen.
+
+-Da mir die po + Zeile zu breit wurde, hab ich die Überschrift 2-zeilig gemacht
+
+-In l7ip.c ist mal wieder unser Problem mit der Bitmaske zu sehen, wir sollten
+ wirklich mal über eine sinnvolle Prüfung diskutieren. (siehe vorherige
+ History, unten) und 
+  wer bits == 1 liefert kann doch auch nicht die Wahrheit sagen, hier könnte
+  man durchaus ein minimum von 2..4 bits fordern, max 32 (keine 31!) und alles
+  was außerhalb ist wird ignoriert und nicht umgeändert (gilt als Fehler)
+  (bzw. 8 minimum, da ampr.net 44.x.x.x/8 ist)
+
+-In l7showl3.c; dump-raw-node-info hab ich nicht übernommen (war als Test
+ deklariert).
+
+-dump_port etwas angepaßt fr meinen Kram.
+
+-In search_file soll laut mh08-History ein Fehler sein, den muß mir aber erst
+ einer beweisen, da ich ihn bei Nachprüfung nicht finden kann, bzw. der Fehler
+ muß wenn, an anderer Stelle sein.
+
+-In mh_port_lookup war ein if zuviel.
+
+

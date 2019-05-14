@@ -1,0 +1,62 @@
+
+Uebersicht zur MSY-Hilfe :                                               3.02
+-------------------------
+
+(MSY) C   count lifetime -1 
+(MSY) D   dir
+(MSY) E   erase
+(MSY) G   group
+(MSY) L   list
+(MSY) S   send
+(MSY) V   version
+
+
+
+Detaillierte Hilfe zu MSY :
+---------------------------
+
+
+(MSY) C  
+      Lifetime aller  MSG's wird um 1 verringert. Dieses kann per Hand
+      geschehen oder sinnvollerweise mit z. B. folgendem TNB-File.
+
+ ######01.TNB
+ ============
+ ;                        ;Diese File startet taeglich um 1:00 Uhr.
+ MSY C                    ;Lifetime der .MSG-File um einen Tag herrabsetzen
+ ;                        ;und bei Lifetime = 0 entfernen.
+
+(MSY) D             Listet die Header aller MSG's auf.
+
+(MSY) D -#x o. +#x
+      MSG's, deren LT (-) kleiner o. (+) groesser x-Tage ist.
+
+(MSY) D -*x o. +*x
+      MSG's, die (-) juenger o. (+) aelter als x-Tage sind.
+
+(MSY) D FROM
+      zeigt MSG-Liste sortiert nach Absender-Calls an.
+
+      Die Sortierung kann auch nach :
+
+      BYTE, DATE, TIME, LT, RETURN vorgenommen werden.
+
+(MSY) E ALL <call>
+      Loescht alle MSG's von oder an <call>.
+
+(MSY) E 3 <call>
+      Loescht die dritte Nachricht an <call>. Varianten sind 1-4, 2- oder -3.
+
+(MSY) G <gruppe> +/- <call>
+      Fuegt/loescht <call>  ein/aus <gruppe>. Zugelassen sind in einer Gruppe
+      maximal 50 Call's.
+
+(MSY) L
+      Zeigt alle MSG-Files.
+
+(MSY) S <call> <#x> <text>
+      Schreibt <text> an <call> mit Lifetime x. Hier ist eine Lifetime von
+      maximal 99 Tagen moeglich.
+
+(MSY) V     
+      Ausgabe von der Versionsnummer und dem Datum.

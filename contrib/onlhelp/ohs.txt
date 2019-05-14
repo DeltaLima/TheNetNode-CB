@@ -1,0 +1,1683 @@
+TNN-Doku-Version 1.79mh03 vom 17. Jul 2005 by CB-PR Team Dessau
+(AL)IAS <Bezeichnug> <C> <Call[-*]> <Port> [<Digi1>]
+     ALIAS Befehle dienen dazu um einen Connect zum n‰chstgelegenen
+     DX-Cluster oder zur n‰chsten Mailbox/Externen_Convers einzutragen
+
+     Zu Beachten ist lediglich, das die zeichenkette nicht laenger,
+     als 16 zeichen sein darf !!
+     
+     Beispiel:
+     ~~~~~~~~~
+     AL BCM C DBX531 1 DNO531
+     
+     Zum Loeschen:
+     ~~~~~~~~~~~~~
+     Nur "AL BCM" eingeben.
+     
+(AX)IPR <TYP> +/- <Digi> <IP-Adresse> UDP <Port>
+     Zeigt die interne AX25IP-Routing-Tabelle an.
+
+     Dieses Modul wurde Automatisiert. Das heiﬂt eingehende neu Routen,
+     werden automatisch in die Interne Routing Tabelle aufgenommen. Diese
+     werden auch als (AUTO-ROUTE) bezeichnet. ƒndert sich eine IP-Adresse
+     oder UDP-Port, wird das in der Internen Routing Tabelle aktualisiert.
+
+     Neu:
+     ~~~~
+     Dann wurde eine Protokoll-Erkennung eingebaut. Damit ist es jetzt mˆglich
+     das sich Routen automatisch an das Node anbinden koennen (AX25IP-Port)
+     Flexnet-bzw. Netrom-Protokolle werden automatisch in die LINKS Tabelle
+     eingetragen. Auﬂerdem koennen User aus dem Internet sich in das Node
+     einloggen. Wird eine Route nach einer "gewissen Zeit"
+     (wird auch als "PINGTIME" bezeichnet) nicht mehr gelesen, wird diese
+     Route aus der internen-Routing Tabelle geloescht. Das gilt aber nur fuer
+     (AUTO-ROUTEN) mit oder ohne Linkanbindung.
+
+     ACHTUNG:
+     ~~~~~~~~
+     AX25IP.CFG wird nicht mehr unterst¸tzt!!! Alle Eintraege in der AX25IP.CFG
+     muessen einmal auf der Console ausgef¸hrt werden. Mit "SP" kann man die
+     eingegebenen Daten speichern.
+
+     Folgende Befehle stehen zur Verf¸gung:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Den UDP-Port ‰ndern, wo unser TNN-Knoten lauscht:
+     -------------------------------------------------
+     AX U 93
+
+     Loglevel ‰ndern:
+     ~~~~~~~~~~~~~~~~
+     AX L 4
+
+     loglevel 0 - no output
+     loglevel 1 - config info only
+     loglevel 2 - major events and errors
+     loglevel 3 - major events, errors and AX25 frame trace
+     loglevel 4 - all events
+
+     Die Log-Informationen werden in der Datei ax25ip.log abgespeichert.
+
+     Eine AX25IP-Route eintragen:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     UDP-Modus:
+     ----------
+     AX R + DIG531 DIG531.DYNDNS.ORG UDP 93
+
+     IP-Modus:
+     ---------
+     AX R + DIG531 DIG531.DYNDNS.ORG
+
+     Eine AX25IP-Route austragen:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     AX R - DIG531
+
+     Unsere interne Routing-Tabelle:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     
+     JO61QH:DIG531> AXIP-Routes:(72/90)
+     Alias-:Call---IP-------------Mode-Port--PMode---PTime---RX----TX---Online-
+     Riesa: DNO531 213.146.112.94 UDP  93    INP     298  1296KB 1190KB 19H,0m
+
+     AXIP-Rotes:(70/90)
+                 |  |
+		 |  max. Anzahl AXIPR-Routen
+		 aktuelle Anzahl der AXIPR-Routen
+
+     Alias  = Aliasname vom Linkpartner
+     Call   = Rufzeichen vom Linkpartner
+     IP     = Aktuelle IP_Adresse vom Linkpartner/User
+     Mode   = Protokoll, UDP oder IP.
+     Port   = TX-Port vom Linkpartner/User
+     PMode  = Protokollanforderung unseres Linkpartners.
+     PTime  = Pingtime, brauchen wir f¸r die Aktualisierung der DNS-Adresse.
+     RX     = empangene UDP-Packete.
+     TX     = gesendete UDP-Packete.
+     Online = Connect Zeit.
+
+     Mit dem Parameter "PINGTIME" kann man die Aktualisierung der AXIPR-Routen
+     steuern. (Weitere Informationen siehe PArameter "PINGTIME")
+
+     Es bersteht die Mˆglichkeit die interne-Rozing-Tabelle als HTML
+     darzustellen. Mˆchte man dies gerne tun, muss man in der TNN179.TNB das
+     richtige Verzeichnis setzen und im TNN den PArameter HTML-STAT einschalten.
+     Die AKtualisierung der HTML-Datei "rstat.html" erfolgt aller 1.Minute.
+     Auﬂerdem kann man das Aussehen der HTML-Statistik nach seinen w¸nschen
+     anpassen. Anderungen sind in der Datei "rstat.css" vorzunehmen.
+
+(ARP) <DestIP> +/- <publ.> <Port> DG/VC <call[-*]> [<digi1> <digi2>]
+     Nimmt <destip> mit <publish> <port> als DC/VC als <call> in die Linkliste
+     auf. Die Digipeater <digi1> und <digi2> kînnen mit angegeben werden.
+
+     ARP-EintrÑge macht  TNN automatisch.  Sie mÅssen  nur fÅr  Wege Åber via-
+     Digipeater und  NET/ROM-Verbindungen angeben  werden, da  hier ARP  nicht
+     mîglich ist.
+
+     ARP-EintrÑge werden  fÅr Gateways  gemacht, bzw.  fÅr direkt  erreichbare
+     Stationen.
+
+     DestIP        Ist die IP-Nummer des (IP-) Nachbars auf diesem Port
+
+     +/-           Zum Ein- oder Austragen
+
+     Publ.         Publish soll dieser Port/Nachbar allen anderen auch bekannt
+                   gegeben werden?  Ein P steht fÅr "ARP beantworten", wird es
+                   weggelassen, werden ARP-Anfragen an dieses Ziel ignoriert.
+
+     Port          Portname des  Knotens Åber  den die  IP-Adresse  erreichbar
+                   ist. Es kann hier auch wieder NETROM angegeben werden.
+
+     DG/VC         Datagram/Virtual   Circuit.    Also    soll    das    ganze
+                   Verbindungslos aufgebaut  werden (Datagram)  oder soll eine
+                   Verbindung da  sein (Virtual  Circuit). Von  Digi  zu  Digi
+                   sollte DATAGRAM  eingestellt sein,  dann  gibt  es  weniger
+                   overhead. Dann findet allerdings auch keine Fehlerkorrektur
+                   auf dem  Link statt,  dies wird aber (zwar etwas langsamer)
+                   von den  Endstationen (TCP/IP)  gemacht. Auf  DAMA-Einstieg
+                   ist UNBEDINGT  VC  einzustellen.  Bei  NETROMs  hat  dieser
+                   Parameter keine Bedeutung.
+
+     Call          AX-25-Call,  unter   dem  der  Rechner  mit  der  IP-Nummer
+                   <destip> erreichbar ist.
+
+     Beispiel:     ARP 44.130.82.41 + P Sysop_9k6 VC DB7KG DB7KG-5
+
+     Was geht, und was nicht geht:
+     -    Der IP-Router von TNN kann Frames beliebiger LÑnge durch
+          Fragmentierung Åbertragen. Die Reassemblierung wird der Endstation
+          Åberlassen.
+     -    TNN empfÑngt aus KompatibilitÑtsgrÅnden zu FlexNet nur Packete bis
+          256 Bytes Info.
+     -    ARP/REV ARP-Anfragen werden sofern erlaubt, beantwortet.
+
+(BE)ACON <port> = <text>
+     Setzt bzw. Ñndert die Bakentexte fÅr die einzelnen Ports.
+
+(BE)ACON <port> =
+     Entfernt den Bakentext.
+
+(BE)ACON <port> <mins> <metric> <call oder alias via call>
+     Schaltet die Bake ein.
+
+     Port 0..16          Portnummer.
+
+     mins 0..n           0 = Bake aus.
+                         n = Intervall in Minuten.
+                         Default ist 10 Minuten.
+
+     metric 0, 1, 2, 3   0 =Keine Metric.
+                         1 =Metric.
+                         2 =ZusÑtzlich STAT.
+                         3 =Status Bake (Neu)
+
+     call oder alias     QST = UI-Frame von Knoten an Call 'QST'.
+
+     Es gibt  Terminalprogramme, welche die METRIC- und/oder STAT- Bake direkt
+     auswerten und  anzeigen  kînnen.  Besonders  sind  an  dieser  Stelle  zu
+     erwÑhnen: THP (Turbo Host Packet) und TOP (The Other Packet).
+
+     Am Knotenterminal  kann diese Bake auch mitgeschrieben oder auch in einen
+     File gespeichert werden. Eingabe: <ESC> MU + METRIC STAT oder <ESC> MCU +
+     METRIC STAT. Beim Neustart wird der Monitor ausgeschaltet.
+
+     Die Bake mit metric=1 hat diese Informationen:
+
+ 980208 210306 Up= 101148 Mem=1773568 Buf=5956 Rps=  524
+ Lnk=154 Cir= 45 Sum=2602324027 Thr= 51464
+ 980208 210406 Up= 101159 Mem=1773568 Buf=6645 Rps=  522
+ Lnk=154 Cir= 43 Sum=2602669277 Thr= 48512
+
+     980208 210306 Aktuelles Datum und Uhrzeit.
+     Up=101158     Betriebszeit in Tagen, Stunden und Minuten.
+                   10 Tage, 11 Stunden und 58 Minuten.
+     Mem=1773568   Freier DOS RAM (Coreleft, Bytes)
+     Buf=5956      Freier TNN-Buffer (Blîcke).
+     Rps=524       HauptschleifendurchlÑufe/Sekunde.
+     R=0           Anzahl der Token-Recoveries.
+     Lnk=154       Anzahl der aktiven L2-Links.
+     Cir=45        Anzahl der aktiven Circuits (L4-Links).
+     Sum=229961    ZÑhlerstand des Statistik-GesamtzÑhlers.
+     Thr=51464     Derzeitiger Datendurchsatz in Baud.
+
+
+     Bei metric=2  wird zusÑtzlich  bei jedem  empfangenen L3-RTT Me·frame ein
+     UI-Paket des Knotens an METRIC abgestrahlt:
+
+ 10.12.97 16:26:52 DB0LBG-7(09)
+ L3RTT=15490ms L3SRTT=7350ms (7350ms/6760ms) L2SRTT=820ms SUM=4302022
+ 10.12.97 16:26:54 DB0NHM(10)
+ L3RTT=840ms L3SRTT=790ms (1090ms/500ms) L2SRTT=640ms SUM=1750605
+ 10.12.97 16:27:02 DB0BID(09)
+ L3RTT=2210ms L3SRTT=1340ms (1780ms/900ms) L2SRTT=680ms SUM=1510236
+
+     Aktuelles Datum und Uhrzeit
+     DB0LBG-7      Rufzeichen des Nachbarknotens.
+     (09)          Empfangsport des Me·frame.
+     L3rtt=000185ms    Soeben gemessener Level-3 RTT.
+     L3SRTT= 1. Zeit ( 2. Zeit / 3. Zeit ).
+        1. Zeit    Ermittelter SRTT aus der Messung.
+                   Bei FlexNet mittel aus 2. Zeit und 3. Zeit.
+        2. Zeit    Von diesem Knoten ermittelter SRTT in ms.
+        3. Zeit    Von anderen Knoten ermittelter SRTT in ms.
+     L2srtt=00074ms    Level-2 SRTT Laufzeit in ms.
+     SUM=4302022   ZÑhlerstand des LinkzÑhlers damit man beim
+                   Auswerten die Linklast hat.
+     Neu:
+     ~~~~
+     Statusbake mit intressanten Informationen f¸r die User oder Sysop
+     Die Aussendung der Bake kann man mit dem PArameter Statusbake steuern.
+     Der Standartwert ist 300 (5 Minuten), das heiﬂt aller 5 Minuten wird
+     die Bake gesendet.
+
+     Statusbake einstellen:
+     ~~~~~~~~~~~~~~~~~~~~~~
+     (Beispiel f¸r Port 0,Intervall 60, und Statusbake 3)
+
+     BEACON 0 60 3 IDENT
+
+     Ausgabe auf dem Monitor
+     ~~~~~~~~~~~~~~~~~~~~~~~
+     T0:DNO531 to STATUS UI^ pid F0-21.03.04 21:26:13
+     Links: 32, Convers: 23, Dest/Nodes: 272, Buffers: 19872, Runtime: 44m,55s
+     DIG531:3   DNO531:28   KR1GAT:3   DIX213:2
+
+     Die Status-Bake hat folgende Informationen
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Links      = aktuelle Anzahl der L2-Links im Knoten
+     Convers    = aktuelle Anzahl der Convers-User im Knoten
+     Dest/User  = Anzahl erreichbare Dest/Nodes
+     Buffer     = Freie Buffer
+     Runtime    = Laufzeit des Programmes
+     Rufzeichen = alle Linkpartner mit Laufzeitangabe
+                  (auﬂer links ohne Laufzeitmessung)
+
+     Die Status-Bake ist er ab V1.79mh02 verf¸gbar!!!
+
+(BE)ACON <port> 0 0 ID
+     Schaltet die Bake wieder aus.
+
+(CL)EAR
+     Lîscht alle StatistikeintrÑge.
+
+(CONV)ers (C)stat
+     ...oder im Conversmode mit: /Link
+     Zeigt die  Liste und  den Status  der Nachbar-Convers-Host  an sowie  die
+     Laufzeiten  zu  allen  Convers-Host  und  deren  Versionsnummer.  NUR  im
+     Sysopmodus wird  zusÑtzlich der  eingetragene Weg (ob l4 oder l2 mit Port
+     und Via-EintrÑgen) angezeigt.
+
+(CONV)ers (C)stat <call>
+     ...oder im Conversmode mit: /Link <call>
+     Nimmt einen  Nachbarknoten fÅr  Convers-Betrieb auf. Unter <call> ist das
+     Rufzeichen des  Nachbarknoten einzusetzen.  Der Nachbarknoten mu· dann in
+     der Nodesliste stehen.
+
+(CONV)ers (C)stat <call> <port> <via-call>
+     ...oder im Conversmode mit: /Link <call> <port> <via-call>
+     Nimmt einen Nachbarknoten fÅr Convers-Betrieb Åber eine Level2 Verbindung
+     auf. Unter <call> ist das Rufzeichen des Nachbarknoten einzusetzen. Unter
+     <port> ist  die Portnummer anzugeben und bei Bedarf ein oder mehrere via-
+     call.
+
+(CONV)ers (C)stat <call> 254
+     ...oder im Conversmode mit: /Link <call> 254
+     Gibt einen  Nachbarknoten fÅr  Convers-Betrieb frei. Unter <call> ist das
+     Rufzeichen des Nachbarknoten einzusetzen. Es wird zu dem <call> KEIN Link
+     aufgebaut sondern  TNN erwartet,  da· dieses  <call>  den  Link  aufbaut.
+     Dieses ist  z.B. fÅr  Wampe Rechner  die zwar  selbst einen Link aufbauen
+     kînnen aber  nicht mit  einem ankommenden  Connect  zurecht  kommen.  Der
+     Eintrag wird gekennzeichnet mit: (trusted host).
+
+     ES MöSSEN UNBEDINGT LOOPS VERHINDERT WERDEN. DESHALB: BITTE ABSPRECHEN !
+
+(CONV)ers (C)stat - <call>
+     ...oder im Conversmode mit: /Link - <call>
+     Lîscht den Eintrag.
+
+(CONV)ers - intern -
+
+     PingPong Convers aus Sysopsicht:
+
+ Links:
+     Links werden  mit dem "/links" Befehl eingetragen, der auch au·erhalb des
+     Convers mittels  "conv c"  verfÅgbar  ist.  So  eingetragene  Links  sind
+     permanent und werden in bestimmten Intervallen (9s,150s,300s,600s,...,3h)
+     connected. Es  gibt auch  nichtpermanente Links,  diese Option  ist  aber
+     durch Konfiguration  einstellbar. Diese  Links werden bei einem Linkabri·
+     automatisch ausgetragen,  der Knoten  connected den  neuen Partnern nicht
+     hinterher.  (Das   Eintragen  geschieht   durch  Eingeben  des  "/..host"
+     Befehls.)
+
+     Syntax ist:       /l [-][call [port [via]]]
+     bzw. au·erhalb von Convers: conv c [-][call [port [via]]]
+
+      -        Dient zum Lîschen eines Eintrags (<call> reicht aus).
+     <call>    Ist das Rufzeichen des Nachbarknotens.
+     <port>    Downlinkport (wird nur bei L2 Verbindungen gebraucht).
+     <via>     Via-call (optional fÅr L2 Verbindungen).
+
+     FÅr L4-Verbindungen  genÅgt die Angabe des Calls des gewÅnschten Knotens,
+     es wird  NICHT versucht,  eine L2-Verbindung  bei  fehlendem  Nodeeintrag
+     aufzubauen. Dem  Sysop wird bei diesem Befehl unter jedem Linkeintrag der
+     Connectweg in Klammern angezeigt, z.B.:
+
+     im Falle L4   (DB0AGM),
+     im Falle L2   (DB0XYZ on port 2 via DB0ZXY).
+
+ Hilfe:
+     Ist in  einer  Datei  namens  CONVERSD.XHF.  Diese  enthÑlt  alle  Texte,
+     getrennt durch  Markierungen.  Es  ist  erlaubt,  die  Texte  zu  Ñndern,
+     Reihenfolge spielt  bis auf  den  obersten  Abschnitt  keine  Rolle.  Die
+     Markierungen  sind   durch  Convers   vorgegeben,  EinfÅgen   von   neuen
+     Markierungen ist daher sinnlos. Die Datei enthÑlt Umlaute nach ISO, bitte
+     beim öberarbeiten  daran denken.  Wird die Hilfe angefordert, konvertiert
+     der Convers die Umlaute selber in die vom User gewÅnschte Form.
+
+ Sonstige Dateien:
+     CONVERS.PRS enthÑlt  die persînlichen  Daten aller,  die diese am eigenen
+     Knoten eingegeben  haben. Diese  Datei ist  ebenfalls im Textverzeichnis,
+     wird aber  beim Beenden  von TNN im Configverzeichnis gesichert bzw. beim
+     periodischem Sichern der Konfiguration. Darunter fallen der Personaltext,
+     die Zeichensatzwahl und die Zeilenbreite.
+     
+     NICKNAME.TXT enthaelt Daten von Usern die ihren Nicknamen, Passowrt !!
+     im Convers gesetzt haben. Die liegt im Hauptverzeichnis von TNN und wird
+     beim Beenden von TNN gespeichert.
+
+ Loop detected:
+     Loop werden nun Åberwacht und der entsprechende Link fÅr eine Stunde "aus
+     dem Verkehr  gezogen". Das Auftreten und die HÑufigkeit wird in der CONV-
+     C-Tabelle angezeigt.
+
+(CPERS)                 (externer Befehl)
+     Ist nun  nur noch  zur Pflege  der "Visitenkarten" der Datei CONVERS.PRS.
+     Zum einen  gibt es mitunter mal EintrÑge, die "zufÑllig" entstanden sind,
+     und die  der Sysop  gerne entfernen mîchte. Oder sie auch nur durch einen
+     anderen  ersetzen.   Der  einfache   Aufruf   des   Programmes   entfernt
+     "LeereintrÑge" ohne  Text sowie  "unsinnige" Texte,  die zum Beispiel nur
+     aus einem  Zeichen bestehen.  Bei jedem  Aufruf des  Programmes wird eine
+     Datei CONVERS.ALT  angelegt, um  zumindest die  letzte énderung der Datei
+     noch einmal  rÅckgÑngig machen  zu kînnen.  Da es durch den Aufruf dieses
+     Programmes zu  Speicherplatzproblemen (CONVERS.PRS  zu gro·) kommen kann,
+     ÅberprÅft das  Programm zuerst,  ob die  Datei noch  in den verbleibenden
+     Speicher geladen werden kann.
+
+(CPERS) /sort
+     Sortiert die EintrÑge alphabetisch nach dem Call.
+
+(CPERS) + <call> <text>
+     Ersetzt bzw. fÅgt das Call mit dem <text> an die Datei CONVERS.PRS an. Es
+     wird hierbei KEIN Callcheck durchgefÅhrt !
+
+(CPERS) - <call>
+     Entfernt das  Call und  den Eintrag  aus der Datei CONVERS.PRS. Auch hier
+     KEIN Callcheck,  damit auch  die unsinnigsten  EintrÑge bearbeitet werden
+     kînnen.
+
+(CWER)                  (externer Befehl)
+     Ist ein  kleines Programm,  welches die  Visitenkarten der  User, die sie
+     sich selbst mit /P im Conversmode erzeugt haben, anzeigt.
+
+(CWER) a
+     Erzeugt eine Liste mit allen EintrÑgen.
+
+(CWER) l <anzahl>
+     Zeigt die  l=letzten <anzahl>  von EintrÑgen  an (die  neuen werden immer
+     hinten angehÑngt).
+
+(CWER) <call>
+     Kann auch  in Verbindung  den Platzhaltern "*" und "?" aufgerufen werden.
+     Dabei steht "*" fÅr beliebig viele Zeichen und "?" fÅr genau 1 Zeichen.
+
+(DCD)
+     Das DCD- Kommando zeigt den in der Software erkannten DCD Zustand an.
+
+     P00 P01 P02 P03 P04 P05 P06 P07 P08 P09 P10 P11 P12 P13 P14 P15
+     t           rt  rt  rT   T      OFF OFF OFF OFF OFF OFF OFF OFF
+
+     OFF           =   Port nicht in Betrieb,
+     r             =   DCD an,
+     R             =   DCD an und noch Frames im EmpfÑnger in der Vanessa,
+     t             =   PTT an,
+     T             =   PTT an, noch Frames zu senden in der Vanessa.
+
+(DOS) <kommando>
+     Zugriff  auf   COMMAND.COM.  Hiermit   lassen  sich   viele   Operationen
+     durchfÅhren. NatÅrlich  mu· hierzu  COMMAND.COM auch  den Zugriff auf die
+     entsprechenden Erweiterungsprogramme  haben. Doch  Vorsicht ist unbedingt
+     angesagt! Bei  einem Fehler  habe ich zumindest 50 km Autofahrt und evtl.
+     einen krÑftigen Fu·marsch gewonnen. Also interaktive Eingaben vermeiden!
+
+     Beispiel:    DOS DIR     listet das aktuelle Verzeichnis.
+                  DOS DIR A:  listet LW A.
+
+     Bei LINUX hei·t das Kommando SHELL, und beim TNC3 hei·t das Kommando TOS.
+
+(DX)CLUSTER -
+     lîscht das gesetzte Call.
+
+(DX)CUSTER <call>
+     setzt das  Call des  lokalen Cluster.  Das Cluster  mu·  nun  nicht  mehr
+     Bestandteil des eigenen Knotens sein, sondern es kann auch ein beliebiges
+     Cluster eingetragen werden.
+
+(E)DIT <filename.ext>
+     Legt den  hinter edit  angegebenen File-Name  im Workpath  an. Mit (E)dit
+     kann  jedoch   kein  bestehenden   File  zum  éndern  aufgerufen  werden.
+     Bestehende File werden ersetzt!.
+
+(E)DIT <path\filename.ext>
+     Auch die Angabe eines Pfades ist mîglich.
+
+     Ist der  Editiermodi bereits  durch einen  anderen Sysop  aufgerufen,  so
+     bekommt man die MSG :
+
+                   Edit-Mode in use by other Sysop
+		   
+(HTTP)D Server
+
+     Neu:
+     ~~~~
+     Der HTTP-Server funktioniert nur unter LINUX und WIN32-Systeme.
+     (Das Grundger¸st besteht aus dem Quellcode von der BayCom-Mailbox V1.44)
+     Die Funktion des HTTPD_Server ist sehr aenlich mit der BCM zu vergleichen.
+     Beim erten Login wird nach Benutzername und Passwort gefragt,
+     Passowrt ist optional,also nicht zwingend!
+     Kommt eine http Anfrage vom User, wird dieser automatisch ins TNN
+     angemeldet Befehle ausgef¸hrt und wieder abgemeldet.
+
+     Konfiguration:
+     ~~~~~~~~~~~~~~
+     (HTTPD-Port definieren in der TNN.INI)
+
+     device http
+     kisstype 23
+     port 0
+
+     TNN-Console
+     ~~~~~~~~~~~
+     (Httpd-Port ˆffnen)
+
+     PO 0 ON
+
+     TCP-Port ‰ndern:
+     ~~~~~~~~~~~~~~~~
+
+     HT P 80
+
+     Mein LOGlevel ‰ndern:
+     ~~~~~~~~~~~~~~~~~~~~~
+
+     HT L 0
+     Damit ist die Konfiguration abgeschlossen.
+     Port 0 ist nur ein Beispiel der HTTPD_Server kann auch auf andere Ports
+     definiert werden. Wenn es Probleme beim HTTPD-Server geben sollte, ist es
+     hilfreich LOGlevel einzuschalten.
+     HT L 1
+     Es werden nur Fehlermeldungen in die Datei "httpd.log" geschrieben.
+     HT L 2
+     Es werden alle Informationen in die Datei "httpd.log" geschrieben.
+
+     Weitere Infos:
+     ~~~~~~~~~~~~~~
+     Es wird draud geachtet, ob ein User in der SUSPEND-Liste
+     (Rufzeichen sperren) steht. Interne und Externe HTML-Ausgabe.
+     Interne HTML-Ausgabe:ist eine Standart HTML-Seite die im Programm
+     festgelegt ist.
+     Externe HTML-Ausgabe:jeder Sysop hat die Mˆglichkeit seine HTML-Datei
+     selbst zu erstellen. Weiter Infos siehe (TNN179_CB.PDF)
+
+(IPA)dress 0.0.0.0/32
+     Setzt die IP-Adresse und die Subnetzbits des Knotens.
+     Werden keine Subnetzbits angegeben, so wird 32 eingestellt.
+
+(IPR)oute <destip>/<maskbits> +/- <interface> <gateip> <metric>
+
+     Nimmt <destip>/<maskbits> auf <intercace> <port> <gateip> in die IP-
+     Routenliste auf.
+
+     DestIP        Ist die IP-Nummer des (IP-) Nachbars auf diesem Port
+
+     Maskbits      Hier wird  entweder eine  Zahl (Anzahl  Bits) oder eine Art
+                   Pseudo IP-Nummer  eingetragen. Anzahl  der Bits hei·t: Eine
+                   IP-Nummer hat 4 Bytes mit 8 Bit = 32 Bit. Trage ich hier 16
+                   ein,  so   werden  nur   die  ersten   2  Byte  ausgewertet
+                   (entspricht fÅr  AFU: 44.130;  44=AFu 130=DL). Trage ich 24
+                   ein, wird  schon die  Region beachtet, also 3 Bytes (44=AFU
+                   130=DL 27=KS)  bei einer (Beispiel) Nummer 44.130.27.80. So
+                   kann man  hierarchisch Routen aussortieren. Bei der anderen
+                   Mîglichkeit wird  fÅr das  Byte, was  frei  bleibt  eine  0
+                   eingetragen.
+
+     Bsp.: 44.130.27.0 = Kassel.
+
+     Kann auch mit Broadcast zusammen so aussehen:
+
+     255.255.255.0 oder 44.130.27.255..kommt ganz darauf an
+
+     +/-           Zum Ein- oder Austragen
+
+     Interface     Hier wird  die Schnittstelle  benannt, wo  die  Pakete fuer
+                   <DestIP> herauskommen  sollen. Dies  kann  der  NAME  eines
+                   Ports sein (also User_1k2, User_9k6). Es kann auch "NETROM"
+                   angegeben werden.  In diesem  Fall wird  das Packet  an ein
+                   NETROM-Ziel (das  mu· natuerlich auch ein Gateway [TNN] oder
+                   ein TCP/IP-Host [KA9Q] sein) Åbertragen.
+                   Fuer die  Verwendung des  direkten  Kernel-Interfaces unter
+                   Linux ist hier der Name "KERNEL" anzugeben.
+
+     GateIP        Wird ein  Gateway benannt,  so wird  hier die IP-Nummer des
+                   Gateways  eingetragen.  ueber  ihn  werden  dann  alle
+                   (IP-)Packets vermittelt.
+
+     Metric        Diese Angabe  wird  in  einer  spÑteren  Version  Bedeutung
+                   haben, z.Z. bitte ignorieren.
+
+     Beispiel:     IPROUTE 44.130.27.0/24 + User_9k6
+
+     Hinweis: TNN lernt aus dem Netz per INP empfangene IP-Routen zu anderen
+              Nodes. Diese Routen werden automatisch wieder entfernt, sobald
+              der Node abgemeldet wird. Von Hand gemacht Eintraege werden von
+              der Automatik nicht ausgetragen (gilt auch fuer Eintraege aus
+              .TNB-Dateien). Naehere Infos siehe bei (PA)RMS.
+
+(K)ill <port> <msg>
+     Unterbricht alle  Level-2 Verbindungen  auf dem  <port> nach  Sendung der
+     <msg>.
+
+(K)ill <call> <msg>
+     Unterbricht alle  Level-2 Verbindungen  zu dem  <call> nach  Sendung  der
+     <msg>.
+
+(K)ill * <msg>
+     Trennt alle Level 2 QSO auf dem Digipeater nach Sendung der <msg>.
+
+(L)INKS +/- TYP [P] [Port] ALIAS:CALL[-*] [<Digi1> [<Digi2>]] [INFOTEXT=Inhalt]
+     Nimmt <typ> [Proxy] mit <alias:call> Åber <port> in die Linkliste auf.
+     Fuer die Anbindung von Digipeatern ohne TheNetNode-Protokoll.
+     Die Digipeater <digi1> und <digi2> koennen mit angegeben werden.
+     Es werden nur Nodes angenommen die, unter Links eingetragen sind.
+     Hierbei wird auch der eingetragene Port beachtet.
+
+     +/-  + Eintragen und - Austragen des Links.
+
+     Typen:
+
+     L    =  Local
+          Call und Alias wird mit einer Laufzeit von 4000 ms in die NODES-
+          Liste Åbernommen, es wird aber keine LaufzeitÅberprÅfung
+          durchgefÅhrt. In der Routesliste wird er ohne Eintrag in Status
+          gefÅhrt.
+
+     L+   = Local
+          Wie oben, jedoch wird die Erreichbarkeit geprÅft und die Laufzeit
+          gemessen. Kann die Laufzeit ermittelt werden, so wird dieses Ziel
+          zur besseren öbersicht als conn. im Status gefÅhrt.
+
+     F    = FlexNet
+          Port arbeitet mit FlexNet Protokoll.
+
+     N    = NetRom
+          Aktueller TheNet-Nachbar. öbernahme in Nodesliste mit der
+          ermittelten Laufzeit. Es erfolgt KEINE automatische Umschaltung
+          mehr zum InterNode Protokoll. Um INP zu verwenden MUSS nun
+          explizit der Modus "I" angegeben werden !!!
+          
+     N-   = Altes NetRom (mit UI-Baken zur Nodesuebermittlung)
+
+     I    = InterNode Protokoll
+          Aktuelles Protokoll, unterstuetzt die Verbreitung von IP-Infor-
+          mationen. Bei Angabe von I wird nur noch I aufgebaut, es erfolgt
+          KEIN Rueckfall mehr auf N oder N+ !!!
+
+     [P]  Neu: Proxy-Funktion! Text wird noch Aktualisiert.
+
+     #ALIAS   ALIAS - EintrÑge die mit einem "#" davor gekennzeichnet sind,
+          werden zwar in die îrtliche Nodesliste aufgenommen aber nicht als
+          NODE weiter verteilt.
+
+(L3)MHEARD -
+     Setzt die ZÑhlerstÑnde der Level 3-Statistik auf 0, aber lîscht nicht die
+     L3MH-Liste.
+     Dies sollte einmal monatlich durch automatisch ausgefuehrte
+     TNB-Dateien mit geschehen.
+
+(L3)MHEARD = <anzahl>
+     Setzt die  L3MH-Liste auf  die <anzahl> Rufzeichen. Man bedenke aber, da·
+     sie auch  gespeichert werden mÅssen. Lîschen der MH-Liste geschieht immer
+     dann, wenn  ihre Grî·e verringert wird. Damit sind dann aber auch die L3-
+     Daten verloren.
+
+(LOA)D <filename.ext> oder (LOA)D <path>\<filename.ext>
+     LÑdt  <filename.ext>   auf  die   Diskette  oder   HD  beim  Knoten.  Der
+     <filename.ext> darf  maximal 8  Zeichen  +  3  ext.  lang  sein  (gilt
+     nicht unter Linux) und  mu· folgendes Format haben:
+
+     LOAD TNN179.EXE
+
+     Vorsicht bei  der Auswahl  des Filenamen,  damit nicht das bisherige TNN-
+     Programm versehentlich  Åberschrieben  wird.  Gegebenenfalls  einen  noch
+     nicht verwendeten  Filenamen verwenden  und nach  dem Umkopieren  in  das
+     gewÅnschte Verzeichnis mit DOS REN ... umbenennen.
+
+     Nach der  Eingabe von  "LOAD <filename.ext>"  wartet der  Rechner auf die
+     Zeichenfolge #BIN#LÑnge  (z.B. #BIN#82345).  Die Zahl  hinter #BIN# steht
+     fÅr die ProgrammlÑnge in Bytes (dezimal). Auf diese Zeichenfolge wird mit
+     einem #OK#  reagiert. Nachdem  der SYSOP  dieses #OK# empfangen hat, kann
+     mit der öbertragung begonnen werden.
+
+     Die oben  beschriebene Prozedur  entspricht derjenigen,  die von  THP, SP
+     oder GIPSY  als AUTOBIN-THP  bekannt ist.  Zum Einladen eignen sich diese
+     Programme also ganz besonders.
+
+     Nach erfolgreichem  Einladen gibt  der Knoten  eine Checksumme (CRC) aus.
+     Diese Checksumme  MUSS derjenigen  entsprechen, die  auch  von  den  o.a.
+     Programmen ermittelt wird. TNN wurde daran angepa·t.
+
+     Siehe hierzu auch noch die Mîglichkeiten die STARTCNT.EXE ermîglicht.
+
+(M)AILBOX <call>
+     setzt das  Call der  lokalen Mailbox.  Die Mailbox  mu·  nun  nicht  mehr
+     Bestandteil des eigenen Knotens sein, sondern es kann auch eine beliebige
+     Mailbox eingetragen werden.
+
+(M)AILBOX -
+     lîscht das gesetzte Call.
+
+     Eine Mailbake (!) ist kein Befehl in TNN, sondern eine Funktion der
+     jeweiligen Mailbox-Software. UI-Frames kînnen auf einem bestimmten Port
+     gesendet werden. Dazu wird der Knoten - Alias mit SSID verwendet. Der
+     SSID gibt hierbei den Port an, wo die Bake gesendet werden soll.
+
+     DB0GSO-10 to MAILS via GSO-4
+     < 15:36:57 > DPBOX v5.07.00
+     Mail for : DB6KF DC8KN DG1KMN DG3KMB DK3BR DL0GSO
+
+     sende die  Mailbake der  DP-BOX auf  Port 4 (GSO der Alias, -4 der SSID =
+     Port). öber  diesen  Weg  kînnte  z.B.  auch  eine  DP-BOX  einen  PACSAT
+     Broadcast auf einem bestimmten Port abstrahlen.
+
+(MH)EARD -
+     Setzt die  ZÑhlerstÑnde der  USER-Statistik auf  0, aber lîscht nicht die
+     MH-Liste, die bei mehreren Userports benîtigt wird.
+     Dies sollte einmal monatlich durch eine automatische TNB-Datei geschehen.
+
+(MH)EARD = <anzahl>
+     Setzt die MH-Liste auf die <anzahl> Rufzeichen. Man bedenke aber, da· sie
+     auch gespeichert  werden mÅssen. Die LÑngenÑnderung fÅhrt nur zum Verlust
+     der am Ende der Liste stehenden Call. Die Anzahl ist auf 5000 begrenzt.
+
+(MO)NITOR OPTIONEN PORT
+        Weitere Hilfe Siehe unter (TR)RACE.
+
+(MSY)        (externer Befehl)
+     MSY.EXE in  SYSEXE ist ein Hilfsprogramm fÅr den Sysop, das zu MSG.EXE in
+     USEREXE gehîrt.
+
+(MSY) C
+     Lifetime aller  Nachrichten wird  um 1  verringert. Dieses  kann per Hand
+     geschehen oder mit einem solchen TNB-File.
+     (Beispiel fuer taegliche Ausfuehrung)
+
+ ######01.TNB
+ ============
+ ;                        ;Diese File startet tÑglich um 1:00 Uhr.
+ MSY C                    ;Lifetime der .MSG-File um einen Tag herabsetzen
+ ;                        ;und bei Lifetime = 0 entfernen.
+
+(MSY) D
+     Listet die Header aller vorhandenen Nachrichten auf.
+
+(MSY) D -#x o. +#x
+     Nachrichten, deren Lifetime (-) kleiner o. (+) grî·er x-Tage ist.
+
+(MSY) D -*x o. +*x
+     Nachrichten, die (-) jÅnger o. (+) Ñlter als x-Tage sind.
+
+(MSY) D FROM
+     Zeigt die Nachrichtenliste sortiert nach Absender Calls an.
+
+ Die Sortierung kann auch nach :
+
+ BYTE, DATE, TIME, LT, RETURN vorgenommen werden.
+
+(MSY) E ALL <call>
+     Lîscht alle Nachrichten von oder an <call>.
+
+(MSY) E 01.01.95/00:00:01
+     Lîscht alle Nachrichten dieses Datums/dieser Uhrzeit.
+
+(MSY) G <gruppe> +/- <call>
+     FÅgt/lîscht <call>  aus <gruppe>. Zugelassen in einer Gruppe sind maximal
+     50 Call.
+
+(MSY) L
+     Zeigt alle Nachrichtenfiles.
+
+(MSY) S <call> #x <text>
+     Schreibt <text>  an <call>  mit Lifetime #<x>. Hier ist eine Lifetime von
+     maximal 99 Tagen mîglich.
+
+(MSY) V
+     Ausgabe von der Versionsnummer und dem Datum.
+
+(O)utput         (externer Befehl)
+     OUTPUT.EXE ist nun ein eigenstÑndiges Programm geworden, das der Sysop im
+     Bedarfsfall aufrufen  kann. Der  Aufruf erfolgt  wie bei  einem  internen
+     Befehl. OUTPUT.EXE  ist, wenn  es sich  im PATH  SYSEXE befindet, NUR vom
+     SYSOP nach  der Privilegierung  aufrufbar. Bei  Eingabe von  Output  ohne
+     Argument wird der momentane Zustand der Portbits angezeigt.
+
+     KS:DB0EAM> IO-Port-Status
+     0  1  2  3  4  5  6  7
+     1  1  1  1  1  1  1  1
+
+     Der  Befehl   Output  ist   fÅr   Fernsteuerungen   vorgesehen.   Die   8
+     Datenleitungen des  Druckerports (LPT1)  des PC  kînnen bitweise ein- und
+     ausgeschaltet werden.
+
+     Der Ausgangszustand  nach einem  Programmstart ist "alles eingeschaltet".
+     Die Basisadresse  des Ports  wird Åber  das Rechner-BIOS  abgefragt. Soll
+     also ein anderer Port als LPT1 verwendet werden, so mu· nur bei 40:08 die
+     passende Adresse stehen.
+     
+     Dieser Befehl steht ebenfalls fuer Linux als externes Programm zur
+     Verfuegung.
+
+(O)utput <port_bit> <ein_aus>
+     <port_bit> : zu schaltendes Datenbit (0..7).
+     <ein_aus>  : neuer Pegel (0 oder 1).
+
+(PA)RMS <nummer>
+     Zeigt den  eingestellten Wert  dieses Parameters  sowie den einstellbaren
+     Bereich an.
+
+(PA)RMS <nummer> <wert>
+
+     Beispiel: P 1 20
+
+     Setzt Parameter 1 (NoAckBuf) auf 20. Die énderung wird quittiert mit:
+
+     1: NoAckBuf = 20 (7...127)
+
+     Autoparameter:
+          Einige Parameter fÅr die Ports werden nun automatisch von TNN
+          eingestellt, so da· nun nur noch MaxFrame und TXDelay Åbrig bleiben.
+          Diese werden nun nicht mehr Åber die PARAMETER eingestellt sondern
+          mit dem PORT-Kommando.
+
+     T2 = 2888 / (Baudrate / 100)
+          bei DAMA wird T2*2 genommen (Idee DG3AAH)
+
+     IRTT = (T2 + TXDelay) * 2.
+          Der IRTT wird beim Connect mit der Anzahl der noch zu digipeatenden
+          Stationen multipliziert.
+
+     Retry = 10 bei DAMA, sonst 20.
+
+     Persistance ist bei Duplex und DAMA 255, ansonsten 255/User.  Bei 0 Usern
+          auch 255.
+          Es werden nur die zum Knoten connecteten User berÅcksichtigt. Der
+          Knoten nimmt also nicht auf Schwarzfahrer auf der gleichen QRG
+          RÅcksicht.
+          Interlinks werden mit einem separaten Wert behandelt.
+
+     Slottime = TXDelay
+     (wird von den Porteinstellungen uebernommen)
+
+(PAC)SAT <parameter>
+     zeigt im SYSOP-Mode die eingestellten Parameter an.
+
+ BROADCAST-Parms:
+ 01:Timer     200    02:Frames    15    03:Diskfree   1000
+
+(PAC)SAT <parameter> <nummer> <wert>
+
+     Beispiel: pac p 1 300
+
+     Setzt Parameter 1 (PacSatTimer) auf 300. Die énderung wird quittiert mit:
+
+     1: Timer = 300 (0...10000)
+
+     Die Parameter in einzelnen:
+
+     01: PacSatTimer : 200
+     02: PacSatFrms  :  15
+     03: PacMaxMail  : 1000
+
+     Mit PAC  P 01 wird  eingestellt, in  welchen Intervallen  der Knoten  die
+     PacSat-Frames sendet, dieser Parameter mu· so eingestellt werden, da· der
+     TNC nicht  ÅberlÑuft. Mit  PAC P 02  wird  die  Anzahl  der  Pakete  die,
+     gleichzeitig gesendet  werden, eingestellt. Das sollte bei 9k6 20 oder so
+     sein, (pi * Daumen 5 Frames pro Sekunde), sonst lohnt sich das nicht. Mit
+     P 03 kann  die max.  Anzahl der Mail im PACSAT-Server eingestellt werden.
+     Sind beim S&F mehr als mit PAC P 03 angegebenen Mail im Server, so werden
+     die Ñltesten Mail gelîscht.
+
+     öber die  Timersteuerung  kann  eine  optimale  Kanalauslastung  erreicht
+     werden, die von vereinzelten Aussendungen auf einem User-Einstieg bis zur
+     Dauertastung alles ermîglicht, dabei werden zwei Taktiken unterstÅtzt:
+
+  -   nur PacSat-AusgÑnge:
+     Dauertastung, fÅr  den ISM-Bereich.  TNN macht dann 24-Stunden am Tag 365
+     Tage im Jahr Krach mit DauertrÑger. Dazu ist auf dem Port, auf dem PacSat
+     betrieben wird,  ein DAMA-Eprom  zu verwenden,  DAMA fÅr  den  PORT  aber
+     ABZUSCHALTEN. Die  DAMA-BestÑtigung wird  benutzt, um die Dauertastung zu
+     gewÑhrleisten.  P 02   bestimmt,  wieviele  Frames  auf  einmal  zum  TNC
+     geschickt werden,  der mu·  immer einen ausreichenden Vorrat haben, damit
+     er die  PTT nicht  loslÑ·t, das  darf aber auch nicht zu viel sein, sonst
+     lÑuft er Åber. Je nach Ringbelastung mu· dieser Wert so sein, da· der TNC
+     auch ohne,  da· er Daten kriegt, eine Weile durchhÑlt. Bei 19k2 Tokenring
+     habe ich  den Param p 02 auf 14, bei 38k4 kann das weniger sein, bei sehr
+     stark belastetemTokenring  mehr. P 01  gibt an,  wie lange gewartet wird,
+     wenn KEINE  DAMA-BestÑtigung kommt,  dieser  Parameter  sollte  auf  1000
+     stehen,  ist  aber  eigentlich  unerheblich  (solange  die  BestÑtigungen
+     kommen).
+
+  -   Gemischte Ein/AusgÑnge:
+     Hier mu·  man entweder  DAMA fÅr  den Port einschalten und ein DAMA-Eprom
+     verwenden oder KEIN DAMA-Eprom verwenden und kein DAMA machen, DAMA-Eprom
+     und kein DAMA geht NICHT (dann macht der Knoten Dauertastung)
+
+     Dauertastungs-AusgÑnge sind  unbedingt vorzuziehen, sie setzen 82MB Daten
+     mit 9k6  am Tag  um, das  ist das  10-fache eines normalen 9k6-Einstiegs.
+     Au·erdem hat  jeder User  was davon,  nicht nur  Dauersauger  XYZ.    Ein
+     Broadcast-Ausgang mit  1k2 ist  Unsinn und sollte nicht betrieben werden.
+     Es mu·  aber unbedingt  darauf geachtet  werden, da·  der Sender auch fÅr
+     Dauertastung geeignet  ist. Der  Tnet-Mini ist  z.B.  im  Original  nicht
+     geeignet!
+
+(PAC)SAT c <call>
+     Setzt das Rufzeichen des BROADCAST-Server.
+
+(PO)RT <Port Nr.> <Befehl 1> <Befehl 2> .....
+
+     Als Port-Befehle sind gÅltig:
+
+       OFF                  Port abschalten
+       ON                   Port einschalten (nur Linux),
+       SCC                  Port auf USCC-Karte einstellen (DOS/GNU) bzw.
+                                 keine TNC-Parameter setzen (nur Linux)
+       Tokenring            Port auf Tokenring schalten
+       Vanessa              Port auf Vanessa schalten
+       EXTern               Port auf den extern geladenen Treiber schalten
+       KISS1..4             Port auf Kiss ohne CRC
+       RKiss1..4            Port auf Kiss mit RMNC-CRC
+       SMACK1..4            Port auf Kiss mit SMACK-CRC
+       MODEM1..3            Port auf Modem (TNC3)
+       HSBUS                Port auf HSBUS (TNC3)
+       LOOP                 Port auf Loopback (NICHT bei Linux)
+       Name                 Port-Namen vergeben, z.B. Name=User1k2
+       MODE                 Port-Mode setzen, Format: 9600d Baudrate:
+     300...4915200
+                 Flags:
+                   d :      Duplex
+                   c :      DCD bei 1k2-Modem
+                   r :      ext. Takt (rx)
+                   t :      ext. Takt (tx)
+                   e :      ext. Takt beide (Vanessa)
+                   m :      Multibaud-Kopplung (Vanessa, SCC)
+                   z :      NRZ statt NRZI
+       MAXFRAME  <wert>     setzen, adaptives Maxframe mit zusaetzlichem "a"
+       TXDELAY   <wert>     setzen
+       DAMA   0, 1-4        Port auf DAMA Master x setzen (max. 4 DAMA-Master)
+       DAMA   S             Port auf DAMA-Slave setzen
+       CTEXT  on/off        CText senden
+       SYSOP  on/off        nach Connect nur SYS mîglich, gilt nur
+                            fÅr Verbindungen zum CCP, NETROM und
+                            TCPIP gehen weiterhin
+       MH     on/off        MH-Liste fÅhren
+
+     (OF)F :       Port ausgeschaltet.
+
+     (ON):         Nur bei  Linux: Port eingeschaltet. Da im File tnn.ini eine
+                   feste Zuordnung  zwischen den  Ports und der Hardware sowie
+                   des KISS-Modus eingestellt wird, ist es nicht erforderlich,
+                   die Hardware  einzustellen. Der  Parameter ON ist daher der
+                   sicherste, aber KISS ist auch immer gÅltig zum einschalten.
+
+     (TO)kenring : Frames  an   diesen  Port   werden   auf   die   Tokenring-
+                   Schnittstelle  gelegt.  Die  Tokenring-Schnittstelle  liegt
+                   default auf  COM 1,  wenn sie nicht in der START.BAT anders
+                   definiert wird.  Bei Linux  wird die  Bezeichnung TOKENRING
+                   nur  akzeptiert,   wenn  auch   in  tnn.ini  der  Port  als
+                   Tokenring-Port deklariert ist.
+
+     ...(MO)de:    Keine Auswirkung auf den Tokenring, aber auf die L2-Timer !
+
+     (VA)nessa :   TNN  ist   sowohl  fÅr  den  Tokenring  als  auch  fÅr  den
+                   gleichzeitigen  Einsatz  von  Vanessakarten  geeignet.  FÅr
+                   Frames an  diesen Port  wird,  Åber  den  in  der  TNN-Soft
+                   implementierten    Vanessatreiber,     die    entsprechende
+                   Vanessakarte Åber  den Rechnerbus  angesprochen  und  unter
+                   (PO)rts  wird   der  entsprechende   Port   mit   "Vanessa"
+                   gekennzeichnet  (Jedoch   NUR,  wenn   auch  eine   VANESSA
+                   eingebaut ist).  Bei Linux wird die Bezeichnung VANESSA nur
+                   akzeptiert, wenn  auch in tnn.ini der Port als Vanessa-Port
+                   deklariert ist.
+
+     ...(MO)de: <speed>d :
+                   Vollduplex. Bei  der Vanessakarte  bleibt der  TX nach  der
+                   letzten Sendung  noch fÅr  ca. 1  Minute getastet.  Weitere
+                   Frames werden  ohne TXDelay gesendet. Beim TNC im Tokenring
+                   ist diese Zeit im Eprom festlegbar.
+
+     ...(MO)de: <speed>e :
+                   Externer Takt.
+
+     ...(MO)de: <speed>m :
+                   Dual -  Speed -  Port (Nur mit und auf den beiden Ports der
+                   entsprechenden Vanessakarte mîglich).
+
+     (SCC) :       Die BayCom  USCC-Karte wird  bei der  DOS- bzw. GNU-Version
+                   nun intern  unterstÅtzt! Bei  Linux bedeutet  der Parameter
+                   SCC, da·  fÅr diesen  Port keine  Initialisierung  der  L1-
+                   Parameter erfolgt  (TXD, Persistence, Slottime, etc.). Dies
+                   ist Aufgabe  eines Initialisierungsprogramms,  das vor  TNN
+                   aufgerufen werden  mu· - alternativ gelten die TNC-Default-
+                   Werte. Der  Parameter SCC  ist bei  Linux nur wirksam, wenn
+                   der Port in tnn.ini entsprechend eingetragen ist. Die Mode-
+                   Werte werden bei Linux ignoriert.
+
+     ...(MO)de: <speed>c :
+                   Software DCD fÅr AFSK-Modems.
+
+     ...(MO)de: <speed>e :
+                   Externer Takt. (FÅr DF9IC-Modem).
+
+     ...(MO)de: <speed>z :
+                   NRZ statt NRZI. (FÅr DF9IC-Modem).
+
+     Hinweis:      Soll DF9IC-Modem  an eine  Vanessa angeschlossen werden, so
+                   benîtigt es  NRZ-GAL !  Mit den NRZI-GAL funktioniert der
+                   externe Clock nicht !!!
+
+     (KISS1)..(KISS4) :Die Frames  an diesen  Port werden Åber den in der TNN-
+                   Soft implementierten  KISS-Treiber, an die in der START.BAT
+                   definierte COM-Schnittstelle, Åber den Rechnerbus geleitet.
+                   Unter (PO)rts  wird der  entsprechende Port  mit "Kiss1  ..
+                   Kiss4" gekennzeichnet  und mit  (MO)de der  Speed sowie das
+                   CRC-Verfahren festgelegt.  Bei Linux kann mit dem Parameter
+                   KISS jede  Port-Art eingeschaltet  werden. Die Zahl fÅr den
+                   KISS-Port wird bei Linux ignoriert.
+
+     (SMACK1)..(SMACK4) :
+                   KISSLINK mit  SMACK CRC.  Bei Linux  wird  die  Bezeichnung
+                   SMACK nur  akzeptiert, wenn  auch in  tnn.ini der  Port als
+                   SMACK-Port deklariert ist. Die Zahl fÅr den SMACK-Port wird
+                   bei Linux ignoriert.
+
+     (RKISS1)..(RKISS4) :
+                   KISSLINK mit  RMNC-CRC.  Bei  Linux  wird  die  Bezeichnung
+                   RKISS. nur  akzeptiert, wenn  auch in  tnn.ini der Port als
+                   RKISS-Port deklariert  ist. Die Zahl fÅr den Kiss-Port wird
+                   bei Linux ignoriert.
+
+     Anmerkung:    Bei EXTERNEN-Treibern  wird der  TYP  der  Hardware  direkt
+                   vorgenommen und  ist nach  dem Starten der Software bereits
+                   unter dem jeweiligen Port sichtbar.
+
+     DAMA 0, 1-4
+   
+                   Port  auf DAMA-Master x setzen.  Bei der Linux-Version
+                   funktioniert DAMA NUR mit Tokenring oder Vanessa ! Dies ist
+                   durch fehlende DCD-Information von anderen Schnittstellen-
+                   typen bedingt.
+
+                   (ACHTUNG DAMA-BIT im EPROM der Tokenring-Software brennen!)
+
+     DAMA S
+   
+                   Port  auf DAMA-Slave setzen.
+
+     CTEXT on / off
+                   Ist CTEXT on wird generell der CTEXT.TXT gesendet. Ist noch
+                   zusÑtzlich ein  CTEXT.n (n=Portnr.) vorhanden, so wird auch
+                   dieser auf  den entsprechenden  Port gesendet. Ist CTEXT=0,
+                   so werden  auch evtl.  vorhandene  <call>.MSG  Files  nicht
+                   gesendet.
+
+     SYSOP on / off
+                   Setzt den  angegebenen Port  auf SYSOP-Mode. Diese Funktion
+                   soll dem  Sysop helfen,  seine Wartungsarbeiten durchfÅhren
+                   zu kînnen.  Der Knoten nimmt ohne eine SYSOP-Priviligierung
+                   auf diesem  Port keine  Kommandos mehr  an. Die  Umstellung
+                   kann auch wÑhrend des Betriebes erfolgen, ohne da· die User
+                   disconnected werden. NetRom und TCPIP gehen weiterhin.
+
+                   Semiduplex Links  kînnen auch  auf  SYSOP  gesetzt  werden.
+                   Dadurch wird  ein unerlaubtes  "Einsteigen" auf  den  Links
+                   verhindert.  Der   Level  3-4   Link  zum  Nachbarn  bleibt
+                   unberÅhrt.
+
+     MH on / off   Das  FÅhren   der  MH-Liste   auf  den   Interlinks  kostet
+                   Rechnerzeit und die MH-Liste wird unÅbersichtlich. Sie wird
+                   gefÅhrt, um bei mehreren UserzugÑngen mehr Transparenz Åber
+                   die ZugÑnge  zu erhalten  UND damit  der KNOTEN  wei·,  auf
+                   welchem Port er einen bestimmen User connecten mu·.
+
+     (NA)me :      Gibt diesem  Port  eine  spezielle  Bezeichnung.  Sie  darf
+                   maximal 10  Zeichen lang  sein und dient der Unterscheidung
+                   der Ports.  Wenn z.B.  mehrere UserzugÑnge  oder  Baudraten
+                   benutzt werden,  ist in  der MH-Liste  ersichtlich, welches
+                   Call  auf  welchem  Zugang  QRV  ist.  Weiterhin  wird  der
+                   Portname  benutzt,  um  auf  einem  bestimmten  Port  einen
+                   Connect auszusenden,  unabhÑngig vom  Eintrag  in  der  MH-
+                   Liste. DB0EAM  hat einen  "70cm_1200" und einen "70cm_9600"
+                   Zugang sowie nun auf 23cm einen "23cm_9600". Die Port-Namen
+                   sind auch so eingestellt. Mit "c DB0XYZ 70cm_9600" kann ein
+                   Connect auf  dem 9600_Bit/s  Port ausgesendet  werden. Wird
+                   kein Port-Name  beim Connect  eingesetzt, so  wird  Port  0
+                   benutzt, ist  das Call  in der MH-Liste vorhanden mit einem
+                   Eintrag auf  einen anderen  Port als Port 0, so wird dieser
+                   Port benutzt.
+
+(PR)OMPT
+     Ohne Text zeigt die derzeitige Einstellung an:
+
+     Prompt: %c de %d (%t) >
+
+(PR)OMPT = <text>
+     öbernimmt den  String als  Prompt. EnthÑlt  der  eingegebene  String  die
+     Zeichen %c,  %d, %t,  %0, so  werden diese  im spÑteren  Prompt wie folgt
+     umgewandelt:
+
+     %a   In den Alias des Knotens,
+     %c   In das Call des User,
+     %C   In das Call des User mit SSID,
+     %d   In das IDENT des Knotens,
+     %D   In das IDENT des Knotens mit SSID,
+     %r   In ein Return,
+     %t   In die momentane Uhrzeit in HH:MM,
+     %s   In das aktuelle Datum,
+     %0   Verhindert die Aussendung des Promptes.
+
+     PR =%c de %d (%t) > ergibt:
+
+     DG9FU de DB0EAM (18:30) >
+
+     Es hat  sich eingebÅrgert,  im gesamten  PR-Netz UTC  zu verwenden.  Dies
+     erspart einem auch das lÑstige Neusetzen der Sommer-/Winterzeit.
+
+(RE)AD
+     Dient zum  Lesen eines  Files. Der  Name mu·  mit  Erweiterung  angegeben
+     werden. z.B.:
+
+     READ CTEXT.TXT oder READ AKTUELL.TXT.
+     Hier sind  auch Pfadangaben  erlaubt. Diese sind notwendig, wenn ein Text
+     vom Laufwerk  A: gelesen  werden soll und der DOS-Pfad auf ein virtuelles
+     Laufwerk zeigt. z.B.:
+
+     READ A:\TNN\AKTUELL.TXT.
+
+(READB)IN <filename.ext>
+     Erlaubt das binÑre Downladen von Files. Das Verfahren ist das gleiche wie
+     unter LOAD, nur in der Richtung vom Knoten zum Sysop.
+
+(RES)ET SYSTEM
+     LÑ·t den Knotenrechner einen Kaltstart ausfÅhren. Bei Linux geht das nur,
+     wenn TNN als user root laeuft - sonst wird das Programm einfach beendet.
+
+(RES)ET <port>
+     FÅhrt einen Reset des Port-TNC bzw. der entsprechenden Vanessakarte aus.
+
+(RU)NBATCH <filename.tnb>
+     FÅhrt das angegebene TNB-File aus und gibt die BestÑtigung  " OK "
+     zurÅck.
+
+(RUNBATCH) <filename.tnb>
+     Hiermit lassen sich aus einer TNB weitere TNB aufrufen. Damit ist es
+     mîglich die TNN176.TNB  z. B. in eine PARAM.TNB  und eine IPNUMMER.TNB zu
+     unterteilen.
+
+     EXTERNE PROGRAMME/BEFEHLE fÅr den
+     SYSOP:
+
+(S)TAT + <call>
+     Nimmt <call> in die Statistik auf.
+
+(S)TAT - <call>
+     Lîscht <call> aus der Statistik.
+
+(SETCALL)    (externer Befehl)
+     Die Felder  kînnen mit (SETCALL) ausgefÅllt oder geÑndert werden. SETCALL
+     soll dem SYSOP ermîglichen auf die DatensÑtze zugreifen zu kînnen.
+
+     Zu den  Programmen SHOWCALL.EXE,  SAVECALL.EXE und SETCALL.EXE ist in dem
+     Dir SAVECALL  jeweils eine  Datei  mit  der  Endung  .SXK.  Werden  diese
+     Sprachdateien in  .SPK umbenannt,  so werden sie statt der internen Texte
+     benutzt, was jedoch einen zusÑtzlichen HD-Zugriff bedeutet. Sollte jemand
+     diese Dateien Åbersetzen, so wÅrde ich mich Åber einen RÅcklauf freuen.
+
+(SETCALL) <call> <feldkenner> <text>
+
+     -> SaveCall Version [010696] de DG3AAH <-
+ SETCALL CALL /N ........................... 30 Zeichen fÅr den Name
+ SETCALL CALL /Q ........................... 30 Zeichen des Wohnortes
+ SETCALL CALL /L ......                       6 Zeichen des World-Locators
+ SETCALL CALL /D .......                      7 Zeichen fÅr Eingabe des DOK
+ SETCALL CALL /V .........                    9 Zeichen QRV auf ... Digi
+ SETCALL CALL /M .................           20 Zeichen Mybbs der Mailbox
+ SETCALL CALL /T .....  . . . . . . .  ..... 40 Zeichen fÅr freien Text
+          ( ein * als Text lîscht diesen Eintrag )
+
+ SETCALL CALL /*    : lîscht den Inhalt aller Eintrags fÅr Call.
+ SETCALL CALL /B    : blockiert CALL fÅr ShowCall.
+ SETCALL CALL /F    : gibt Call fÅr ShowCall frei.
+ SETCALL CALL       : gibt Infos Åber Call aus, auch wenn blockiert.
+          ( ein B als Call gibt alle blockierten Calls aus )
+
+     Auf der  Diskette ist  jeweils ein  Grundbestand von Calls vorhanden (der
+     von DB0EAM).  Updates davon  gibt es  nur  gegen  Zusendung  des  eigenen
+     Datensatzes und wenn sich jemand findet der eine SORTIERROUTINE sowie die
+     Erzeugung der entsprechenden CALL.IDX dafÅr schreibt.
+
+(SH)owSYS           (externer Befehl)
+     SHOW_SYS  zeigt   die  EintrÑge   in  der   Datei  SYSOP.PRO   in   einer
+     Åbersichtlichen Form an.
+
+(SH)owSYS /l
+     SHOW_SYS  zeigt   die  EintrÑge   in  der   Datei  SYSOP.PRO   in   einer
+     Åbersichtlichen Form an und lîscht dabei alle Privilegierungs-EintrÑge.
+
+(SP)arm  oder besser Save Parameter
+     Save Parameter erstellt ein File PARAMS.TNB, das alle derzeit
+     eingestellten Parameter beinhaltet. PARMS.TNB kann, umkopiert nach
+     TNN179.TNB, zum Einstellen der Parameter von TNN beim Neustart verwendet
+     werden. Als BestÑtigung kommt "PARMS.TNB saved ..."
+
+(STAR)T <programm>
+     Startet  das   angegebene  Programm.  Der  Programmname  mu·  vollstÑndig
+     angegeben werden,  z.B.: Start  TNNDOS.EXE. Befindet  sich  das  Programm
+     nicht im  aktuellen Pfad,  so mu· dieser selbstverstÑndlich mit angegeben
+     werden. Der  Ablauf des  Startvorganges  wird  nun  nicht  mehr  auf  dem
+     Bildschirm angezeigt, sondern in eine Datei STARTUP.LOG geschrieben.
+
+(STAR)T <programm> funktioniert NICHT bei den DPMI-Versionen !
+
+(STARTCNT)      (externer Befehl)
+    eine sehr hilfreiches Programm.
+
+    Wer hÑufiger  neue Testversionen  an seinem  Digi einsetzt  oder  mit  den
+    TNN176.TNB Konfigurationsdateien  spielt, der sollte unbedingt die Utility
+    "STARTCNT.EXE" verwenden! Dieses Programmm wird zusammen mit den TNN-Tools
+    verteilt und  stammt von  Andreas, DB7KG.  STARTCNT ist  ein kleines  EXE-
+    Programm, welches einen ZÑhler bei jedem Aufruf herunterzÑhlt. Solange der
+    ZÑhler nicht  null ist, wird immer ein ERRORLEVEL von 1 zurÅckgegeben. Ist
+    der ZÑhler  abgelaufen, dann  ist der ERRORLEVEL 0. Damit lassen sich dann
+    mittels einer Batch-Datei sehr bequem zwei verschiedene Versionen starten.
+    Damit  STARTCNT  auch  bei  Stromausfall  funktioniert,  wird  der  ZÑhler
+    natÅrlich in einer Datei gespeichert.
+
+    Wenn man  sich als Sysop in den Knoten eingelogged hat, dann kann man z.B.
+    mit "DOS  STARTCNT 5" diesen ZÑhler auf 5 setzen. Nun darf der Knoten 5mal
+    abstÅrzen /  resetten oder  was auch  immer, bis wieder die alte (stabile)
+    Software gestartet wird.
+
+                                                             STARTCNT <anzahl>
+    stellt die  jeweilige Anzahl an Starts ein (DurchlÑufe der START.BAT). Die
+    Anzahl  wird   um  1  verringert,  wenn  die  STARTCNT.EXE  ohne  <anzahl>
+    aufgerufen wird.
+
+ Die folgenden Zeilen mÅssen dann jedoch in die START.BAT aufgenommen werden.
+
+ STARTCNT
+ IF ERRORLEVEL==1 GOTO OKGNU32
+ ECHO Starte die TNN_ALT.EXE
+
+ REM !!!!!!!!!!!!!!! ALTE SOFT HIER STARTEN (TNN_ALT.EXE) !!!!!!!!!!!!!!!!!!
+ COPY TNN179.DOS TNN179.TNB
+ TNN_ALT.exe
+ REM !!!!!!!!!!!!!!! ALTE SOFT HIER STARTEN (TNN_ALT.EXE) !!!!!!!!!!!!!!!!!!
+
+ GOTO ENDE
+ :OKGNU32
+
+ ECHO Starte die TNN_NEU.EXE
+
+ REM !!!!!!!!!!!!!!! HIER WIRD DIE NEUE SOFTWARE GESTARTET !!!!!!!!!!!!!!!!
+ COPY TNN179.DPI TNN179.TNB
+ TNN_NEU.exe
+ REM !!!!!!!!!!!!!!! HIER WIRD DIE NEUE SOFTWARE GESTARTET !!!!!!!!!!!!!!!!
+
+     HILFSPROGRAMME fÅr den SYSOP zu
+     Hause:
+
+(SUS)PEND + <port> <call> <links>
+     BeschrÑnkt das  Rufzeichen <call>  auf Port  <port> auf  eine Anzahl  von
+     <links>.
+
+ Beispiele:
+
+     DB2OS soll  auf dem Knoten generell nur 2 Verbindungen , egal auf welchem
+     Port, aufbauen  kînnen. Dann  wird unter  <port> einfach der fiktive Port
+     255 angegeben.
+
+     SUS + 255 DB2OS 2
+
+     Soll  er   nun  vom  USER-PORT  0  ganz  ausgeschlossen  werden,  so  ist
+     einzugeben:
+
+     SUS + 0 DB2OS
+
+     Ein Level-2 Ausschlu· erfolgt mit:
+
+     SUS + 254 DB2OS
+
+     Der Connect  des Knotens  ist erstmal  mîglich. Jedoch nach dem ersten I-
+     Frame des User bekommt er das File SUSPEND.TXT zugesandt und danach einen
+     Disconnect.
+
+ Hinweis:
+      Soll eine Connect-Beschraenkung fuer ALLE User eingerichtet werden, so
+     ist das Kommando "PORT x MAXCON=x" zu verwenden.
+
+(SUS)PEND - <port> <call>
+     Gibt dem  Rufzeichen <call>  auf Port  <port>  wieder  das  Benutzen  des
+     Knotens frei.
+
+     Ein PR-User  hat sich  beim BAPT  darÅber beklagt,  da· ihm der Betreiber
+     eines Digipeater  nur noch  jeweils einen Connect mit dem Digi zur selben
+     Zeit  zur   VerfÅgung  stellt.  Da  dieses  Problem  schon  hÑufiger  fÅr
+     Diskussionen in  PR gesorgt  hat, gebe ich hiermit das Schreiben des BAPT
+     an den Digi-Betreiber im vollen Wortlaut wieder:
+
+ Aktenzeichen 123-8 B 3581-29 vom 28.01.1997
+
+ Begrenzung auf maximal einen gleichzeitigen Connect bei dem Digipeater DB0xxx
+
+ Sehr geehrter Herr xxx,
+
+ wie mit Ihnen am 27.01.1997 telefonisch besprochen, teilen wir Ihnen hiermit
+ unsere grundsÑtzlichen Aussagen mit, die von uns bezÅglich einer gegen Sie
+ vorgebrachten Beschwerde wegen der o. g. BeschrÑnkung bei Ihrem Digipeater
+ gegenÅber dem BeschwerdefÅhrer gemacht wurden.
+ Wir betrachten die o. g. Begrenzung nicht als Ausschluss im Sinne der Anlage
+ 1, Punkt 2.4.2.7 der DV-AFuG. Ein Ausschluss auf Grund eines entsprechenden
+ Missbrauches einer Relaisfunkstelle liegt nicht vor, vielmehr handelt es sich
+ hier um Begrenzungen aus betrieblichen GrÅnden. Wir halten diese Begrenzung
+ fÅr eine, zum Beispiel aus KapazitÑtsgrÅnden, sinnvolle Massnahme, um
+ mîglichst vielen Funkamateuren die Gelegenheit zu geben, mit diesem
+ Digipeater zu arbeiten. Es mu· Sache des Betreibers eines Digipeaters
+ bleiben, nach seiner EinschÑtzung die von ihm zur VerfÅgung gestellte
+ technische Einrichtung hinsichtlich QuantitÑt den Nutzern anzubieten.
+ Ausserdem sehen wir keine rechtliche Grundlage, auf die sich im
+ Amateurfunkdienst ein Anspruch auf mehrere gleichzeitige Verbindungen Åber
+ eine Relaisfunkstelle begrÅnden lÑsst. FÅr weitere Fragen stehen wir Ihnen
+ gerne zur VerfÅgung.
+
+ Mit freundlichen GrÅssen
+
+ Im Auftrag
+
+ gez. Jeromin (fÅr Link)
+
+(SY)SOP
+     Gibt eine 5er Zahlengruppe aus fÅr das Einloggen des Sysop.
+
+     PASSWORT-Eingaben:
+     Die Pa·worteingabe fÅr den User wurde erweitert, so da· auch Pa·worte wie
+     bei BAYCOM-BOX  erlaubt sind. Die alten 5-stelligen Antworten gehen auch.
+     Der Trick  besteht darin,  das eigentliche Pa·wort in einem langen String
+     DatenmÅll zu verstecken!
+
+     BAYCOM-PASSWORT:
+     Das wichtigste  zuerst, die  Methode ist  kompatibel zur  alten, man kann
+     ohne weiteres  einfach die  5 Antwortbuchstaben senden. ZusÑtzlich ist es
+     aber mîglich, die Antwort in einer Zufallszeichenkette zu verstecken. Ist
+     die Lîsung  z.B. 12345,  werden folgende  Antworten  auch  als  korrektes
+     Password akzeptiert:
+
+     54321532412345221134254235244242415526
+              -----
+
+     12345
+     -----
+
+     12131415234132145132412345
+                          -----
+
+     Da dem  Lauscher nicht  bekannt ist,  wo die Lîsung ist, kann er sich das
+     Password nicht  zusammenbasteln. Es  empfehlen sich  also  Pa·wîrter  mit
+     mîglichst vielen verschiedenen Zeichen, um die Verschleierung zu erhîhen.
+
+(SYSH)elp      (externer Befehl)
+     Ist ein  externer Befehl  fÅr eine  neue Hilfefunktion.  Funktion wie bei
+     (H)elp nur wird auf die OHS.TXT Online-Hilfe-Sysop zugegriffen.
+
+(SYST)ext Text      (externer Befehl)
+     Systext bietet  nun die  Mîglichkeit, in  die Datei  SYSOP.PRO eine Zeile
+     Text einzufÅgen.  Damit kînnen  zum Beispiel  ParameterÑnderungen fÅr die
+     "anderen" Sysop  dokumentiert werden.  Damit ist  nun auch  eine  gewisse
+     Historie mîglich.  Die Datei  SYSOP.PRO wird  Åbersichtlicher,  wenn  die
+     EintrÑge anders  ausgegeben werden.  Auch Neustarts  (z.Z. mit  b-log.exe
+     dokumentiert) sollen noch in der SYSOP.PRO aufgenommen werden.
+
+(TE)ST <port>
+     Gibt einen  0/1 Wechsel  auf dem  angegebenen Port von 4 KByte LÑnge aus,
+     fÅr Abgleicharbeiten  z.B. am  Modem. Die  Testfunktion kann nur noch der
+     Sysop auslîsen.  Ruft der  User die  Testfunktion auf,  so bekommt er ein
+     "Port disabled" zurÅck.
+
+(TI)ME
+     Zeigt Datum und Uhrzeit des Knotens an.
+
+     Einstellen von Uhrzeit und Datum ist nur Åber die DOS-Befehle mîglich!
+
+     Zeit mit:     DOS TIME HH:MM
+     Datum mit:    DOS DATE TT.MM.JJ
+     oder mit:     DOS DATE TT.MM.JJJJ
+
+     Doch Vorsicht!  Nur "DOS TIME" zeigt die aktuelle Uhrzeit auf dem Monitor
+     des Knotens  an und  erwartet die  neue Uhrzeit  per Tastatur. Der Knoten
+     steht dann  bis zum  RESET. Dieser erfolgt automatisch nach ca. 2 Minuten
+     durch den Software-Watchdog von TNN.
+
+     Ein wenig Mitdenken gehîrt auch dazu.
+
+(TOP)     (externer Befehl)
+     Ist ein  externer Befehl,  der die  MHEARD.TAB in  besser  lesbarer  Form
+     anzeigt.  In   der  CONFIG.TOP   mÅssen  allerdings   die  Port  -  Namen
+     eingestellt werden.  Da nun auch die Level 3 Verbindungen gefÅhrt werden,
+     sollte man alle Port - Namen dort eintragen.
+
+ # Configfile fÅr TOP.EXE.
+ # Alle Angaben die nicht gelesen werden sollen mÅssen eine # am Zeilenanfang
+ haben.
+ #
+ # Einstieg
+ P0 = 70cm_1200
+ # Einstieg
+ P1 = 70cm_9600
+ # Einstieg
+ P2 = 23cm_9600
+ # Link DB0GOE
+ P3 = Goettingen
+ # ... bis
+ p16 = ???
+ # Ende des Files
+
+(TR)ace <level> <monitor>
+     Dieser Befehl dient zum erkennen und finden von Fehlern. Es stehen
+     folgende Module zur VerfÅgung. Dazu ist der Level mit einem Wert zwischen
+     0 (Aus) und 9 (Alles) einstellbar. Der Trace wird, wenn mehr im Monitor
+     zu senden sind als nach Parameter NoAckBuf eingestellt ist, nicht
+     abgebrochen sondern nur unterbrochen. D.h. es kînnen, wenn man zu viel
+     monitoren will, LÅcken entstehen.
+
+     Beispiel: (TR)ace 9    (ALLE anzeigen, wirklich alles)
+
+     Die Level (Anhaltswerte)
+     9 = reine Information
+     7 = wichtige Information
+     5 = wichtiges Ereignis
+     3 = nicht kritischer Fehler
+     1 = kritischer (fataler) Fehler
+     0 = aus
+
+     Der Monitor  erlaubt auch ONLINE ein Call oder Port zu monitoren, ohne es
+     zu erst  in ein  File im  Knoten zu schreiben. Die Syntax ist die gleiche
+     wie bei  <ESC> MUSIC.  Da es  sich hier  bereits um  einen  Monitoraufruf
+     handelt, ist das "m" fÅr Monitor natÅrlich fehl am Platz.
+
+     Beispiel: (TR)ace USICH 9 +DG0XX
+
+(TEL)NET Server
+
+     Neu:
+     ~~~~
+     Der Telnet-Server funktioniert nur unter LINUX und WIN32-Systeme.
+     Zu beachten w‰re, das der TCP-Port (Standart 23) im jeweiligen System
+     freigeschaltet (Firewall) sein muss!
+
+     Konfiguration:
+     ~~~~~~~~~~~~~~
+     (Telnet-Port definieren in der TNN.INI)
+
+     device telnet
+     kisstype 22
+     port 0
+
+     TNN-Console:
+     ~~~~~~~~~~~~
+     (Telnet-Port ˆffnen)
+
+     PO 0 ON
+
+     TCP-Port ‰ndern:
+     ~~~~~~~~~~~~~~~~
+
+     TEL P 23
+
+     Mein-LOGlevel ‰ndern:
+     ~~~~~~~~~~~~~~~~~~~~~
+
+     TEL L 0
+
+     Damit ist die Konfiguration abgeschlossen.
+     Port 0 ist nur ein Beispiel! Der Telnet-Server kann auch auf andere Ports
+     definiert werden! Wenn es Probleme beim Telnet-Server geben sollte, ist es
+     hilfreich LOGlevel einzuschlaten.
+     TEL L 1
+     Es werden Informationen in die Datei "telnet.log" geschrieben
+     (F¸r mich sehr hilfreich)
+     Um den Telnet-Server zu testen, einfach im jeweiligen System:
+     telnet localhost 23
+     ausfuhren. Bekommt man kein Zugriff auf den Telnet-Server, pr¸fen ob alle
+     Konfigurationen korrekt eingetragen sind, auch an die Firewall denken!
+
+     Weiter Infos:
+     ~~~~~~~~~~~~~
+     Den Login-Text kann man erweitern, in dem man eine Datei "login.txt"
+     erstellt, mit dem jeweiligem Inhalt, Dieser Inhalt wird dann bei jedem
+     Connect mit ausgegeben. Ein Telnet User kann Maximal 9 Connects aufbauen!
+     Die SSID wird automatisch wergeben. Es wird auch drauf geachtet, ob ein
+     User in der SUSPEND-Liste (Rufzeichen spreren) Steht!
+
+(ALT) X
+    		Bricht das Programm ab und geht auf die DOS-Ebene zurÅck.
+    		Bei Linux geht das nur mit <ESC> QUIT.
+
+(ESC) C
+    		 Connect von der Tastatur als HOST in den Knoten
+
+(ESC) D
+    		 Disconnect
+
+(ESC) @E1
+    		 ôffnet ein  neues File. Wenn das File bereits existiert, wird
+    		 es nicht  gelîscht, sondern  die  Ausgaben  werden  ans  Ende
+    		 angehÑngt. Monitorausgaben werden auf ein File (YYMMDDHH.PRO)
+    		 umgeleitet.
+
+(ESC) @E0
+    		 Schaltet die Ausgabe ab und schlie·t das File.
+
+(ESC) I <call> <alias> [P]
+    		 Einstellung des  globalen HOST Call. Dieses kann auch mit dem
+    		 Befehl "C" connected werden.
+
+(ESC) K
+    		 Gibt Datum und Uhrzeit aus.
+
+(ESC) K0
+    		 Monitor wird ohne Datum und Uhrzeit dargestellt.
+
+(ESC) K2
+    		 Monitor wird mit Datum und Uhrzeit dargestellt.
+
+(ESC) Logout
+    		 Verlassen der Konsole und verschlie·en.
+
+(ESC) L
+    		 Zeigt den Status der KanÑle an.
+
+(ESC) M
+    		 Zeigt die derzeitige Einstellung an. (Bedeutung der Parameter
+    		 siehe unten)
+
+     ACHTUNG!    Bei   den   Monitorbefehlen   ist,   bei   stark   belasteten
+	         Knotenrechnern, Vorsicht  geboten. Da  der  Rechner  dann  um
+    	         einiges langsamer  wird, bekommt man das Monitoren nur schwer
+    	         wieder ausgeschaltet,  da die  Tastatur kaum  noch  abgefragt
+    	         wird.
+
+(ESC) MN
+    		 Monitor aus.  (Je mehr  der  Monitor  anzuzeigen  hat,  desto
+    		 langsamer wird  der Knoten.  Also  nach  Gebrauch  immer  den
+    		 Monitor wieder auf "AUS" schalten !
+
+(ESC) MUSIC H/F <port nr.> +/- <call..call>
+                 Monitoren von:
+                 U = Unprotokollierten Paketen,
+                 I = Info Paketen,
+                 S = Kontroll Paketen,
+                 C = Monitor an auch bei bestehendem Connect,
+                 H = HEADER, bei I-Frames nur den Header anzeigen, der
+                 Infoteil der Frames wird unterdrÅckt,
+                 F = FULL, I-Frames mit Infoinhalt anzeigen, es werden die
+                 kompletten Frames gemonitort,
+                 <port nr> = Nur der angegebene Port wird gemonitort,
+                 + <call..call> = Nur diese Call (bis zu 8) monitoren,
+                 - <call..call> = Diese Call im Monitor unterdrÅcken.
+
+                 <call> kann mit SSID angegeben werden.
+                 Unter <call> sind auch Eingaben wie QST und LSTAT mîglich.
+
+(ESC) P
+    		 Zeigt das aktuelle Pa·wort an. Das funktioniert natÅrlich nur
+    		 an der Console !
+
+(ESC) P1234567890 usw. bis zu 80 Zeichen.
+    		 Setzt das Pa·wort auf "1234567890 usw. bis zu 80 Zeichen".
+
+(ESC) R0
+    		 Es erfolgt kein Hinweis auf Token-Recovery.
+
+(ESC) R1
+    		 Bei jedem Token-Recovery wird auf dem Bildschirm der Text
+    		 *** Token-Recovery (1) Wed Jan 19 13:45:10 1994 ***
+    		 angezeigt. Die Ziffer gibt an, wieviele Recovery nacheinander
+    		 aufgetreten sind, sowie Datum und Uhrzeit. Dieses ist die
+    		 default Einstellung.
+
+(ESC) S
+    		 Zeigt den Aktuellen Kanal an.
+
+(ESC) Sn
+    		 Schaltet zum Kanal n um. (GÅltige KanÑle sind 1 - 30)
+
+(ESC) T
+    		 Zeigt die  momentan auf  dem Tokenring eingestellte Baudrate.
+    		 Dieser Befehl gilt nicht fÅr die Linux-Version.
+
+(ESC) T 9600 / 19200 / 38400
+    		 Stellt die entsprechende Baudrate auf dem Tokenring ein.
+
+(ESC) T 57600 / 115200
+    		 Stellt die entsprechende Baudrate auf dem Tokenring ein,
+    		 fÅr diese Baudraten ist jedoch ein FIFO-Baustein (16550)
+    		 erforderlich.
+
+(ESC) T ?
+    		 Gibt eine Hilfe aus.
+
+(ESC) Y0
+    		 Kein Connect zum HOST mîglich (default).
+
+(ESC) Yn
+    		 Verbindungen zum HOST sind auf n HostkanÑlen freigegeben (n =
+    		 1 bis  30). Der  Connect zum  HOST ist mit C mîglich OHNE den
+    		 Zusatz eines <call>, sowie mit C <CALL>, wobei fÅr <CALL> das
+    		 globale Host-Call gilt.
+
+            	             (########.TNB) FILES
+     ....ein Leckerbissen
+
+     Ein ganz  alltÑgliches Problem:  immer nachts um 03:00 passiert angeblich
+     FÅrchterliches am  Knoten, wenn  der OM AA0BB erscheint. Man mÅ·te mal am
+     Knoten mitmonitoren.  Oder man  mîchte jede  Nacht um 23:00 die Statistik
+     auf Disk  schreiben. Oder von 16:00 bis 24:00 sollen andere Parameter auf
+     dem Einstieg  genommen werden.  Alles Beispiele  fÅr den Einsatz von TNN-
+     Batch Files.
+
+     Die Sache  ist ganz einfach. Es gibt zwei Sorten von Batchfiles, die sich
+     durch den  Namen unterscheiden:  YYMMDDHH.TNB und YYMMWXHH.TNB. Dabei ist
+     YY das Jahr, MM der Monat, DD der Tag, HH die Stunde und X der Wochentag,
+     an dem  das File  gestartet werden  soll. Und damit nicht fÅr jede Aktion
+     ein extra  File gemacht  werden mu·,  darf "#"  als Platzhalter  fÅr eine
+     Ziffer genommen werden.
+
+     Verzeichnis:
+     Die .TNB  Dateien gehîren  in das  Verzeichnis, welches in der TNN176.CFG
+     unter Workpath angegeben wurde.
+
+     Beispiele:
+
+  TNN179.TNB          Wird NUR beim Neustart des Programmes ausgefÅhrt.
+  ########.TNB        Wird beim Neustart sowie zur  vollen Stunde ausgefÅhrt.
+  ######23.TNB        Startet jeden Tag um 23:00 Uhr.
+  ####0100.TNB        Startet immer am 1. jedes Monats um 00:00 Uhr.
+  94040100.TNB        Startet am 01-APR-94 um 00:00 Uhr.
+  ####W116.TNB        Startet immer Montags um 16:00 Uhr (Sonntag ist Tag 0).
+  94##W011.TNB        Startet an jedem Sonntag im Jahre 1994 um 11:00 Uhr.
+
+     Der Aufbau  der Files ist simpel: es steht alles so drin, wie man es auch
+     an der  Console eintippen  wÅrde. Mit  einer einzigen  Ausnahme: wenn ein
+     Batch ablÑuft,  ist automatisch  ein Login  passiert, und nach Ablauf des
+     Files ist der alte Login Status wieder vorhanden.
+
+     Damit nun  nicht nur  der Bildschirm am Knoten gefÅllt wird, sondern auch
+     was fÅr  die Nachwelt  bleibt, ist  eine neuer  Befehl  fÅr  die  Console
+     dazugekommen:
+
+     Damit nun  das <ESC> leichter in eine .TNB Datei geschrieben werden kann,
+     ist hier ersatzweise auch ein # an der ersten Stelle zulÑssig.
+
+     Um eine monatliche Statistik zu erzeugen, ist folgendes File nîtig:
+
+ ####0100.TNB
+ ============
+ ;             Dieses File startet am 1. des Monats um 0:00 Uhr.
+ esc @e1     ; Umlenken der Ausgabe in ein File.
+ Stat        ; Auslesen der Statistik.
+ MH 500 +    ; Auslesen der MH Liste.
+ Esc @e0     ; Umlenken ausschalten.
+ Clear       ; Statistik lîschen.
+ MH -        ; USER-Statistik auf "0" Stellen.
+ L3MH -      ; L3-Statistik loeschen
+
+     Ab dem ";" sind Kommentare erlaubt.
+
+     Genauso sind auch DOS Kommandos mîglich. Bei der Linux-Version sind SHELL
+     Kommandos zwar  zulÑssig, aber  sie werden  meist nicht  ausgefÅhrt.  Der
+     Grund hierfÅr:  SHELL Kommandos  werden  im  Hintergrund  ausgefÅhrt  als
+     eigener Proze·  (der  normale  Knotenbetrieb  lÑuft  also  weiter).  Wird
+     wÑhrend eines  laufenden SHELL Kommandos ein neuer Befehl eingegeben (das
+     ist  der   nÑchste  Befehl  im  TNB-File),  wird  das  laufende  Kommando
+     abgebrochen und der neue Befehl wird ignoriert.
+
+(SPE)ECH
+     Zeigt welche Sprachen im System vorhanden sind.
+          
+     TNN-Console
+     ~~~~~~~~~~~
+     (Sprache einstellen)
+     
+     SPE DEU
+     f¸r Sprache Deutsch (Neu)
+     
+     SPE ENG
+     f¸r Sprache Englisch (Standart)
+     
+(IPC)ONV
+     IP-CONVERS ist ein weiteres TCPIP-Feature nach TELNET und HTTPD.
+     Es gibt 2 moeglichkeiten eine IP-Anbindung z.B an ein SAUPP-Convers
+     an zu binden.
+     
+     TNN.INI
+     ~~~~~~~
+     device ipconv
+     kisstype 24
+     port 5 (port kann angepasst werden!)
+     
+     Converslink eintragen:
+     (im Conversmodus)
+     
+     Syntax: /l + Name IP-Adresse TCP-Port
+     (Beispiel: /l + Wuppertal 217.172.188.168 3600)
+     
+     !!NEU!! ACHTUNG *** ACHTUNG *** ACHTUNG *** ACHTUNG !!NEU!!
+     
+     Neuer Syntax:
+     ~~~~~~~~~~~~~
+     /l + HOSTNAME AX25-CALL L2PORT VIACALL
+     
+     Beispiele:
+     ~~~~~~~~~~
+     (L2)    /l + Siegen dno572-6 0 DNO572
+     (L4)    /l + Siegen dno572-6
+     (TCPIP) /l + Wuppertal 217.172.188.168 3600
+             /l + Wuppertal Wupper 5
+	     (AX25-CALL "Wupper" muss unter IPC definiert sein)
+
+     Direckte Anbindung per IP:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Eine Anbindung z.B zum Saupp per AX25-kernel ist nun Vergangenheit.
+     Eine Direkt IP-Anbindung zum Saupp macht es moeglich. Die Einrichtung
+     ist Kinderleicht. Im Saupp selbst muss man nix extra Konfigurieren,
+     lediglich muss IP aktiv sein. Auf der TNN-Console muss eine IPCONV-Route
+     erstellt werden. Damit ist die Kopplung fertig!!!
+     
+     Nun stellt sich jeder die frage wie komme ich nun in den Saupp-Convers?
+     Ganz einfach in dem man angegebenen Namen mit dem Befehl Connect benutzt.
+     Ich nehme dazu mal als Beispiel "Wuppertal" Im Knoten einfach "C Wupper"
+     und schon gelangt man in den Saupp-Convers.
+     
+     IPCONV-Route eintragen:
+     ~~~~~~~~~~~~~~~~~~~~~~~
+     Syntax: IPC R + Name IP_Adresse TCP-Port
+     (Beispiel: IPC R + Wupper 217.172.188.168 3600)
+     
+     Der Name darf nur 6 Zeichen enthalten !!!
+     Auch HOSTNAMEN (dig531.dyndns.org) werden unterstuetzt !!!
+     

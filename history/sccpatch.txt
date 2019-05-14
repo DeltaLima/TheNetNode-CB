@@ -1,0 +1,38 @@
+Anleitung zum Patchen des SCC-Treibers V 3.0 von DL1BKE
+-------------------------------------------------------
+
+Der folgende Patch sollte mit fast allen Kerneln funktionieren, die
+den SCC-Treiber in der Version "3.0.dl1bke" enthalten. Beiliegender DIFF
+wurde auf einem 2.4.28-Kernel erzeugt, er sollte auch auf 2.2.x- und 2.6.x-
+Kerneln mit etwas Handarbeit einzupflegen sein.
+
+Das neue scc.h muss anschliessend noch in das Verzeichnis "/usr/include/linux"
+kopiert werden, sonst motzt TNN beim compilieren weil er noch die alte
+Version sieht !
+
+--- snip ---
+
+--- linux/drivers/net/hamradio/scc.c.orig	2002-11-29 00:53:13.000000000 +0100
++++ linux/drivers/net/hamradio/scc.c	2004-12-26 18:47:02.000000000 +0100
+@@ -1400,6 +1400,7 @@
+ 		case PARAM_WAIT:	return CAST(scc->kiss.waittime);
+ 		case PARAM_MAXDEFER:	return CAST(scc->kiss.maxdefer);
+ 		case PARAM_TX:		return CAST(scc->kiss.tx_inhibit);
++		case PARAM_DCD:		return CAST(scc->dcd);
+ 		default:		return NO_SUCH_PARAM;
+ 	}
+ 
+--- linux/include/linux/scc.h.orig	2004-12-23 21:40:18.000000000 +0100
++++ linux/include/linux/scc.h	2004-12-26 18:44:48.000000000 +0100
+@@ -50,6 +50,7 @@
+ 	PARAM_WAIT,
+ 	PARAM_MAXDEFER,
+ 	PARAM_TX,
++	PARAM_DCD,
+ 	PARAM_HWEVENT = 31,
+ 	PARAM_RETURN = 255	/* reset kiss mode */
+ };
+
+--- snap ---
+
+25.12.2004 DG9OBU

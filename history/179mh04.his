@@ -1,0 +1,109 @@
+Aenderungen 179mh03 -> 179mh04:
+-------------------------------
+
+= INP meldet bei Aenderung der Knoten-IP oder Subnetzmaske dies allen
+  INP-faehigen Nachbarn.
+
+= INP-Parser aufgeraeumt, die Auswertung von einem fehlerhaft empfangenen
+  Node fuehrt nun nicht mehr zum Abbruch der Auswertung des ganzen INP-Frames.
+
+= Die mit #define OLD_INP bereits stillgelegten Codeteile wurden entfernt.
+
+= Output-Programm modifiziert: Patch von DK2CRN eingebaut (zusaetzl.
+  Wartezeit fuer STROBE-Leitung) und zusaetzl. Pruefungen (DG9OBU).
+
+= Ausgabe des SSID-Bereiches der Linkpartner beim "routes"-Befehl.
+
+= AX.25 ARP-"QST"-Frames die noch erreichbare Ziele im VIA-Pfad haben,
+  reichen wir nun weiter, ist das naechste Ziel nicht erreichbar,
+  schmeissen wir sie weg.
+  
+  Frames die uns als letztes VIA haben nehmen wir an, weil der Vorgaenger
+  es auf Grund des Pfades zu uns geschickt hat und wir kein weiteres Ziel
+  dafuer haben.
+
+* Linux: make: Unterstuetzung von externen Linkerflags, make-Aufruf
+         beruecksichtigt nun die Variable "LDFLAGS_LIN" beim Linken.
+  
+  Um z.B. mit dem gcc statische, gestrippte Binaries zu erhalten nimmt man z.B.:
+  "make LDFLAGS_LIN=-static LDFLAGS_LIN+=-s"
+
+  Die Variable wird auch an die makefiles in "contrib" durchgereicht.
+
+* Linux: Erkennung fuer MIPS-Systeme beim Compilieren (WRT54G, MeshCube):
+
+  (aut. Erkennung oder "make MIPS=YES [...]" bei Crosscompilierung)
+
+  "contrib/output" wird fuer MIPS-Systeme NICHT mehr uebersetzt.
+  Dies ist fuer den WRT54G oder MeshCube gedacht, diese beiden haben
+  keinen parallelen Printerport wie die i386-kompatiblen Systeme.
+  "make" gibt hier einen kurzen Hinweis aus dass nichts gebaut wurde.
+
+  "Vanessa" wird ebenfalls fuer MIPS-Systeme NICHT mehr genutzt, aber
+  noch ein restl. Rumpf mit eincompiliert. Diese Hardware gibt es fuer
+  MIPS einfach nicht.
+
+  Diese Variable wird ebenfalls an makefiles in "contrib" durchgereicht.
+
+* Linux: kleine Anpassung im Convers damit keine Meckermeldungen mehr
+         beim Compilieren mit dem GCC unter Linux ausgegeben werden
+
+* Linux: mit dem Befehl "setshell" kann eine abweichende Shell gesetzt werden. Beim
+         Start wird die Umgebungsvariable SHELL gelesen und eine dort eingestellte
+  Shell uebernommen. Ist diese Variable leer so erfolgt eine Warnung und der Shell-
+  Mechanismus ist nicht nutzbar.
+  
+  Wichtig fuer "busybox": die Shell sollte ein symbolischer Link sein damit
+  busybox weiss, was zu tun ist. Also nicht "setshell /bin/busybox" sondern
+  "setshell /bin/bash", wobei "/bin/bash" ein symbolischer Link auf "/bin/busybox"
+  sein muss.
+  
+  Beispiel:
+    "setshell"           liefert eine kurze Hilfe
+    "setshell ?"         fragt die aktuelle Einstellung ab
+    "setshell /bin/sh"   setzt /bin/sh als zu verwendende Shell
+    
+  Das uebergebene Programm wird rudimentaer auf seine Eignung als ausfuehrbare
+  Datei untersucht (kein Socket, Verzeichnis etc., ausfuehrbar)
+
+= L2-Connects mit Via-Pfad beruecksichtigen bei der Suche des naechsten Ziels
+  nun auch die MHeard-Liste wenn kein Ziel im L3 gefunden wurde. Der Via-Pfad
+  wird durchgereicht.
+
+= Bei der verzoegerten Bestaetigung von Hop-to-Hop-Verbindungen konnte das UA-Frame
+  in seltenen Faellen mit falschen Flags gesendet werden. Die Flags des in diesem
+  Fall gesendeten UA-Frames sind nun fest verdrahtet (Response und Final -> "UA-").
+
+= Linux: Schalter AXIPROLDSYNTAX ausgebaut, die AXIPR-Parser koennen nun umgeschaltet
+         werden, nach dem Start ist der *ALTE* Parser aktiv, damit alte Konfigurationen
+  problemlos gelesen werden koennen. Das Umschalten erfolgt wie folgt:
+  
+  Alt -> Neu : "AXIPR P"
+  Neu -> Alt : "AXIPR OLD" oder "AXIPR O"
+  
+  Ist der neue Parser zum Zeitpunkt von "sp" aktiv, so schreibt er den Umschaltebefehl
+  fuer Alt -> Neu mit in die tnb-Datei.
+  
+  >>> Wer seine .tnb schon in neuer Syntax hat, der muss den Umschaltebefehl haendisch <<<
+  >>> nachtragen !!! <<<
+
+  (... oder man aendere den Source auf die bevorzugte Variante: os/linux/ax25ip.h, Zeile 93)
+
+= Linux: Der Shell-Befehl nutzt nun eine Bibliotheksfunktion, um eine Shell abzuforken.
+         Hierdurch sollten die "ERROR while reading ..."-Fehler nun beseitigt sein.
+  Ursache dafuer waren offenbar nicht eindeutige Prozessgruppenzugehoerigkeiten und
+  Probleme mit dem gemeinsam verwendeten Descriptor.
+    
+  >>> Die Benutzung der interaktiven Shell ist in tnb-Dateien nun blockiert !!! <<<
+
+  Damit steht TNN hoechtens eine Minute (Standard-Timeout) an einem Shell-Befehl.
+  
+  In den Batchdateien sind nur noch Shellaufrufe in der Art "sh ls -l" moeglich, ein
+  "sh" hat keine Wirkung bzw. wird eine entsprechende Fehlermeldung in eine ggf.
+  offene Logdatei geschrieben.
+
+  Zum Linken von TNN ist nun zusaetzlich die "libutil"-Bibliothek erforderlich !
+
+= Linux: 6PACK ruft nun auch bei offenem Ring weiter nach seinen TNC, dies wurde bisher
+         nur gemacht falls ueberhaupt irgendetwas empfangen wurde. Kleine Korrekturen
+  beim Schliessen des ser. Ports.

@@ -1,0 +1,33 @@
+Hinweise zum Extended-AX.25:
+============================
+
+- Die Verwendung/Akzeptanz von EAX.25 laesst sich ueber den Wert von EAXMODE
+  beim PORT-Befehl steuern:
+
+  Mode 0 : nur AX.25 erlaubt, EAX.25 wird abgelehnt
+  Mode 1 : AX.25 und EAX.25, Connects nach MHeard (default)
+  Mode 2 : AX.25 und EAX.25, ausgehende Connects zuerst immer in EAX.25,
+           erfolgt nach zwei SABME keine Antwort, dann Rueckfall auf AX.25
+  Mode 3 : nur EAX.25 erlaubt, AX.25 wird abgelehnt
+
+- BEIDE Seiten muessen EAX.25 unterstuetzen, Unterstuetzung ist derzeit
+  nur im Linux-Kernel, WAMPES, NETCHL und TNN vorhanden. Gegenstellen, die
+  nur AX.25 koennen, ignorieren die EAX.25-Frames entweder komplett oder
+  senden auf das SABME ein DM. Sollte eine AX.25-Station faelschlicherweise
+  einen EAX.25-Connect annehmen, dann kommt es frueher oder spaeter zum FRMR.
+  
+- Auf TNCs mit Hostmode AX.25-Firmware (TF 2.7b, TNC3 Turbofirmware etc.)
+  oder PC/Flexnet sehen EAX.25-Verbindungen im Monitor entweder komisch aus
+  (PID laeuft durch), oder werden gar nicht angezeigt !
+
+- TNN's EAX.25 verhaelt sich passiv, Verbindungen werden nur mit EAX.25
+  aufgebaut, wenn die Zielstation damit in der MH-Liste vermerkt ist,
+  oder der EAXMODE-Parameter fuer den Port auf 2 oder 3 steht. 
+
+- Interlink-Ports (egal welcher Linkmode) verhalten sich wie normale Userports.
+  Man kann auch zu Flexnet-Linkpartnern EAX.25 einstellen, jedoch verstehen
+  diese es nicht und senden gleich ein DM. Hier also NIE EAXMODE 3 benutzen !
+  
+- Nach Aenderung des EAXMODEs eines Port muss ein bestehender Link geKILLt
+  werden, damit die neue Einstellung beruecksichtigt wird. Aenderungen am
+  EAXMAXFrame werden sofort wirksam.

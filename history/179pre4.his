@@ -1,0 +1,19 @@
+= Statistik des IP-Kernelinterfaces wurde beim CLEAR-Kommando nicht mit
+  geloescht. Korrigiert.
+
+= Weitere Anpassungen wegen KJD-Kernel
+
+= Im Linuxteil testweise alle Zaehlvariablen in Schleifen von i++ auf ++i
+  umgestellt da Praefixoperation keine temporaere Variable benoetigen.
+  Weiterhin alle Zaehlvariablen ohne weitere Bedeutung auf "register"
+  umgestellt.
+
++ Aenderungen von Bernd DG8BR am FlexNet-Modul:
+  l3vc.c
+  - Digisystem (X)NET hinzugefgt.
+  l7showl3.c
+  - Erkennung von XNET in Funktion "putrou" erweitert.
+  - Unbekannte Digiprogramme wurden nicht erkannt. Wurde nicht richtig
+  - beendet.
+
+ 

@@ -1,0 +1,13 @@
+= DG9OBU: Kernel-Interface nun fuer 2.2er und 2.4er Kernel
+
+= DG9OBU: IPR-Automatik
+
+= Bei DAMA zusaetzliche Sendepause alle ca. 30s
+
+= L4:
+  - Zielknoten des Circuits wird als Call gespeichert, nicht mehr als
+    Eintrag der Nodesliste
+  - itol3 nun ohne Prioritaet (wurde sowieso nicht tatsaechlich verwendet)
+
+= Hostmode: Anzeige bei "ESC Y" korrigiert - der eigentliche Fehler, dass
+  numhsts manchmal <0 wird, ist damit nicht beseitigt!

@@ -1,0 +1,108 @@
+Aenderungen 179mh04 -> 179mh05:
+-------------------------------
+
+Diese Version besteht hauptsaechlich aus Bugfixes, sowie einigen Funktionen,
+die aus der CB-Variante uebernommen wurden. Im Einzelnen sind geaendert:
+
+* Fix fuer Absturz bei Connect mit Via-Angabe.
+
+* Alle Makros, die in CTEXT.TXT funktionieren, koennen nun auch in
+  QUIT.TXT verwendet werden.
+
+= Linux: bei der nicht-interaktiven Shell konnte bei Kommandos, die keine
+         Rueckgabe erzeugten, die "ERROR while read()ing"-Meldung noch
+         erscheinen, obwohl kein Fehler vorlag. Korrigiert.
+         
+         Weiterhin konnte die Ausgabe grosser Datenmengen
+         (sh cat /var/log/messages) dazu fuehren, dass eine Sicherheitsfunktion
+         ansprach und den ueberfuellten Link abwarf. Jetzt wird die Verbindung
+         nur noch mit maximal 100 ausstehenden Frames mit Daten aus der Shell
+         gefuellt.
+
+= MHeard/L3MHeard zeigt nun bei Aenderung der Listengroesse nicht mehr die
+  Liste an, sondern gibt nur noch eine Meldung ueber die neue Groesse aus.
+
+* Nickname-Unterstuetzung fuer den Convers. Es ist nun die Angabe eines Namens
+  moeglich, der zusaetzlich vor dem Rufzeichen angezeigt wird. Die Eingabe wird
+  an andere Convers-Hosts weitergeleitet, sofern sie die Nickname-Faehigkeit in
+  ihren Feature-Flags angezeigt haben. Die Umsetzung erfolgte in Anlehnung an
+  die Implementierung im tpp-convers 1.14, jedoch erfolgt die Anzeige des Nicknames
+  nicht so haeufig wie im Original.
+  
+  Hinzugekommen sind die beiden Kommandos:
+  
+    /NICKname <Name> oder "@"     setzt den Namen, der @ loescht ihn
+    /NONickname                   loescht den Namen (wie "/nick @")
+    
+  Angepasste Hilfedateien finden sich im Verzeichnis "doc" !
+  
+  Einzuschalten mit dem #define CONVNICK in all.h. Ist es aktiviert, werden
+  andere Feature-Flags gesendet und die Version "3.14c" bzw. "pp-3.14t" gemeldet.
+
+* Onlinehilfe angepasst und geupdated
+
+= 6PACK: Ein weiterer Wachhund sorgt nun dafuer, dass der intern gespeicherte
+  PTT-Status des TNC rueckgesetzt wird, falls Infopakete des TNC verloren gehen.
+
+= Datum im Copyright angepasst
+
+* Linux: Das Interface zum Kernel heisst nun "tnn" statt "tun0" und wurde fuer
+         die 2.6er-Kernelreihe angepasst. Weiterhin ist nun die Angabe der
+         Subnetzbits fuer die Kernel-Seite des Interfaces moeglich.
+         (IP-Adresse/Subnetz-Bits).
+         
+         Achtung, bei einigen Kerneln klappt die Aktivierung des Interfaces
+         nicht, obwohl kein Fehler gemeldet wird. In diesem Fall muss in der
+         Datei "kif_up.tnb" der Befehl "sh ifconfig <Interfacename> up" ein-
+         getragen werden. Der Interfacename ist "tnn".
+
++ Empfangene und gesendete FRMR-Pakete werden im Trace dekodiert.
+
+* Connectbewertung komplett ueberarbeitet, dem User sind nun mehr Uebersteuerungs-
+  moeglichkeiten vorhanden. Die Angabe eines abweichenden Ports ist nun nur noch
+  als letzter Parameter moeglich ! (c db0abc ... {Portnummer, Portname})
+
+* Linux: bei AX25IP ist der dynamische Routenlerner nun fest eingebaut, der Schalter
+         AX25IP_DYNLEARN in all.h ist somit entfallen.
+
+* Linux: AX25IP arbeitet nun primaer mit Hostnamen statt mit IP-Adressen. Wird ein Host
+         angegeben der momentan nicht aufgeloest werden kann, so wird er mit der IP-
+         Adresse 0.0.0.0 in die Routentabelle aufgenommen und bei jedem gesendeten Frame
+         zu diesem Host ein Adressaufloesungsversuch unternommen. Somit koennen ueber
+         dynamisches IP erreichbare Hosts ohne Kenntnis der aktuellen IP eingetragen werden.
+         
+         Wird statt eines Hostnamens eine IP-Adresse eingetragen, so wird diese direkt
+         uebernommen, der Hostname wird auf die IP-Adresse gesetzt.
+         
+         Dynamische Routen werden nun bei "sp" ebenfalls in die parms.tnb geschrieben,
+         jedoch werden sie auskommentiert und sind somit nicht aktiv. Durch einen manuellen
+         Eingriff koennen diese Eintrage auf einfache Weise permanent gemacht werden.
+         
+         Die Routentabelle wird in einem konfigurierbaren Intervall durchsucht
+         und alle Hostnamen in ihre aktuellen IP-Adressen aufgeloest. Sofern geaenderte IP-
+         Adressen nicht schon durch den Routenlerner aktualisiert werden, passiert dies nun.
+         Hinzugekommen ist der Befehl "LOOKUP <Sekunden>" beim AXIPR-Kommando (nur neue
+         Syntax !!!), eine Einstellung von 0 deaktiviert die Ausfuehrung, voreingestellt
+         sind 180 Sekunden. Achtung, steht kein erreichbarer Nameserver zur Verfuegung,
+         kann der Knoten eventuell kurz einfrieren, da die Systemfunktionen hier
+         blockieren.
+
+* Linux: das uebermittelte Datum beim AutoBIN-Transfer war um einen Monat daneben.
+
+* Linux: bei gleichzeitiger Benutzung von AX25IP IP- und UDP-Verbindungen, konnte
+         eine Sendung mit einer falschen Portnummer erfolgen (DH6BB)
+
+* Die automatische Berechnung der Port-Parameter (Persistenz, L2-Retry, L2-Timer, ...)
+  kann uebersteuert werden. Werte, die weiterhin automatisch berechnet werden, werden
+  bei "po *" mit einem kleinen "a"-Suffix versehen, von Hand uebersteuerte Werte erscheinen
+  ohne Suffix. Soll ein nicht mehr automatisch berechneter Port-Parameter wieder in die
+  automatische Berechnung aufgenommen werden, so ist als Wert "a" anzugeben ("po 1 pers=a").
+  Standardmaessig werden alle Port-Parameter automatisch berechnet.
+  
+  Die EXPERTPARAMETER muesen in all.h aktiviert sein ! (ist nun Standard)
+
+* Neues Makro %f zum Einlesen einer Textdatei. Der Dateiname muss direkt hinter dem %f stehen,
+  nach dem Dateinamen ist ein Leerzeichen einzufuegen, welches spaeter nicht mit ausgegeben
+  wird. (DH6BB)
+
+  Bsp im Ctext: "Aktuelle Temperatur %f/usr/local/wx/wx.txt  Grad Celsius"

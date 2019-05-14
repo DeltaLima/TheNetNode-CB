@@ -1,0 +1,21 @@
+# Configdatei fuer TOP
+# Alle Angaben die nicht gelesen werden sollen muessen eine # am Zeilen-
+# anfang haben.
+#
+P0 = Port0
+P1 = Port1
+P2 = Port2
+P3 = Port3
+P4 = Port4
+P5 = Port5
+P6 = Port6
+P7 = Port7
+P8 = Port8
+P9 = Port9
+P10 = Port10
+P11 = Port11
+P12 = Port12
+P13 = Port13
+P14 = Port14
+P15 = Port15
+# Ende der Datei

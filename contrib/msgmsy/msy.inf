@@ -1,0 +1,26 @@
+Hallo Sysop's,
+das Paket sollte folgende Dateien beinhalten.
+
+- msy_lin.c  das Programm. MUSS als msy.exe  TNN verlangt .exe!!!
+- msg.sys    die Hilfedatei
+- msy.his    Histo
+- msy.mak    Makefile
+
+Nach dem Kompilieren solltet Ihr eine msy.exe haben.
+
+Bitte msy.exe in's Verzeichnis "sysexe" kopieren.
+Die Hilfe-Datei msg.sys bitte ins Verzeichnis "msg".
+Das Verzeichnis "msg" sollte unter tnn stehen. Aber das wisst Ihr sicher.
+
+Es wird kein Environmenteintrag benoetigt.
+
+Das Programm erkennt wo es ist. Zwingend ist nur vorgeschrieben,
+das die Hilfedatei im Verzeichniss "msg" steht!!!
+
+Da werden auch die call.msg geschrieben.
+
+Eventuell solltet Ihr Euch eine TNB schreiben. Ist in msg.sys beschrieben.
+
+Fehler bitte unbedingt melden!!
+
+Bis denne Bernd DG8BR

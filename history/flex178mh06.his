@@ -1,0 +1,27 @@
+Aenderungen in der Flexroutine.
+- l3vc.c
+Es konnte passieren, das eine Tokenanforderung einfach an die Destinations
+angehaengt wurde. Dort wurde es dann nicht gelesen.
+Die Tokenabgabe wird nun in einem eigenen Frame geschickt.
+- mh08
+Die Änderung wieder rückgängig gemacht. Nach Studium des DigiWare-Code
+kann man es so machen.
+Eigentlich sollten wir es auch erkennen.
+
+Diverse Kleinigkeiten geändert
+
+Wir schicken nun auch eine Maxtime zum Nachbarn. Aber nur innerhalb der 
+Grenzen 1-3000. Wird in Parameter 02 eine  0 oder grosser 300000 einge-
+tragen, dann senden wir maxtime = 3000.
+
+Einige Notifymeldungen wegen Tokenbehandlung eingebaut.
+Diese Notifymeldungen können, durch setzen der entsprechenden Zahl
+in include/all.h (MAX_TRACE_LEVEL 9), unterdrückt werden.
+ 
+
+-os/go32/go32.c
+Beim Watchdog wird nun der letze Befehl und die Zeit in die debug.txt 
+geschrieben.
+Hilft eventuell bei der Fehlersuche.
+
+

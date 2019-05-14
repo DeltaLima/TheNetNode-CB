@@ -1,0 +1,15 @@
+Änderungen in or03:
+
+-Im Convers die Callprüfung korrigiert und die Benutzung von clilin
+ in cvs_cmds.c ausgebaut.
+
+-valcal() Rückgabewert korrigiert.
+
+-Bei ccp_call() das if vorsorglich geändert.
+
+
+
+Änderungen in or03, ausgehend von mh10:
+
+-nur Übernahme in l3misc.c
+

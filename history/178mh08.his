@@ -1,0 +1,41 @@
+= INP: Soll ein INP-Link aufgebaut werden, so wird die NODES-Bake nicht mehr
+       zusammen mit dem SABM waehrend des Verbindungsaufbaus gesendet.
+
+= INP: Check der empfangenen Subnetzbits eines Nodes, ist deren Anzahl
+       kleiner oder gleich null oder groesser als 32, so werden die IP-
+       Daten des Nodes geloescht, der Node aber trotzdem uebernommen.
+
+= INP: wird eine Abmeldung fuer einen Node empfangen, dann wird die Lifetime
+       dieses Knotens auf 0 gesetzt. Dies hilft anscheinend gegen Nodes die
+       mit einer Laufzeit von 0 in der Liste stehen und nicht ausgetragen werden
+
+= Linux: Kernelinterfaceupdate wegen Fehlern in den Kerneln nach 2.4.6.
+         
+         Es werden bei Fehlern jetzt ausfuehrlichere Meldungen
+         geschrieben, fuer den Kernelfehler gibt es ein Workaround:
+         
+         Bei fehlerhaften 2.4.x-Kerneln heisst das Interface jetzt nicht
+         mehr 'tnn' sondern auch 'tunX'. (siehe Beschreibung fuer 2.2.x-Style).
+         
+         Es erfolgt eine Info ueber den Namenswechsel beim UPpen des
+         Kernelinterfaces.
+
+= pacsat.c und pacserv.c ueberarbeitet, bessere Beschreibung und Beseitigung
+  des Fehlers der Pacsat unter Linux gelegentlich abstuerzen liess (DH6BB)
+
+= Fehler behoben, dass Pacsat eine nicht vorhandene Datei loeschen wollte
+  (DH6BB)
+
+= Connect im FlexNet-Stil (c -3 etc.) moeglich
+
+= in der Statistik werden die auf Links gesendeten UI-Frames erfasst, da bisher
+  hierzu die Monitorfunktion benutzt wurde, konnte nicht festgestellt werden
+  an welchen Nachbarn das Frame eigentlich gesendet worden war da das Ziel
+  NODES ist.
+
+= Linux: externe Texte deren Filenamen exakt acht Zeichen lang waren konnten
+         nicht verwendet werden (DH6BB)
+
+= bei AutoIPR wurden in Mode 2 und 3 keine Eintraege durch del_node()
+  geloescht. Korrigiert.
+

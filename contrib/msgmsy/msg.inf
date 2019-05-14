@@ -1,0 +1,23 @@
+Hallo Sysop's,
+das Paket sollte folgende Dateien beinhalten.
+
+- msg_lin.c  das Programm. MUSS als msg.exe. TNN verlangt .exe!!!! 
+- msg.usr    die Hilfedatei
+- msg.mak    das Makefile
+- msg.his    Histo
+
+Nach dem Kompilieren solltet Ihr eine msg.exe haben.
+
+Bitte msg.exe in's Verzeichnis "userexe" kopieren.
+Die Hilfe-Datei msg.usr bitte ins Verzeichnis "msg".
+Das Verzeichnis "msg" sollte unter tnn stehen. Aber das wisst Ihr sicher.
+
+Es wird kein Environmenteintrag benoetigt.
+
+Das Programm erkennt wo es ist. Zwingend ist nur vorgeschrieben,
+das die Hilfedatei im Verzeichniss "msg" steht!!!
+Da werden auch die call.msg geschrieben.
+
+Fehler bitte unbedingt melden!!
+
+Bis denne Bernd DG8BR

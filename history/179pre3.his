@@ -1,0 +1,17 @@
+= EAX.25: Interne Aenderungen, Einsparung vieler lokaler Variablen. TNN verhaelt
+          sich an einigen Stellen nun geringfuegig anders als das EAX25 des
+          Linuxkernels, eine Zusammenarbeit ist trotzdem problemlos moeglich.
+          Die jetzige Implementation haelt sich strikt an die Spezifikation.
+          
+          Das maximal moegliche Maxframe wurde auf 32 begrenzt, standardmaessig
+          wird nun mit einem Maxframe von 16 gearbeitet.
+
+= Linux: Behandlung von DG1KJD's AX.25-Kernelvariante geaendert, soll dieser
+         Kernel verwendet werden, dann ist dies mit "kisstype 11" in der
+         tnn.ini bei dem entsprechenden Port anzugeben. Die automatische
+         Erkennung ENTFAELLT hiermit ersatzlos da sie eine nicht behebbare
+         Schwaeche bei der Erkennung des Kerneltyps hatte, sie war darauf
+         angewiesen dass zuerst ein Frame empfangen werden musste bevor auf
+         dem KJD-Stack korrekt gesendet werden konnte. Die Portparameter fuer
+         KJD-Ports muessen weiterhin mit den entsprechenden Zusatztools
+         gesetzt werden, TNN kann dies mangels Testmoeglichkeit noch nicht.

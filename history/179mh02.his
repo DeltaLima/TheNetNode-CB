@@ -1,0 +1,125 @@
+= Linux: "Test"-Befehl konnte AX25IP und AX25IPX zum Absturz bringen.
+         Korrigiert.
+
++ Linux: AX25IP hat nun einen automatischen Routenlerner, der bei eingehenden
+         Connects den Absender in die AX25IP-Routentabelle mit aufnimmt und
+         mit einem inaktivitaets-Timeout versieht. Laeuft dieser ab (1 Stunde),
+         so wird der gelernte Knoten wieder ausgetragen. Gelernte Knoten
+         werden bei "SP" nicht mit ausgegeben ! Das neue Feld "Timeout" der
+         AX25IP-Routenausgabe (Befehl "axipr") gibt die restliche Lebenszeit
+         des Knotens bis zur Austragung an.
+         
+         Einzuschalten in all.h, #define AX25IP_DYNLEARN.
+         
+         Wird mit AXIPR (nur neue Syntax !!!) ein Timeout von 0 eingestellt,
+         so werden gelernte Knoten NICHT vergessen und verbleiben in der Liste !
+         Ihre IP wird aber weiterhin ueberprueft und geupdated wenn das Call
+         ploetzlich mit einer anderen IP gehoert wird (dyndns). Knoten mit einem
+         Timeout von 0 werden bei "SP" mit in die parms.tnb ausgegeben !
+
+= Linux: LOOPBACK-Interface schaltbar gemacht, defaultmaessig ist es nun
+         deaktiviert. (hat wohl sowieso keiner benutzt, oder ???)
+	 
+         Wer es doch braucht, Einzuschalten in all.h, #define LOOPBACK
+
++ Linux: Code an vielen Stellen aufgeraeumt, mit zusaetzlichen Kommentaren
+         versehen und genauere Fehlermeldungen im L1 eingebaut.
+         
+= Linux: Neuer Kommandoparser und Syntax fuer AXIPR, der Befehl orientiert
+         sich nun grob am Linux "route"-Kommando.
+         
+         ACHTUNG, es wird immer entweder NUR die neue ODER die alte Syntax
+         verstanden !!! => tnb's in der alten Syntax versteht der neue
+         Parser nicht und die AXIPRs fehlen dann !
+         
+         Soll die alte Syntax (= der alte Parser) wieder verwendet werden,
+         dann  #define AXIPROLDSYNTAX in all.h setzen ! Bei "SP" wird ebenfalls
+         in der neuen Syntax geschrieben falls nicht auf alte Syntax
+         zurueckdefine'd wurde.
+
+         Nochmal: neue TNNs verstehen die AXIPR-Kommandos in der tnn179.tnb
+                  von alten Versionen nicht mehr (und umgekehrt) !!! Einen
+                  Konverter gibt es (noch) nicht.
+                  
+                  Nur Eintraege in der ax25ip.cfg werden von beiden Versionen
+                  verstanden !
+         
+         Die neue Syntax lautet wie folgt:
+         
+         axipr {add, +} {call, "default"} <IP / Hostname> [<UDP> [<UDP-Port>]]
+         axipr {delete, del, -} {call, "default"} 
+         
+         axipr myudp [UDP-Port]
+         axipr {loglevel, log} [Loglevel]  (NEU !!!, siehe ax25ip.cfg)
+         axipr timeout [seconds]           (NEU !!!, siehe dyn. Routenlerner)
+         
+         Ein paar Beispiele:
+
+         IP-Route hinzufuegen  : axipr add dg9obu-1 1.2.3.4 
+         UDP-Route hinzufuegen : axipr add dg9obu-1 1.2.3.4 udp 12345
+         Defaultroute (IP)     : axipr + default 1.2.3.4
+         Route loeschen        : axipr - dg9obu-1
+         Defaultroute loeschen : axipr del default
+         Loglevel aendern      : axipr loglevel 3
+         UDP-Port aendern      : axipr myudp 12345
+         Timeout aendern       : axipr timeout 7200
+       
+         Bei erfolgreicher Abarbeitung erfolgt bei den Kommandos keine erneute
+         Ausgabe der Liste und man erhaelt gleich wieder das Prompt. Nur im
+         Fehlerfall erfolgen Fehlerhinweise. Bei Verwendung der neuen Syntax
+         kann (eigentlich) auf die ax25ip.cfg verzichtet werden, alle
+         Einstellungen koennen nun dynamisch veraendert werden und sind ueber
+         die tnn179.tnb einlesbar.
+         
+         Weiterhin wurde bei der alten und neuen Syntax ein kleiner Fehler
+         bei der MyUDP-Port-Aenderung behoben. Der UDP-Port konnte nicht
+         geaendert werden, falls es nicht mindestens eine aktive UDP-Route gab.
+
++ Anpassungen an GCC 3.4.0
+
++ Linux: Die CPU-Auslastung kann nicht aus /proc/loadavg ermittelt werden, da
+         dort etwas ganz anderes ausgesagt wird, naemlich die IO-Last. Die
+         echte CPU-Last wird nun intern selbst aus dem Verhaeltnis von
+         Uptime zu Idletime der letzten zehn Sekunden berechnet. Die Werte aus
+         /proc/loadavg werden zur Information weiterhin ausgegeben.
+
++ Neues L1-Interface: 6PACK (vorerst nur unter Linux)
+
+  6PACK ist ein zum KISS-Tokenring aehnliches, jedoch von Kanalzugriff weiter
+  ausgereiftes Protkoll. Die gesamte Steuerung des TNC erfolgt durch die
+  Software, der TNC ist nur ein dummer Befehlsempfaenger. Genau wie beim
+  Tokenring koennen mehrere TNC in Reihe geschaltet werden. Im TNC ist ein
+  spezielles EPROM mit einer 6PACK-Firmware notwendig !
+  
+  Konfiguration: in der tnn.ini:
+  
+  Als kisstype ist bei dem entsprechenden Device "12" anzugeben, danach fuer
+  jeden vorhandenen TNC eine "port"-Zeile (wie beim Tokenring). In der
+  tnn179.tnb muss bei diesen Ports nur "ON" eingetragen werden. Es sollten
+  immer genau so viele Ports wie TNC vorhanden sind zugeordnet werden !
+  
+  Eine ausfuehrliche Beschreibung findet sich in der tnnini.all in os/linux/ini.
+
+  Mit dem neuen Befehl "6pack" kann eine Statistik und die aktuelle Zuordnung
+  von TNC zu den Ports abgerufen werden, eine Veraenderung von Parametern ist
+  nicht moeglich. Die Behandlung von moeglichen Fehlern des Rings wird
+  komplett ohne Eingriffsmoeglichkeit durchgefuehrt. Falls ein TNC fehlerhaft
+  sein sollte, so ist dies an den Checksum- und Reset-Zaehlern zu erkennen.
+  
+  Achtung, dieser L1-Treiber befindet sich noch in der Erprobung, er sollte
+  nur nach ausgiebigen Tests produktiv eingesetzt werden ! Bitte etwaige
+  Fehler melden ! Ausserdem sind das Copyright und die Bestimmungen der aus
+  dem FlexNet-Paket stammenden 6PACK-Firmware fuer TNC2 zu bachten,
+  insbesondere was den Einsatz im CB-Funk betrifft !
+
+= Linux: Die Ausfuehrung von Shellkommandos mit "sh" aus der tnn179.tnb und
+         anderen von dort gestarteten tnb-Files war nicht moeglich. Korrigiert.
+
+= AX25IP: Probleme beim Empfang behoben, TCP hat nun Vorrang vor UDP wenn beides
+          aktiv ist. Bei eingeschaltetem Logging wird das Log nicht mehr
+          mit jedem empfangenen Paket unnoetig vollgeschrieben.
+
+= L3VC: Bei der Meldung an FlexNet-Nachbarn wurden Locals, deren Call nicht
+        gleich dem des Knotens ist, nicht gemeldet. (DAC922 Stefan)
+
+- Zielsystem "DOS16" entfernt und kleinere kosmetische Aenderungen (DG8BR Bernd)

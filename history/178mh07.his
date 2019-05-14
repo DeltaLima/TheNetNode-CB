@@ -1,0 +1,43 @@
+= INP: voller Nodes-Broadcast nur noch einmal pro Stunde, Aenderungen wegen
+       Broadcast an l3netrom.c::inform_peer() wieder rueckgaengig gemacht,
+       bessere Methode fuer INP nun direkt in l3misc.c::brosrv10()
+       implementiert. 
+       
+       Es werden jetzt *alle* Nodes *unabhaengig* vom Horizont und den Filtern
+       bei der normalen Meldung gesendet !!! Dies soll sicherstellen, dass
+       auch Nodes, die bisher immer durch den Filter gefallen sind,
+       geupdated werden.
+
+= INP: nach erster RTT-Messung sofort per zweiter Bake dem Nachbarn die RTT
+       mitteilen. Dies macht den Link sofort benutzbar und nicht wie bisher
+       erst nach der zweiten Bake. (nur bei Nachbarn die L3RTT unterstuetzen,
+       nicht bei Nachbarn die per BROAD arbeiten, funktioniert also auch bei
+       N/N+ Links)
+
+= INP: wenn wir einen N/N+ Link aufbauen wollen senden wir die INP-Kennung
+       nicht mehr, empfangen wir INP-Faehigkeit des Nachbarn und wollen aber
+       N/N+, so ignorieren wir sie. Wollen wir I, der Nachbar kann(/will) das
+       aber nicht, so bauen wir N+ auf.
+       
+       ACHTUNG: INP-Links muessen jetzt also mit I auf *beiden* Seiten
+                eingestellt werden sonst gibts nur N+ !!!!!!!!!!!!!! 
+
+= INP: Filter geaendert, Knoten die mit "#temp" als Alias gemeldet werden,
+       werden uebernommen und der Alias geloescht. (XNet-Fehler)
+       Andere geheime Aliasse werden weiterhin ignoriert.
+
+= 7conn.c::isheard() durchsucht die die MHeard-Liste nun umgekehrt. (DG8BR)
+
+= Aenderungen am Flexnet-Modul und am GO32-Watchdog von DG8BR
+  (siehe flex178mh06.his)
+
+= Linux: pty-Schnittstellen bei einer Baudrate von 0 auf nichtblockierenden
+         IO-Modus stellen (NICHT auf echte ser. Schnitstellen anwenden !)
+
+= bei wenigen freien Buffern (100) kontrollierter Ausstieg, so wenig Buffer
+  kommen nicht vor, nur bei "Bufferfressern". Damit der Digi dann nicht
+  stehen bleibt sondern wiederkommt wird hier kontrolliert abgebrochen
+  (Exitcode -2). Ggf. werden die Parameter (save_parms()) nicht mehr
+  gesichert wenn zu dem Zeitpunkt nicht wieder genug Buffer zur Verfuegung
+  stehen.
+

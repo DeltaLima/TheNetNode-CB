@@ -1,0 +1,2300 @@
+TNN-Doku-Version 1.79mh03 vom 17. Jul 2005 by CB-PR Team Dessau
+(AX)IPR
+     Zeigt die Interne AX25IP-Routing-Tabelle an.
+
+(A)KTUELL    (externer Befehl)
+     Gibt aktuelle Informationen aus.
+
+(BE)ACON
+     Zeigt die eingestellten Bakenparameter und Bakentexte an.
+
+(C)ONNECT
+     Connect zum HOST-Interface wenn dieses mit <ESC> Y 1 freigegeben ist. Ist
+     Y auf  0 gesetzt,  so  wird  am  Terminal  ein  CONNECT REQUEST fm <call-
+     ssid> <datum uhrzeit> angezeigt.
+
+(C)ONNECT <call>
+     Mit dem  Connect-Befehl wird eine Verbindung zu einem anderen Knoten oder
+     einem anderen Benutzer aufgebaut. Die Eingabe
+
+     CONNECT DB0FD
+
+     oder auch abgekÅrzt und klein geschrieben
+
+     c db0fd
+
+     bewirkt, da·  erst in  der NODES-Liste  (Nodes und  Flexnet-Destinations)
+     nach dem  Call DB0FD  abgesucht wird. Handelt es sich um ein Call, das in
+     der NODES-Liste eingetragen ist, so wird die Meldung:
+
+ Interlink setup (via call) ...
+
+     ausgegeben und  in Klammern  wird angezeigt  zu welchem direkten Nachbarn
+     der Connect gesendet wird.
+
+     Wird dieses Call local gefÅhrt, so wird ein:
+
+     Link setup (Portname)...
+
+     Ist kein Eintrag vorhanden, so wird die MH-Liste durchsucht. Ist dort ein
+     Eintrag vorhanden,  so wird  der  Connect  auf  dem  entsprechenden  Port
+     ausgesendet. Ist  auch dort  kein Eintrag  vorhanden, so  bleibt nur noch
+     eine  Aussendung   des  Connect   auf  dem  vorgegebenen  Downport (siehe
+     Parameter) Åbrig. Es wird dann immer die Meldung:
+
+ Downlink setup (Portname)
+
+     ausgegeben. An  den Meldungen ist bereits erkennbar, und somit auch durch
+     Router auswertbar,  ob eine Verbindung zu einem TheNet - bzw. TheNetNode-
+     Knoten Åberhaupt aufgebaut werden kann.
+
+     Steht Downport  auf einem nicht benutzten Port, um so unerreichbare Ziele
+     nicht zig mal auf dem Port 0 aussenden zu mÅssen, so wird angezeigt:
+
+(CONV)ers
+     Schaltet um in den Convers-Modus.
+
+     Der Convers-Modus bei TheNetNode
+
+     Seit Conversd v2.14 besteht die Mîglichkeit, Convers-Knoten untereinander
+     zuvernetzen, d.h.  ein Convers-User  mu· sich  nicht  Åber  einen  langen
+     Digipeaterweg bis  zu dem  Convers-Knoten connecten,  auf dem  sich seine
+     gewÅnschten  GesprÑchspartner  befinden,  sondern  es  genÅgt,  wenn  ein
+     Connect zum  nÑchsten Convers-Knoten  aufgebaut wird,  der das  Conversd-
+     Protokoll unterstÅtzt.  Leider neigte  diese Version  zu  Schleifen  beim
+     Verbindungsaufbau.
+
+     Seit TheNetNode  V1.50 (PC) ist ein wesentlich verbesserter Convers-Modus
+     implementiert worden.  Es handelt sich dabei um Conversd PingPong-Release
+     3.12, das  von DK5SG  entwickelt, von DC6IQ weiter gefÅhrt und von DL1XAO
+     in TheNetNode eingebaut wurde.
+
+     Mit  der   v3.12  (pp-conversd)  funktioniert  die  Vernetzung  nun  ohne
+     Probleme. Au·erdem wird eine Menge zusÑtzlicher Komfort geboten, wie z.B.
+     Personaltexte, Kanalthemen, Kanaloptionen und Umlautwandler.
+     
+     Mit der v3.13a (pp-conversd) (Deutsch) kommen noch Passwortschutz und
+     Nickname funktion dazu.
+
+     Auch Ñltere  Conversd kînnen angebunden werden, nur verstehen diese nicht
+     alle Kommandos  bzw. nicht  vollstÑndig, sie  wirken praktisch als Filter
+     fÅr die neuen Funktionen.
+
+     Zwischen den  Convers-Hosts werden  alle Texte,  welche die verschiedenen
+     User schreiben,  nicht mehr  getrennt fÅr jeden Benutzer einzeln, sondern
+     nur noch  einmal Åbertragen.  Dies entlastet die Linkstrecken spÅrbar, da
+     z.B. 10 Benutzern ein und dasselbe Packet Åber die Interlinks nicht 10mal
+     Åbertragen werden mu·, sondern nur noch 1mal!
+
+     Weiterhin ist  der  Convers-Einzugsbereich  natÅrlich  wesentlich  grî·er
+     geworden, und  man kann  davon  ausgehen,  da·  man  nun  hÑufiger  einen
+     GesprÑchspartner im Convers findet.
+
+     Die Convers-Befehle stehen unter -(CONV)ERS - intern - .
+
+(CONV)ers <n>
+     Schaltet um in den Convers-Modus auf Kanal <n>.
+
+(CONV)ers C(stat)
+    Zeigt die bestehenden Verbindungen, Laufzeiten, Datenmengen usw. an.
+
+ Host      State       Quality Revision  Since NextTry Tries Queue  RX    TX
+ db0goe    Connected    1s/1s  pp-3.06t  17:55                 0  136K  267K
+ (DB0GOE on port 6)
+ db0ii     Connected   10s/7s  pp-3.06t   7:07                 0    1K   48K
+ (DB0II on port 9 via DB0BID)
+ db0kh     Connected    1s/1s  pp-3.06t   6:13                 0   17K   65K
+ (DB0KH on port 11)
+ db0gso    Disc./locked   ---             9:22  10:22          0
+ (DB0GSO on port 9 via DB0BID)
+  1 loops detected.
+ dg9fu     Disconnected   ---             18:47
+ (trusted host)
+ DB0KV     (dw-0.84k)  2m   DB0NOE  (dw-0.82b)  5m   db0acc  (pp-3.12f) 25s
+ db0ais    (pp-3.12f)  3m   db0ber  (pp-3.06t)  3m   db0bhv  (pp-2.93t)  1m
+ db0bid    (pp-3.06t)  9s   db0bro  (pp-3.06t) 12s   db0cl   (pp-2.93t)  2m
+
+     Wird nun ein Convers-LOOP bemerkt, so wird der ermittelte Link fÅr eine
+     Stunde aus dem Verkehr gezogen. Trotzdem sollten LOOP vermieden werden.
+     Die Anzeige der EintrÑge wie (DB0GOE on port 6) sind erst nach der SYSOP-
+     Priviligierung sichtbar.
+
+(CONV)ers O(nline) [q ; l ; a]
+     Zeigt die Benutzer das Convers an. ZusÑtzliche Optionen wie [q ; l ; a],
+     sind mîglich.
+
+(CONV)ers - intern -
+
+     Im Convers-Modus  stehen folgende  Kommandos zur VerfÅgung (die Kommandos
+     kînnen durch die Verwendung der Gro·buchstaben abgekÅrzt werden):
+
+ /Away [Text]           Markiert Dich als abwesend.
+ /ALl [Text]            Text an alle User Deines Kanals.
+ /Beep                  Beep-Modus an/aus.
+ /Channel [n]           Verbindet dich zusÑtzlich mit dem Kanal n.
+ /CHARacter             Setzt verschiedene Zeichenwandlungen.
+ /Destinations          Listet erreichbare ping-pong Hosts.
+ /Help [Kommando]       Gibt Hilfe-Informationen.
+ /EXClusiv User Text    Sendet Text an alle auf Deinem Kanal au·er User.
+ /Filter [Calls]        Setzt Calls, deren Texte gefiltert werden sollen.
+ /Invite User           LÑdt User auf Deinen Kanal ein.
+ /Links [args]          Listet oder setzt (Sysop) conversd-Partner.
+ /LISt                  Listet alle KanÑle und ihre Themen.
+ /LEave [Kanal]         VerlÑ·t Kanal oder derzeitigen Kanal.
+ /Msg User Text         Sendet Text an User oder.
+ /Msg #Kanal Text       Sendet Text an den angegebenen Kanal.
+ /ME [Text]             Sendet einen Aktionstext.
+ /MOde [Kanal] Optionen Setzt Kanaloptionen.
+ /NOtify [Calls]        Setzt Calls, deren Erscheinen gemeldet werden soll.
+ /PERSonal [Text]       Setzt persînliche Beschreibung.
+ /PASSwort              Setzt persoenliches Passwort
+ /NIckname [Name]       Setzt Nickname
+ /SYSop                 Macht dich zum convers Sysop
+ /PRompt abcd           Prompt setzen (a=Query; b=Normal; c=Ctrl-g; d=Ctrl-h).
+ /Quit                  Convers verlassen.
+ /QUEry [User]          Startet/beendet private Konversation.
+ /Topic [#Kanal] [Text] Setzt Thema des Kanals. Thema=@ entfernt Thema.
+ /UPtime                Wie lange lÑuft dieses conversd Åberhaupt schon ?
+ /Verbose               Laber-Modus ein/aus.
+
+ /VERSion               Zeigt Info zu dieser Version.
+ /SYSInfo               Conversd host information
+ /Who [*; A; L; Q]      Zeigt User und Ihre KanÑle
+                       (*=eigner; A=abwesend; L=lang; Q=kurz).
+ /WIdth [Wert]          Setzt/zeigt Zeilenbreite.
+
+ Die ErklÑrungen im einzelnen:
+
+ /ALL
+     Wenn Du  im  /query  Modus  bist,  wird  Text  mit  vorangestelltem  /all
+     behandelt, als wÅrdest Du ohne /query arbeiten.
+
+ /AWAY <text>
+     /away setzt  den Abwesendheitstext,  den die  anderen lesen  kînnen. Beim
+     Aufruf ohne  Argument wird  der Text  gelîscht und  man gilt  wieder  als
+     anwesend.
+
+ /BEEP
+     Hiermit wird  das Klingelzeichen  (CTRL-G), welches  vor jeder Mitteilung
+     gesendet werden  kann,  ein-  oder  ausgeschaltet.  Dieses  Kommando  ist
+     eigentlich eine Untermenge des /prompt Befehls, siehe dort.
+
+ /CHAN
+     Verbindet Dich  zusÑtzlich mit  dem gewÅnschten  Kanal. Im  Gegensatz  zu
+     Ñlteren Conversd-Implementationen  verbleibt man  auch noch im vorherigen
+     Kanal, denn  es wird eine Mehrfach-Kanal-Verbindung unterstÅtzt. Um einen
+     Kanal zu  verlassen, mu·t Du "/leave" verwenden. Ohne Angabe eines Kanals
+     wird die Info ausgegeben, auf welchen KanÑlen Du Dich befindest.
+
+ /CHAR
+     Mit   diesem   Befehl   kannst   Du   dem   Convers   mitteilen,   welche
+     Zeichensatzwandlung Du  haben mîchtest.  Die Syntax  ist:   /char [In-Typ
+     [Out-Typ]] wenn  Du z.B. mit einem Atari ST arbeitest, kînntest Du "/char
+     pc atari"  eingeben. Wenn  Du einen  PC benutzt  und Umlaute  im TeX-Stil
+     schreiben mîchtest,  gebe "/char  tex  pc"  ein.  "/char  ?"  listet  die
+     mîglichen Einstellungen.
+
+     Die Einstellung wird mit "/pers" gespeichert (siehe dort).
+
+     Der Dank fÅr diese nette Funktion geht an Tommy, <dl9sau@,thynet.sub.org>
+     (Internet  mail)  <dl9sau@db0sao.ampr.org>  (AmPR-Net  mail).  VorschlÑge
+     sollten an ihn weitergeleitet werden.
+
+     Mîgliche Einstellungen mit /char:
+     iso-8859-1, ansi, 8bit
+     dumb, ascii, none, us
+     tex
+     ibm7bit, 7bit, commodore, c64, digicom
+     roman8
+     ibmpc, pc, at, xt
+     atari,
+     binary, image
+
+ /DEST
+     Alle Pingpong-Hosts,  die miteinander verbunden sind, werden aufgelistet.
+     Die Zahlen zeigen die Antwortzeiten in Sekunden.
+
+ /DEST <call>
+     Fragt den Weg zum <call> ab und zeigt dabei die öbertragungszeiten ab.
+
+ /EXCL
+     Dieses Kommando  ist das  Gegenteil des  /MSG-Befehls. Hiermit sendest Du
+     Text an  alle User  dieses Kanals  au·er dem  einen als  ersten Parameter
+     angegebenen. Da  der  Text  intern  als  privater  Text  an  die  anderen
+     verschickt wird, werden die Links etwas mehr belastet
+
+ /FILT
+     Wenn Du  die Texte bestimmter User nicht lesen mîchtest, so kannst Du sie
+     hiermit in  eine Liste einfÅgen. Alle Texte werden dann ausgefiltert, bei
+     persînlichen Texten  ("/msg")  wird  eine  RÅckmeldung  an  den  Absender
+     geschickt. Das  Setzen/Lîschen geschieht  wie bei  "/notify",  also  z.B.
+     "/filter + dc1ik - db4ut" setzt dc1ik und lîscht db4ut aus der Liste.
+
+ /HELP
+     Das Hilfekommando  kann von  zusÑtzlichen Parametern  gefolgt  sein.  Der
+     SchrÑgstrich darf  hier nicht  vor dem  fraglichen Kommando stehen, z.B.:
+     /Help Invi.  ALLE Hilfstexte  kînnen auch  au·erhalb des  Conversmode mit
+     "Help conversd" als komplette öbersicht gelesen werden.
+
+ /INVI
+     Es wird eine Einladung zum genannten User geschickt. Diese Einladung wird
+     durch das  gesamte Netz  geleitet. Wenn derjenige auf einem anderen Kanal
+     ist und  Dein Kanal  als privat  eingerichtet ist,  so kann er auf Deinen
+     Privatkanal wechseln. Wenn er im Befehlsinterpreter eines Knotens ist, so
+     empfÑngt er  die Einladung,  er kann  dann aber  nicht direkt  auf Deinen
+     Privatkanal kommen, weshalb er nochmals einzuladen ist.
+
+ /JOIN
+     Verbindet Dich  zusÑtzlich mit  dem gewÅnschten  Kanal. Im  Gegensatz  zu
+     Ñlteren Conversd-Implementationen,  verbleibt man auch noch im vorherigen
+     Kanal, denn  es wird eine Mehrfach-Kanal-Verbindung unterstÅtzt. Um einen
+     Kanal zu  verlassen, mu·t Du "/leave" verwenden. Ohne Angabe eines Kanals
+     werden Infos zu den von Dir benutzten KanÑlen ausgegeben.
+
+ /LEAV
+     Mit diesem Befehl kannst Du entweder den derzeitigen oder den angegebenen
+     Kanal verlassen. Wenn dieser der letzte ist, so wird conversd verlassen.
+
+ /LINK
+     Der  momentane   Linkstatus  wird   angezeigt.  Dies  sind  normalerweise
+     Hostname, Linkstatus,  Laufzeiten, Versionskodes  und Statuszeit, gefolgt
+     von der  Zeit des  nÑchsten Connectversuches und Anzahl der Versuche (auf
+     Disconnecteten  oder  im  Aufbau  befindlichen  Links),  bei  bestehender
+     Verbindung werden die Queue-LÑngen und Bytestatistiken angezeigt.
+
+     Wenn Du  Sysop bist,  kannst Du Verbindungen setzen oder lîschen. Es wird
+     dann auch  noch zusÑtzlich  in  Klammern  der  Verbindungsweg  angezeigt.
+     Syntax: /l [[-] Host [Port [via]]]
+
+ /LIST
+     Alle KanÑle, ihre Themen, Optionen und User werden angezeigt. Die
+     Klammerwerte bedeuten:
+     (@) =    Channel Oparator,
+     (G) =    Mit AWAY abwesend gemeldet,
+     (!) =    User ist im Sysopmodus.
+
+ /ME
+     Dieser Befehl  dient dazu,  den Usern  auf Deinem  Kanal  eine  TÑtigkeit
+     anzuzeigen. Wenn  du z.B. "/me gÑhnt" eingibst, bekommen alle User dieses
+     Kanals folgendes angezeigt:
+
+     *** dc6iq gÑhnt
+
+ /MODE
+     Das Modekommando  ist eines  der  kompliziertesten.  Es  wird  wie  folgt
+     benutzt:
+
+     "/mo [<Kanal>] <+ ; -> <t ; i ; s ; m ; p ; l ; o <User>>".
+     Die Optionen bedeuten folgendes:
+     t =      Das Thema des Kanals lÑ·t sich NUR von Kanal-Sysops Ñndern.
+     i =      Der Kanal wird Usern anderer KanÑle verheimlicht.
+     s =      Der Kanal ist geheim, die Kanalnummer wird nicht mehr angezeigt.
+     m =      Der Kanal ist moderiert, nur Kanal-Sysops dÅrfen schreiben.
+     p =      Der Kanal ist privat, man benîtigt eine Einladung zum Einloggen.
+     l =      Der Kanal ist lokal, Texte werden nicht weiter verteilt.
+     o <User> =           Macht <User> zum Kanal-Sysop (kein - mîglich).
+
+     Das Plus  setzt eine Option, der Strich lîscht sie. Es sind Kombinationen
+     erlaubt, so wÅrde z.B. "/mode 69 -s+todc6iq" folgendes bewirken: Kanal 69
+     ist nicht mehr geheim, aber die Themen dÅrfen nur vom Kanal-Sysop gesetzt
+     werden. ZusÑtzlich wird dc6iq ein Kanal-Sysop.
+
+ /MSG
+     Sendet einen  Text an  einen speziellen  User oder  an einen  verbundenem
+     Kanal. Wenn  der Text  an einen  Kanal gehen  soll, so  mu· man folgendes
+     eingeben:
+
+     "/msg #<Kanal> <text>".
+
+     Wenn das  Ziel ein  User ist,  so kann  er den  Text an  den zusÑtzlichen
+     Sternchen erkennen. Z.B. wenn dc6iq eine Nachricht an dc1ik mit "/m dc1ik
+     Das ist ein Test" schickt, so erhÑlt dc1ik folgendes: "<*dc6iq*>: Das ist
+     ein Test".
+
+ /NOTI
+     Du wirst  informiert, wenn  eine bestimmte Person in der Personenliste im
+     Convers erscheint.  Z.B. fÅgt  "/notify +  dc1ik" dc1ik in die Liste ein,
+     "/notify -  db4ut" entfernt  db4ut aus  der Liste.  Das  EinfÅgen/Lîschen
+     mehrerer Calls  in einem  Kommando ist  mîglich, z.B.  bewirkt "/notify +
+     dc1ik db4ut  -  dc6iq  dh2paf  +dg3kcr",  da·  dc1ik,  db4ut  und  dg3kcr
+     eingefÅgt werden  sowie dc6iq  und dh2paf  entfernt werden. Das Entfernen
+     von Calls, die nicht in der Liste stehen, wird ignoriert.
+
+ /PERS
+     Es kann  eine kurze Beschreibung zu Deiner Person gesetzt werden, den die
+     anderen User mit "/who" sehen kînnen. Z.B: "/pers Fred, Buechig, JN49fb".
+
+     Ohne Text wird die Beschreibung gelîscht. Diese Implementation merkt sich
+     bis zu 118 Zeichen der Beschreibung und setzt diese dann automatisch beim
+     Einloggen (die  "/char"  und  "/width"  Einstellungen  werden  dann  auch
+     gespeichert und beim Einloggen gesetzt).
+     
+ /PASS
+     Es besteht auch die moeglichkeit im TNN-Convers ein Passwort zu setzten.
+     "/pass zeige" zeigt das derzeitige Passwort an. "/pass neu passworttext"
+     wird ein Neues Passwort gesetzt. Mit "/pass loeschen" wird das Passwort
+     geloescht.
+     
+ /NICK
+     Setzt den Nickname auf "nick", so das fortan vor Deiner Massages
+     <dad213:chris> statt <dad213> gesendet wird.
+     Der Nickname wird auf dem Server Gespeichert und bei jedem Connect,
+     Automatisch gesetzt. Ein Nickname kann bis zu 10 Zeichen besitzen.
+     
+ /SYS
+     Nach Aufruf dieses Befehls wird eine Zufallsnummer zwichen 0 und 99999
+     angezeigt. Nimm jede Zahl, multipliziere mit der verbunden Geheimnummer
+     in der Knofiguration in der (TNN179.TNB) summiere sie auf, und antworte
+     mit "99999"
+
+ /PROM
+     Das Prompt-Kommando  nimmt  vier  Argumente  in  einer  zusammenhÑngenden
+     Zeichenkette. "/prompt abcd" setzt
+
+     a =  Als "/query"-Prompt.
+     b =  FÅr den normalen Prompt.
+     d =  ist ein Zeichen, um den Prompt zu lîschen (normalerweise Backspace
+     c =  Ist ein Zeichen, welches vor jedem Text, den Du empfÑngst, gesendet
+          wird (normalerweise also CTRL-G).
+
+ /QUER
+     Der angegebene  User ist in Zukunft der einzige EmpfÑnger fÅr alle Texte,
+     die Du  eingibst. Diese  werden  dann  als  private  Texte  an  den  User
+     geschickt, wie  bei "/m".  Zum Ausschalten ohne Argument aufrufen, danach
+     geht alles wieder wie gewohnt an den Kanal. Sozusagen ein Privatmodus.
+
+ /QUIT
+     Wenn Du  das eingibst,  verlÑ·t Du  diesen wunderbaren Ping-Pong-Convers.
+     Ich hoffe, es gefiel Dir.
+
+ /TOPI
+     Hiermit kann  fÅr den  Kanal ein  Thema gesetzt  werden. Die anderen User
+     kînnen dieses  sehen, wenn  sie "/who  quick" oder "/list" eingeben. Wenn
+     keine Kanalnummer  angegeben wird,  so wird  das Thema des aktiven Kanals
+     gesetzt. Wird  eine Nummer  angegeben, so  mu· Du  auch auf  diesem Kanal
+     eingeloggt sein.  Um  das  Thema  zu  lîschen,  ist  als  Thema  ein  "@"
+     einzusetzen.
+
+ /UPTI
+     Dieser Befehl zeigt an, wie lange conversd schon aktiv ist.
+
+ /VERB
+     Schaltet die  Laber-Option ein/aus.  Du bekommst dann viele Informationen
+     Åber Aktionen  der User (Einloggen/Ausloggen/Texte setzen/...), auch wenn
+     diese nicht auf Deinem Kanal sind.
+
+ /VERS
+     Zeigt etwas Text zu dieser Version (in Deutsch).
+     
+ /SYSI
+     Zeigt etwas Text zum "Conversd Host" in dieser Version. Dieser Text kann,
+     in der "conversd.xhf" ge‰ndert werden, (Siehe tnn179_cb.pdf)
+
+ /WHO
+     Dieser Befehl hat 4 Optionen.
+     a =  Zeigt alle User und ihre Abwesendheitstexte, wenn gesetzt.
+     l =  Generiert eine LANGE Liste mit Personenbeschreibung,
+          Abwesendheitstexte und Queue-Informationen.
+     q =  Gibt eine kurze Auflistung aus
+     * =  Zeigt alle User Deines Kanals.
+
+     Wenn Du Informationen Åber bestimmte User brauchst, kannst Du die "/who u
+     Userliste" Variante benutzen.
+
+ /WIDT
+     Macht  conversd   Deine  Bildschirmbreite  (Zeichen/Zeile)  bekannt.  Die
+     Meldungen der anderen wird dann auf diese Breite gebracht. Voreingestellt
+     ist 80. Die Einstellung bei "/pers" gespeichert (siehe dort).
+
+ (!) <TheNetNode-Befehl>:
+     Mit einen  vorangestelltem !  ist es mîglich, die TheNetNode-Befehle auch
+     vom Convers aus aufzurufen.
+
+(CQ) <text>
+
+     Durch Eingabe  von CQ  kann Åber jeden TheNet-Knoten ein CQ-Ruf gestartet
+     werden. CQ  Text... (Text  bis zu  75 Zeichen), jedoch keine zusÑtzlichen
+     Digipeater  mîglich.   TheNetNode  kann   mehrere  CQ-Rufe   gleichzeitig
+     verwalten, jedoch nur einen je Uplink bzw. Circuit.
+
+     Wie starte ich einem CQ-Anruf ?
+
+     Angenommen, DB2OS  in Hannover  mîchte beim  Knoten in Braunschweig einen
+     allgemeinen CQ-Ruf absetzen. ZunÑchst connected er BS:DB0FC und gibt dann
+     dort den CQ-Befehl ein.
+
+     cq cq de DB2OS HANNOVER JO42VG/EM60G VIA BS -- PSE CONNECT DB2OS-15
+
+     WICHTIG: Durch  einen nachfolgenden  Befehl oder  ein RETURN  wird der CQ
+     Zustand abgebrochen!
+
+      VARIANTE A:
+
+     OM Karl,  DK7AL, ist  zur gleichen Zeit mit dem Knoten BS:DB0FC connected
+     und sieht nun bei der Eingabe des USER-Befehls folgende Liste:
+
+ BS:DB0FC> TheNetNode 1.70 (731)
+ Uplink (DF3AV)                <-->       Circuit (BS77:DB0FC-8  DF3AV)
+ Uplink (DF2AU)                <..>       Downlink (DF2AU-15  DK4EG-1)
+ Circuit (H:DB0FD  DB2OS)      <..>       CQ (DB2OS-15)
+ Uplink (DK7AL)
+
+     "<..> CQ(DB2OS-15)"  zeigt nun an, da· DB2OS (vom Knoten H:DB0FD kommend)
+     eine Verbindung  in den  Raum BS  sucht und den CQ-Befehl eingegeben hat.
+     DK7AL mu·  an dieser  Stelle nur "C DB2OS-15" eingeben und ist SOFORT mit
+     DB2OS  verbunden!!!  Das  mÅhsame  ZurÅckverfolgen  des  Verbindungsweges
+     entfÑllt komplett bzw. ist nicht erforderlich.
+
+ VARIANTE B:
+
+     OM Wolfgang,  DB3AN, monitort  die Frequenz und sieht plîtzlich folgendes
+     Paket auf dem Bildschirm (NORD><LINK Firmware):
+
+     fm DB2OS-15 to CQ ctl UI^
+     CQ de DB2OS HANNOVER JO42VG via BS -- PSE CONNECT DB2OS-15
+
+        !       !
+        !       +----------------------CQ CQ CQ...ggf. mit Text...
+        +------------------------------Absender, OM Peter, DB2OS
+
+     Dieses Paket  wurde von  BS:DB0FC unmittelbar  nach dem  Empfang des  CQ-
+     Befehl (mit Text dahinter) als UI-Paket abgestrahlt.
+
+     Um diesen  CQ-Ruf zu  beantworten, mu·  Wolfgang nicht erst den Knoten BS
+     connecten, sondern er gibt seinem eigenen TNC den Befehl zum Aufbau einer
+     Verbindung mit DB2OS-15 (Connect DB2OS-15, aufpassen bei der SSID !), als
+     ob DB2OS-15 direkt in der Nachbarschaft wohnt.
+
+     Nachdem BS:DB0FC  das SABM-Paket  von DB3AN empfangen hat, ist SOFORT die
+     Verbindung mit  DB2OS hergestellt,  und bei  DB2OS erscheint  die Meldung
+     "BS:DB0FC> Connected to DB3AN".
+
+     Wie man  sieht, kann  man also  auf der  Benutzerebene des  Knotens, oder
+     direkt, den Verbindungsaufbau nach dem "Sichten" des CQ-Ruf einleiten.
+
+(D)EST
+     Zeigt die EintrÑge der NODES-Liste in der bei den RMNC Åblichen Weise an.
+
+ Destinations (5):
+ DB0BID  0-0    DB0EAM  3-3    DB0EAM  4-4    DB0NHM  0-0    DB0NHM  4-4
+   1)     2)
+
+     1.)  Erreichbare Ziele (Destinations),
+     2.)  SSID-Bereich des Calls.
+
+(D)EST <*>
+     Liste wie oben jedoch zusÑtzlich mit Laufzeiten.
+
+(D)EST <call*>
+     Hierbei mu·  das Call nicht vollstÑndig sein. Die Eingabe von (D)est HB9*
+     zur Anzeige aller HB9.. Destinationen. Sie werden mit Call, SSID-Bereich,
+     Laufzeit und Port, auf dem sie erreichbar sind, angezeigt.
+
+(D)EST <call>
+     Zeigt die  Liste wie  bei (N)odes <call> an .... eben nur fÅr die FlexNet
+     Liebhaber.
+
+(D)EST < <Nachbar Call>
+     Zeigt die Nodes / Destinationen an, die von diesem Nachbar mit der besten
+     Laufzeit meldet.
+
+(DX)CLUSTER
+     Wurde ein locales Cluster eingetragen, so reicht die Eingabe von <dx> zum
+     Connect dieses  Cluster. Sinn  dieses Befehles  ist es,  nicht immer  auf
+     einem Knoten nach dem nÑchstgelegenen Cluster suchen zu mÅssen.
+
+(G)RAPH
+     Graphische Ausgabe einiger statistischen Werte. GefÅhrt werden die Werte:
+     (B)aud
+     (C)ircuits
+     (F)ree buffers
+     (L)2-Links
+     (N)odes
+     (R)ounds
+     (*) FÅr die Ausgabe aller Statistiken.
+
+     Beispiel:  (G)RAPH (B)AUD zeigt die Entwicklung der letzen Stunde mit dem
+     Bezugspunkt 0 auf der y-Achse an:
+
+ Throughput (Baud):  Maximum: 31232  Average: 18222  Minimum: 10904
+
+  31245|
+  29162|                                                ##
+  27079|             #                                  ##
+  24996|             #                                #####
+  22913|      ###   ##                                #####
+  20830|      ##### ###                 #             ######
+  18747|   #  #########  #             ##             #######
+  16664|####################       #   ##            ########   ## #
+  14581|##################### #   ########    # #  #################
+  12498|###################################   ######################
+  10415|############################################################
+   8332|############################################################
+   6249|############################################################
+   4166|############################################################
+   2083|############################################################
+      +------------------------------------------------------------ Elap.
+ Time
+      -3600 -3240 -2880 -2520 -2160 -1800 -1440 -1080 -720  -360  0 Seconds
+
+     Um die  énderungen besser sehen zu kînnen, kann der Bezugspunkt durch ein
+     nachfolgendes "+" auf den MINUMUM-Wert verschoben werden.
+     Beispiel: (G)RAPH (B)AUD +  .
+
+ Throughput (Baud):  Maximum: 31232  Average: 18222  Minimum: 10904
+  31244|
+  29888|                                                #
+  28532|                                                ##
+  27176|             #                                  ##
+  25820|             #                                 ###
+  24464|             #                                #####
+  23108|      ###   ##                                #####
+  21752|      ### # ###                 #             #####
+  20396|      ##### ###  #              #             ######
+  19040|      #########  #              #             ######
+  17684|  ############# ##             ##             #######      #
+  16328|####################       #  ###          # ######### #####
+  14972|#####################     ########    # #  #################
+  13616|##################################    ###  #################
+  12260|###################################   ######################
+  10904|############################################################
+      +------------------------------------------------------------ Elap.
+ Time
+      -3600 -3240 -2880 -2520 -2160 -1800 -1440 -1080 -720  -360  0 Seconds
+
+     Wird nun noch ein (D)AY eingefÅgt, so erhÑlt man die Ausgabe der
+     vergangenen 23 1/2 Stunden.
+     Beispiel: (G)RAPH (D)AY (B)AUD +
+
+(H)ELP       (externer Befehl)
+     Zu den  Befehlen in  TheNetNode gibt  es jeweils auch eine ErklÑrung bzw.
+     Hilfe. Mit  der Eingabe  (H)ELP wird  eine öbersicht  Åber die  mîglichen
+     Hilfen ausgegeben  sowie auch die Anzahl der Bildschirmseiten. Mit (H)ELP
+     (N)ODES werden  die ersten  22 Zeilen ausgegeben. Die Zeilen 23-44 kommen
+     nach der  Eingabe (H)ELP  (N)ODES 2  . Wer zurÅckblÑttern kann, kann auch
+     alle Seiten auf einmal Åbermittelt bekommen durch das anhÑngen eines "*".
+     Beispiel: (H)ELP (N)ODES *
+
+ Programm 1.2 vom Oct 07 2004 by DAD213
+ TNN-Doku-Version 1.79mh03 vom 6. Jul 2005 by CB-PR Team Dessau
+
+ Folgende Befehle sind laut Dokumentation verfÅgbar :
+ Befehl              Hilfe-Seiten         Befehl              Hilfe-Seiten
+
+ (A)KTUELL      (extern)  1               (BE)ACON                 1
+ (C)ONNECT                3               (CONV)ers               17
+ (CQ)                     4               (D)EST                   2
+ (DX)CLUSTER              1               (H)ELP                   1
+ (HA)RDWARE     (extern)  1               (I)NFO         (extern)  1
+ (L)INKS                  1               (L3)MHEARD               3
+ (M)AILBOX                1               (MAP)          (extern)  1
+ (MH)EARD                 5               (MSG)          (extern)  3
+ (N)ODES                  7               (PA)RAMETER              6
+ (PAC)SAT                 1               (PI)NG                   1
+ (PO)RT                   8               (Q)UIT                   1
+ (QTH)          (extern)  2               (R)OUTES                 5
+ (S)TAT                  19               (SAT)          (extern)  1
+ (SAV)ecall     (extern)  1               (SH)owcall     (extern)  2
+ (SO)FTWARE     (extern)  1               (TA)LK                   1
+ (TI)ME                   1               (TOP)          (extern)  5
+ (U)SER                  14               (V)ERSION                1
+ (HTTP)D                  1               (TEL)NET                 1
+ (IPC)ONV                 1
+
+ Externe Befehle sind nicht bei jedem Digi vorhanden !
+
+(H)elp <befehl>
+     Zeigt die erste Seite (20 Zeilen) der Hilfe zum <befehl> an.
+
+(H)elp <befehl> 2
+     Zeigt die zweite Seite der Hilfe zum <befehl> an.
+
+(H)elp <befehl> *
+     Zeigt alle Seiten der Hilfe zum <befehl> an.
+
+(HA)RDWARE   (externer Befehl)
+     Gibt eine Hardwarebeschreibung des Knotens aus.
+
+(HTTP)D Server
+
+     Neu:
+     ~~~~
+     Die Funktion des HTTPD-Server ist sehr ‰nlich mit der BCM zu vergleichen.
+     Beim erten Login wird nach Benutzername und Passwort gefragt,
+     Passowrt ist optional,also nicht zwingend!
+
+(I)NFO       (externer Befehl)
+     Ausgabe des Info-Textes.
+
+(L)INKS
+     Zeigt die eingetragenen Rufzeichen, die den Links zugeordnet sind.
+
+ Links von DEFUNK:CB0DE (4/32)
+ Type-Port--ALIAS:CALL------Route----------Infotext---------
+ L  P   4   debcm:DBQ213                   Archiv-Mailbox
+ I      1  DENET1:KR2GAT                   InetNode Dessau
+ I      1  JO61QH:DIG531                   InetNode Glaubitz/Riesa
+ F      0  JO61DU:DNQ230                   FunkNode Dessau/Waldersee
+
+     Typ:
+     L  = Localer Eintrag
+     L+ = Localer Eintrag wird gemessen
+     F  = FlexNet-Nachbar
+     N  = NetRom-Nachbar
+     I  = INP-Nachbar
+     
+     P  = Proxy Funktion
+
+(L3)MHEARD
+     Gibt eine  aktuelle Rufzeichenliste  der letzten 10 gehîrten L3-Calls mit
+     Datum, Uhrzeit,  Port-Name, RX-Byte,  TX-Byte, L3  Frame von  Call und L3
+     Frame  an   Nachbar  geroutet.  Die  L3MH-Liste  wird  seit  der  Version
+     TNN175ag10 wie  die Statistik  im aktuellen Laufwerk gesichert. Sie dient
+     dazu, die  L3-Verbindungen die  Åber den  Knoten  laufen,  beurteilen  zu
+     kînnen. Die SSID wird hierbei beachtet.
+
+ KS:DB0EAM> MHEARD (97/500)
+ 30.01.98 17:29 P 1 [   6095559,  12686304] KR2GAT
+ 30.01.98 17:29 P 0 [     67218,    153548] DNQ230
+ 30.01.98 17:29 P 5 [    421886,  15142753] DAD213-1
+ 30.01.98 17:29 P 6 [   5535466,  17842422] DE0SAU
+ 30.01.98 17:29 P 4 [     24644,   1217402] DBQ213
+ 30.01.98 17:29 P 2 [     62988,    519602] DE1CS
+
+     MHEARD (<anzahl>/<anzahl>)
+     Die beiden Ziffern in der ersten Zeile geben an:
+     1. <anzahl> = LÑnge der gefÅhrten MH-Liste,
+     2. <anzahl> = Eingestellte LÑnge.
+
+(L3)MHEARD <anzahl>
+     Gibt eine  aktuelle Rufzeichenliste  der letzten  <anzahl> gehîrten Calls
+     mit Datum,  Uhrzeit, RX-Byte,  TX-Byte, L3 Frame von Call und L3 Frame an
+     Nachbar geroutet aus.
+
+(L3)MHEARD <call>
+     Listet wann  und unter welcher SSID der Knoten mit dem <call> zuletzt ein
+     L3-Frame Åber  diesen Digi gesendet hat. Weiterhin werden die RX-Byte und
+     TX-Byte (aus  der Sicht  des Knotens)  mit angezeigt, die seit dem letzen
+     Lîschen der  L3MHEARD-Liste oder  VerÑndern der Anzahl der ListeneintrÑge
+     aufgelaufen sind.
+
+     Im <call>  kînnen auch  Wildcards verwendet  werden. Dabei  steht "*" fÅr
+     beliebig viele (oder keine) Zeichen und "?" steht fÅr genau 1 Zeichen.
+
+     (L3)MHEARD df6ln   = EintrÑge mit dem Rufzeichen DF6LN
+     (L3)MHEARD df*     = EintrÑge von DF-Stationen
+     (L3)MHEARD *b?     = Stationen mit "B" als vorletztem Buchstaben
+     (L3)MHEARD *b*     = Stationen mit "B" im Rufzeichen
+
+(M)AILBOX
+     Wurde eine  locale Mailbox  eingetragen, so  reicht die Eingabe eines <m>
+     zum Connect  dieser Mailbox. Sinn dieses Befehles ist es, nicht immer auf
+     einem Knoten nach der nÑchstgelegenen Mailbox suchen zu mÅssen.
+
+(MAP)        (externer Befehl)
+     Zeigt eine kleine Karte der direkten Umgebung des Knotens.
+
+(MH)EARD <erweiterung>
+     Gibt eine  aktuelle Rufzeichenliste  der letzten  10 gehîrten  Calls  mit
+     Datum, Uhrzeit,  Port-Name, RX-Byte  und TX-Byte  aus. Die  MH-Liste wird
+     seit der  Version  TNN149l9  wie  die  Statistik  im  aktuellen  Laufwerk
+     gesichert. Sie dient nun auch dazu, einen User auf dem Port zu connecten,
+     auf dem  er zuletzt  gehîrt wurde. Die SSID wird hierbei beachtet. Es ist
+     also mîglich, mit dem Call DB0XY-1 auf dem Port 0 und mit dem Call DB0XY-
+     2 auf  einem anderen  Port QRV zu sein. Wer selten QRV ist, fÑllt nun, je
+     nach LÑnge der Liste, irgendwann aus ihr raus.
+
+     <erweiterung>
+     Als Erweiterung  kann ein  "+"  eingegeben  werden.  Es  wird  dann  eine
+     erweiterte User-Statistik  ausgegeben.  Sie  besteht  aus  den  vom  User
+     empfangenen Rej  = (r)  an den  User gesendete Rej = (t) sowie die Anzahl
+     der DAMA-Verstî·e = (d).
+
+ DEFUNK:CB0DE> MHEARD (26/30)
+ Date     Time  Port        RX          TX    Call     RX-Rej  TX-Rej   DAMA
+ 19.03.98 13:34 P 0 [   927365KB,  1932892B ] DNQ230      26r     19t     0d
+ 19.03.98 13:33 P 2 [    59149KB,   407445B ] DE1CS        4r      2t     0d
+ 19.03.98 13:33 P 0 [    24821KB,   856196B ] DE1BA        4r      3t     0d
+ 19.03.98 13:33 P 5 [    40804KB,   231705B ] DAD213-1     9r      4t     0d
+ 19.03.98 13:33 P 0 [      880KB,    43047B ] DAA772       4r      0t     0d
+ 
+ =>
+
+     MHEARD (<anzahl>/<anzahl>)
+     Die beiden Ziffern in der ersten Zeile geben an:
+     1. <anzahl> = Anzahl der gefÅhrten Calls in der MH-Liste,
+     2. <anzahl> = LÑnge der MH-Liste.
+
+(MH)EARD <anzahl> <erweiterung>
+     Gibt eine  aktuelle Rufzeichenliste  der letzten  <anzahl> gehîrten Calls
+     mit Datum, Uhrzeit, RX-Byte und TX-Byte aus.
+
+(MH)EARD <call> <erweiterung>
+     Listet wann  und unter  welcher SSID  der User  mit dem <call> den Knoten
+     zuletzt benutzt  hat. Weiterhin  werden die  RX-Byte und TX-Byte (aus der
+     Sicht des Knotens) mit angezeigt, die seit dem letzen Lîschen der MHEARD-
+     Liste oder VerÑndern der Anzahl der ListeneintrÑge aufgelaufen sind.
+
+     Im <call>  kînnen auch  Wildcards verwendet  werden. Dabei  steht "*" fÅr
+     beliebig viele (oder keine) Zeichen und "?" steht fÅr genau 1 Zeichen.
+
+     (MH)EARD df6ln   = EintrÑge mit dem Rufzeichen DF6LN
+     (MH)EARD df*     = EintrÑge von DF-Stationen
+     (MH)EARD *b?     = Stationen mit "B" als vorletztem Buchstaben
+     (MH)EARD *b*     = Stationen mit "B" im Rufzeichen
+
+                                                       (N)ODES
+     Zeigt alle momentan bekannten Knoten an, die das NET/ROM- bzw. TheNet-L3-
+     Protokoll  verwenden.   Die  ausgegebene   Liste  wird   regelmÑ·ig  Åber
+     sogenannte Rundspruchsendungen  (Broadcast) der  TheNet-Nachbarknoten auf
+     dem neuesten  Stand gehalten.  Die Liste  Ñndert sich  also,  wenn  Links
+     ausfallen  oder   neue  Links   hinzukommen.  Au·erdem  Ñndern  sich  die
+     Laufzeiten der  einzelnen EintrÑge  in AbhÑngigkeit von der Linkbelastung
+     und bei schlechten Ausbreitungsbedingungen. Beispiel:
+
+      1    2             3    4
+      /    /             /    /
+     KS:DB0EAM > Nodes (139/1009):
+
+     SH9600:DB0AZ    HUSUM:DB0HES    HHWEST:DB0HHW   HL:DB0MAR
+     KIELMB:DB0OQ       SL:DB0SUE      SYF7:OZ3DIJ-7
+       /      /
+      5      6
+
+     1.)  Alias dieses Netzknoten.
+     2.)  Rufzeichen dieses Netzknoten.
+     3.)  Anzahl der bekannten KnoteneintrÑge.
+     4.)  Maximal mîgliche  Anzahl an EintrÑgen
+     5.)  Alias des Endknoten.
+     6.)  Rufzeichen des Endknoten.
+
+     ALIAS  ist   dabei  eine   maximal  6-stellige   AbkÅrzung  zur  besseren
+     geographischen Einordnung  des Knotenstandortes.  In unserem  Raum werden
+     normalerweise die  Åblichen Autokennzeichen als ALIAS verwendet oder aber
+     kurze  Ortsnamen   auch  ausgeschrieben  (wie  z.B.  bei  KS:DB0EAM  oder
+     KIEL:DB0IL). Zu den in der Liste aufgefÅhrten Endknoten kann in der Regel
+     mit dem  Connect-Befehl eine  Verbindung hergestellt  werden.  Endknoten,
+     deren ALIAS  mit "BOX" oder "MB" endet, sind damit als Mailbox erkennbar;
+     DX-Cluster sind mit "DX" oder "DXC" am Ende des ALIAS erkennbar.
+
+     Die Anzahl  der bekannten  Netzknoten wird  hinter  "Nodes"  in  Klammern
+     angezeigt.
+
+     Der Nodes-Befehl  kann bis auf den ersten Buchstaben abgekÅrzt werden und
+     auch beliebig  gro· und / oder klein geschrieben werden. Der Nodes-Befehl
+     kann au·erdem  mit Parametern  aufgerufen  werden,  um  Informationen  zu
+     einzelnen Endknoten oder Gruppen von Endknoten zu bekommen.
+
+    Mit dem Befehl:
+
+(MO)NITOR OPTIONEN PORT
+      Optionen:
+      U = Unprotokollierten Paketen,
+      I = Info Paketen,
+      S = Kontroll Paketen,
+      C = Monitor an auch bei bestehendem Connect,
+      H = HEADER, bei I-Frames nur den Header anzeigen, der
+      Infoteil der Frames wird unterdrÅckt,
+      F = FULL, I-Frames mit Infoinhalt anzeigen, es werden die
+      kompletten Frames gemonitort,
+      <port nr> = Nur der angegebene Port wird gemonitort,
+      + <call..call> = Nur diese Call (bis zu 8) monitoren,
+      - <call..call> = Diese Call im Monitor unterdrÅcken.
+
+      Beispiel: MO usci 2
+
+(MSG)        (externer Befehl)
+
+(MSG) S <ZIELCALL/GRUPPE> #<lifetime> <text>
+     Zum Erstellen einer Digimail:
+
+     Der Message-Befehl  ermîglicht es,  einem Benutzer des Knotens eine kurze
+     (!) Nachricht in den CTEXT zu schreiben. Beim nÑchsten Connect wird diese
+     Zeile dann  bei ihm  im CTEXT  erscheinen. Statt  des Zielcalls kann auch
+     eine Zielgruppe  angegeben werden.  Diese ist  eine  Art  Verteilerliste.
+     Jedes Mitglied der Zielgruppe bekommt eine Kopie der Nachricht.
+
+     Die Lifetime  kann, mu·  aber nicht,  angegeben werden. Sie kann von #1 =
+     einem Tag  bis #99  = neunundneunzig  Tagen angegeben  werden. Wird keine
+     Lifetime angegeben,  so wird  sie auf  default =  14  Tage  gesetzt.  Das
+     Herabsetzen  der   Lifetime  geschieht  mittels  MSY  C.  Siehe  "Externe
+     Programme fÅr den SYSOP".
+
+     AbhÑngig davon,  ob das  System mit  einer Festplatte  oder einer RAMDISK
+     arbeitet, kann die Nachricht bei Absturz oder Reset verloren gehen.
+
+     Beispiel: MSG  S DL9GYA  #10 Roland,  bitte connecte mich, wenn Du zurÅck
+     bist!
+
+     MSG S SYSOP Link nach ..... defekt?!
+
+     Letzteres wÅrde  die Nachricht  an DL1KWS  und DL9GYA  weiterleiten.  Die
+     Definition einer neuen Gruppe geschieht nur durch den Sysop. Bitte danach
+     fragen.
+
+(MSG) R
+     Liest die eigenen Nachrichten aus.
+
+(MSG) R <call>
+     Liest die an <call> gerichteten Nachrichten aus.
+
+(MSG) R <call> 1 oder 1-3
+     ZusÑtzlich kann  noch eine  Numerierung mit  angegeben werden. Also Lesen
+     der Nachrichten 1 oder 1-3.
+
+(MSG) L
+     Listet die eigenen Header auf.
+
+(MSG) E
+     Der MSG  E Befehl  lîscht alle  eigenen Digimail-Nachrichten  im  eigenen
+     CTEXT.
+
+(MSG) G
+     Zeigt alle vorhandenen Verteilergruppen mit Call an.
+
+(MSG) G <gruppe>
+     Zeigt nur die Call in dieser <gruppe> an.
+
+     Neue Gruppen kînnen nur vom Sysop angelegt werden!
+
+(MSG) V
+     Gibt die Versionsnummer und - Datum aus.
+
+(N)ODES <call>   oder   (N)ODES <alias>
+     bekommt man  eine Auflistung  der bekannten  Wege zu  dem mit <call> bzw.
+     <alias> angegebenen  Endknoten. So  erhÑlt man  z.B. mit "(N)odes DB0FC".
+     Ein zusÑtzliches  "*" hinter  <call> zeigt  alle Wege  an. Weiterhin wird
+     hiermit der NetRom - Route - Rekord  (NRR) ausgelîst.
+
+               1   2
+              /   /
+ Routes to   BRO:DB0BRO
+ ---T[ms]----RxT----TxT--LT-Mode-Obc-----RTT-Po-Route------------------------
+ >   4330   3910      0   2   DG   0     420  6 DB0GOE
+    16440   7000   4870  10   DG  19    9440  9 HB9AK via DB0BID
+    30970  17560   4870   5   DG   0   13410  9 DB0LBG-7 via DB0BID
+   600000 599990   4870   4   DG   0    1550  9 DB0KH via DB0BID
+ >   4800   4800      0  10   VC   0     910 10 DB0NHM
+     5970     10      0   1   DG   0    5960 10 DB0BRO via DB0NHM
+    25200   3480      0   2   DG   0   21720 10 DB0GOE via DB0NHM
+   600000 599990   4870   4   DG   0     520 11 DB0KH
+ ^   /     /         /   /    /   /       /  /    /
+ 3  4     5         6   7    8   9       10 11   12
+
+      1.) ALIAS-Kennzeichen des gefragten Endknoten.
+      2.) Rufzeichen des gefragten Endknoten.
+      3.) > = Der Weg wird derzeit verwendet fÅr eine Verbindung zu dem
+          Endknoten.
+          + = Zeigt eine alternative Route an, Åber die auch DatenÅbertragung
+          stattfindet.
+          - = Diese Route ist abgemeldet und wird nicht mehr benutzt.
+          * = Es wird kein Obs mehr gefÅhrt, da der Nachbar bereits
+          differenziellen Broadcast unterstÅtzt.
+      4.) Gemessene Laufzeit in ms des jeweiligen Weges.
+      5.) RxT Laufzeit die vom dem Nachbar Åber das Ziel DB0BRO gemeldet
+          wurde.
+          Bzw. 10 wenn es ein direkter Nachbar ist.
+      6.) Laufzeit mit der das Ziel weitergemeldet wird. (Errechnet sich aus
+          RxT und gemessener Laufzeit zum Nachbarknoten).
+      7.) Lifetime des Knotens. Wenn LT=0 wird der Knoten nicht mehr weiter
+          verbreitet.
+      8.) öbertragungsmode auf diesem Link DG = Data Gramm (Hîhere
+          Protokollebene die das Umrouten ermîglicht) ;  VC = Virtual Circuit
+          (Unterste Protokollebene).
+      9.) Obc Obsolentcounter (VeraltenszÑhler) fÅr  Ziele mit altem
+          Protokoll.
+     10.) Round - Trip - Timer  oder Laufzeit zum Nachbarknoten.
+     11.) Port Åber den die Verbindung geroutet wird.
+     12.) Rufzeichen des Nachbarknotens fÅr den jeweiligen Weg.
+
+     Bei einer Laufzeit 600000 ms wurde der Weg Åber Fastlearn aufgenommen.
+
+     Das NRR  - Frame  wird zum  Node gesendet  und der  Weg  hin  und  zurÅck
+     aufgezeichnet. Der  abgefragte Node mu· jedoch den NRR unterstÅtzen sonst
+     kommt keine  Antwort zurÅck.  Digipeater wie  DB0FC unterstÅtzen NRR zwar
+     nicht leiten  aber das  Frame weiter und erscheinen in der Liste dann mit
+     einem "?" . Das angesprochene Node wird mit einem "*" gekennzeichnet.
+
+     KS:DB0EAM> Route (DG): DB0EAM DB0GOE DB0BRO* DB0EAM
+
+     Folgende Konstellation bei DB0SHG:
+
+  Routes to     BS:DB0FC
+ ---T[ms]----RxT----TxT--LT-Mode-Obc-----RTT-Po-Route----------
+ -  33800  33800  33900  10   VC   0   12880  4 DB0HSK
+ >  17700  17700      0  10   VC   0   77830  6 DB0HW
+    43360     10      0   1   DG  21   43350  6 DB0FC via DB0HW
+
+     bedeutet nichts anders, also das ein User der DB0FC connecten mîchte, den
+     FlexNet-Weg Åber DB0HW vorgeschlagen bekommt, weil sonst keine wesentlich
+     schnellere Alternative  zur VerfÅgung  steht. Eine solche Verbindung kann
+     natÅrlich NICHT umgeroutet werden, selbst wenn zwischendurch ein besserer
+     NETROM-Weg zur VerfÅgung steht !
+
+     Umgedreht wird nie eine NETROM-QSO auf FlexNet-Weg umgeroutet.
+
+     Wie war es frÅher (1.70).....
+     Da gab  es zwei  Listen, eine  NETROM und  eine FlexNet.  Es wurde  immer
+     zuerst der NETROM-Weg genommen, egal wie schlecht er war ! Im schlimmsten
+     Fall bedeutete dies, NETROM 10 Minuten Laufzeit, FlexNet-Weg 10 Sekunden.
+     Dieses war  jedoch wenig  sinnvoll. Heute  gibt es  nur noch  eine Liste,
+     dafÅr werden  FlexNet-Ziele mit  einigen %  unterbewertet.  Sind  mehrere
+     NETROM-Wege vorhanden so wird natÅrlich weiterhin umgeroutet.
+
+     Hin- und RÅckweg kînnen bekanntlich unterschiedlich Wege nehmen.
+
+     Um erweiterte  Informationen Åber  eine Gruppe von Endknoten zu bekommen,
+     gibt man den Befehl ein:
+
+(N)ODES <laufzeit> <name>
+
+     FÅr <laufzeit>  wird  dabei  der  Wert  fÅr  die  minimale  Laufzeit  der
+     Endknoten angegeben.  Soll nicht  eine minimale,  sondern  eine  maximale
+     Laufzeit angegeben  werden, wird nach der Laufzeit ein Minus geschrieben.
+     FÅr <name>  kann ein Rufzeichen oder ein ALIAS eingesetzt werden, bei dem
+     "*" und  "?" als Platzhalter verwendet werden kînnen. Dabei steht "*" fÅr
+     beliebig viele  (oder keine)  Zeichen und  "?" steht fÅr genau 1 Zeichen.
+     Au·erdem kann man die Abfrage auf den ALIAS-Teil oder auf den Rufzeichen-
+     Teil des  Knoteneintrages beschrÑnken,  indem man ein ":" vor oder hinter
+     <name> setzt.  Mit "<name>:" begrenzt man die Abfrage auf den ALIAS-Teil,
+     und mit  ":<name>" begrenzt  man die  Abfrage auf den Rufzeichen-Teil der
+     KnoteneintrÑge. Wird nur eine <laufzeit> angegeben, so werden alle Knoten
+     mit passender  Laufzeit angezeigt. Wird nur ein <name> angegeben, so wird
+     die Laufzeit  bei der Auswahl nicht berÅcksichtigt. Die ausgegebene Liste
+     an Endknoten sieht dann z.B. so aus:
+
+ KS:DB0EAM > Nodes: (7)
+
+   HHS:DB0HBS  176/11 HHSBOX:DB0HBS-1  69/11
+   /     /    /  /
+   1     2    3  4
+
+     1.)  ALIAS des Endknoten.
+     2.)  Rufzeichen des Endknoten.
+     3.)  Laufzeit in mal 10 ms fÅr den besten bekannten Weg.
+     4.)  Port fÅr Nachbarknoten.
+
+ Beispiele:
+
+ Befehl        ! Antwort
+ ==============!==========================================================
+ NODES 2000    ! Alle EintrÑge mit Laufzeiten min. 2000.
+ NODES -60     ! Alle EintrÑge mit Laufzeiten max. 60.
+ NODES 100 d*  ! Rufzeichen oder ALIAS beginnt mit "D", Laufzeit min. 100.
+ NODES -100 *d ! Rufzeichen oder ALIAS endet mit "D", Laufzeit max. 100.
+ NODES *d*     ! Rufzeichen oder ALIAS enthÑlt ein "D", Laufzeit egal.
+ NODES ?????   ! Rufzeichen oder ALIAS ist genau 5 Zeichen lang.
+ NODES :d*     ! Rufzeichen beginnt mit "D".
+ NODES :?b*    ! Rufzeichen mit "B" als 2. Buchstaben (DB- u. HB9-Stationen).
+ NODES :hb9*   ! HB9-Rufzeichen.
+ NODES :*l     ! Rufzeichen endet mit "L".
+ NODES k*:     ! ALIAS beginnt mit "K".
+ NODES *box*:  ! ALIAS enthÑlt "BOX".
+ NODES *dx:    ! ALIAS endet mit "DX".
+ NODES *u?:    ! ALIAS mit "U" als vorletztem Buchstabe.
+ NODES *       ! Zeigt die gesamte Liste an.
+
+(N)ODES < <Nachbar Call>
+     Zeigt die Nodes / Destinationen an, die von diesem Nachbar mit der besten
+     Laufzeit meldet.
+
+(PA)RAMETER
+     Ausgabe der Parameter-Liste.
+
+ DEFUNK:CB0DE> Parms:
+ 01:NoAckBuf        20   02:L3-MaxTime     200   03:SaveConfig       6
+ 04:DAMA-Speedf      0   05:DAMA-MaxPri     15   06:DAMA-MaxPol      0
+ 07:DAMA-Tout      100   08:CommandLog       2   09:SysopLog         1
+ 10:TestSSID        15   11:ConvSSID         6   12:AutoIPR          3
+ 13:Timeout      18000   14:HostTime         0   15:MH-Default       1
+ 16:MH-Len          30   17:Statusbake     300   18:L3-MaxLT         5
+ =>
+
+     01: NoAckBuf
+          öberfÅllungsgrenzwert in  Anzahl Frames.  Anzahl der Pakete, die auf
+          der  Transport-Layer-Ebene   zwischengespeichert  werden,  bis  eine
+          Choke-Nachricht zum vermittelten Knoten geschickt wird. Gleichzeitig
+          die Anzahl  Frames, die  im Link-Layer  zwischengespeichert  werden,
+          bevor das  Link-Layer in  den Busy-Zustand  geht. Dieser Grenzwert**
+          verhindert  den   öberlauf  eines   TheNet-Knoten,  falls  Åber  das
+          Transport-Layer zu  viele Pakete  einlaufen, oder falls eine Station
+          in einem Link zu viele Pakete auf einmal senden will.
+
+     02: L3-MaxTime
+          Maximale Laufzeit von Knoten, die ueber Interlinkverbindungen
+          an andere Knoten gemeldet werden. Uebersteigt die Laufzeit eine
+          Knotens den eingestellten Wert, so wird er nicht weitergemeldet.
+
+     03: SaveConfig
+          Zeitraum in  10 min-Schritten,  in dem TNN176.STA und MHEARD.TAB mit
+          den aktuellen Statistikdaten auf Disk oder HD gespeichert wird.
+
+     04: Dama-Speedf
+          Bei TNN-Digis  mit Multibaud  (z.B.  1200  und  9600  Baud)  bestand
+          ebenfalls  ein  weiter  Wunsch,  einen  Anreiz  fÅr  9k6-Betrieb  zu
+          schaffen. Im  Normalfall werden  1200- und 9k6-User gleichbehandelt,
+          und  man   kann  lediglich   Åber  MAXFRAME  den  9k6-Betrieb  etwas
+          bevorzugen. öblicherweise sollte man MAXFRAME 7 auf 9k6 benutzen und
+          nicht mehr als MAXFRAME 2 auf 1200 Baud. Aber einigen Sysop war dies
+          noch nicht genug. Was der neue DAMA-Speedfaktor bewirkt, soll nun am
+          folgenden Beispiel  erlÑutert werden.  Angenommen, wir  haben  einen
+          1200-Baud- und  einen 9600-Baud-Einstieg,  und wir wollen die 9600er
+          User deutlich  bevorzugen. Steht  DAMA-Speedf jetzt  auf 9600,  dann
+          werden User  auf einem 1200-Baud erst in jeder 8. Runde bedient. Auf
+          den ersten Blick scheint dies viel zu langsam, aber bei 9k6 sind die
+          Frames ja so kurz, so da· es also NICHT gleich um Faktor 8 langsamer
+          geht. Sind  Åberhaupt keine  9k6-User da, dann ist alles wie bisher.
+          Wichtig: Die  korrekte  Baudrate  mu·  im  Speed-Parameter  fÅr  den
+          jeweiligen Port richtig eingetragen sein.
+
+        Die "Verlangsamung" berechnet sich so:
+
+                           DAMA-Speedf     9600
+           Verlangsamung = ------------ = ----- =   8
+                           Speed[Port]     1200    ===
+
+          Bei dem  9k6-Port ergibt sich entsprechend ein Faktor von 1. Hat man
+          gleichzeitig noch  einen 2k4-Einstieg,  dann ist  die  Verlangsamung
+          dort 9600/2400  = 4.  Mîchte man den 1200er Einstieg nicht gleich um
+          Faktor 8  beeinflussen, kann  man natÅrlich  einen  beliebigen  Wert
+          zwischen 1200-9600  (oder mehr!) bei diesem Parameter eintragen. Ein
+          Wert kleiner  als die  niedrigste  Baudrate  bzw.  ein  Wert  von  0
+          schaltet diese Funktion ab.
+
+     05: DAMA-MaxPri
+          Maximaler  ZÑhlerstand,   der  erreicht  werden  kann  bei  geringer
+          AktivitÑt eines  User. Dieser User wird dann seltener zu Gunsten der
+          anderen User abgefragt, ob er Daten zu senden hat.
+
+     06: DAMA-MaxPol
+          0 = ausgeschaltet.
+          x = Nach x Verstî·en erfolgt ein Abwurf vom DAMA-Master.
+
+          Die TNN-Software  bietet  fÅr  den  SYSOP  eine  abschaltbare  DAMA-
+          Kontrolle. Alle  User, die  sich nicht an das DAMA-Protokoll halten,
+          bekommen  bei   jedem  DAMA-Versto·   eine   entsprechende   WARNUNG
+          mitgeteilt. Ist  eine, vom Sysop einstellbare, Anzahl Åberschritten,
+          dann erfolgt  ein Abwurf  des User  vom Digi!  Die "Meckermeldungen"
+          werden nicht  mehr nutzlos  als UI-Frame  (Bake) ausgesendet werden,
+          sondern sie  werden jetzt  mitten in das betreffende QSO eingehÑngt.
+          Die Warnung  gibt die  Anzahl der  aktuellen Verstî·e  an sowie  die
+          Anzahl der  Verstî·e, bis  ein Disconnect  seitens  des  DAMA-Master
+          erfolgt (mit entsprechender Meldung).
+
+     07: DAMA-Tout
+          Zeit in  10 ms,  die gewartet wird, wenn auf ein Paket an einen User
+          keine BestÑtigung  kommt, bis zum Senden an den nÑchsten User in der
+          Reihenfolge.
+
+     08: CommandLog
+          Schafft nun die Mîglichkeit, eine Logdatei COMMAND.LOG im
+          Verzeichnis TNN zu fÅhren. Es werden alle Eingaben im Knoten mit
+          CALL, DATUM, UHRZEIT und COMMAND in der Datei abgespeichert. Es sind
+          folgende Einstellungen mîglich:
+
+          0 = Keine Protokollierung.
+          1 = Nur Sysop-Eingaben werden protokolliert.
+          2 = Alle Eingaben werden protokolliert (Vorsicht, die Logdatei
+          wÑchst schnell!).
+
+     09: SysopLog
+          Speichert wer sich als SYSOP beim Knoten privilegiert.
+
+     10: Downport
+          Legt den Port fest, auf dem die Connect ausgesendet werden die der
+          Knoten nicht zuordnen kann. Z.B.: Wenn ein Knoten connected werden
+          der nicht in der NODES-Liste steht oder ein User connected werden
+          soll der nicht in der MH-Liste steht. Sollen die nicht zuzuordnenden
+          Connect nicht auf einem User-Einstieg ausgesendet werden, so kann
+          auch ein ausgeschalteter Port zugewiesen werden. Die connectende
+          Station bekommt dann ein "Port not in use" zurÅck.
+
+     10: TestSSID
+          Legt die SSID fest, mit der dieser Knoten die Laufzeitmessung
+          durchfÅhrt bei einem mit L+ eingetragenes Call.
+
+     11: ConvSSID
+          Einstellung der SSID die der Convers benutzen soll.
+     
+     12: AutoIPR
+          Automatisches Lernen von IP-Adressen anderer Nodes (nur fuer INP).
+          Es werden verschiedene Stufen der Filterung unterstuetzt, Stufe 3
+          ist standardmaessig eingestellt.
+          
+          0 : ausgeschaltet, KEINE automatischen IPR- und ARP-Ein/Austragungen
+              (damit kann man die Tabellen einfrieren wenn sie gefuellt sind !)
+          1 : automatische Ein/Austragung OHNE jegliche Pruefung der
+              IP-Adressen
+          2 : automatische Ein/Austragung, unmoegliche IP-Adressen werden
+              ignoriert (x.x.x.0 x.x.x.255)
+          3 : automatische Ein/Austragung, es werden nur IP-Adressen
+              beruecksichtigt, die im gleichen Netz (44.x.x.x) und gueltig sind.
+	      
+     13: Timeout
+          Einstellung User Timeout.
+	  
+     14: HostTime
+          Einstellung Sysop Timeout.
+	  
+     15: MH-Default
+          Einstellung der MH anzeige (Default ist 1)
+	  
+     16: MH-Len
+          Hier wird eingestellt wie lang die MH-liste sein soll.
+	  
+     17: Statusbake
+
+	  
+     18: L3-MaxLT
+
+(PAC)SAT
+     Zeigt Call und Message-Pool des BROADCAST-Server an.
+
+     Server call: XX0XX-2
+     Message pool: 1-9 (9 Messages)
+
+(PI)NG <ipadd>
+     FÅhrt eine Laufzeitabfrage zu der IP-Nummer durch.
+
+(PO)RT
+     Gibt  eine   Liste  mit   den  aktuellen  Porteinstellungen  aus:  (Diese
+     Darstellung ist  ein MISCHMASCH aus DOS/GNU- und LINUX- Version und dient
+     hier nur zur Verdeutlichung.)
+
+ DEFUNK:CB0DE> Link-Interface Ports:
+ -#-Name--------Speed/Mode-Max-TXD-PACL-PERS-SLOT-FRACK--T2----T3-RET-DA-C-S-M
+  0 CB-Kanal76   1200       4   30  128  255   32   200 127 18000  10    C   M
+  1 Internet     1200       7    0  256  255    0   200   0 18000  15    C   M
+  2 Telnet      19200       7    0  256  255    0   200   0   150  15    C   M
+  3 HTTP        19200       7    0  256  255    0   200   0 18000  15    C   M
+  4 Mailbox     19200d      7    0  256  255    0   200   0 18000  15        M
+  5 Sysop       19200       7    0  256  255    0   200   0 18000  15        M
+  6 CVS-Server  19200       7    0  256  255    0   200   0   150  15    C   M
+
+     #:   Gibt den Port des Knotens an.
+
+     Name:    Zur leichteren öbersicht.
+
+     Speed/Mode:
+          Speed zeigt  die eingestellte  Baudrate  sowie  zusÑtzlich  gesetzte
+          Flags an.
+
+            d :   Duplex.
+            c :   CRC bzw. DCD bei 1k2-Modem.
+            r :   ext. Takt (rx).
+            t :   ext. Takt (tx).
+            e :   ext. Takt beide (Vanessa).
+            m :   Multibaud-Kopplung (Vanessa, SCC).
+            z :   NRZ statt NRZI.
+
+     Max:
+          eingestelltes MaxFrame.
+
+     TXD:
+          eingestelltes TXDelay.
+	  
+     PACL:
+          eingestellte PACLen.
+	  	  
+     PERS:
+          eingestellte PERSistanz.
+	  
+     SLOT:
+          eingestellte SLOTime.
+	  
+     FRACK:
+          eingestellter FRACK.
+	  
+     T2:
+          eingestellte T2 time.
+	  
+     T3:
+          eingestellte T3 time.
+	  
+     RET:
+          eingestellte RETries.
+	  
+     DA:
+          Nummer des DAMA-Masters dieses Ports. Es sind vier unabhaengige
+          DAMA-Master verfuegbar.
+
+     C:
+          Auf diesem Port werden die Texte ausgesendet.
+
+     S:
+          Auf diesem Port ist der SYSOP-Mode aktiviert. Ein L2-Connect ist nur
+          mit Pa·wort mîglich.
+
+     M:
+          Auf diesem Port wird die MH-Liste gefÅhrt.
+
+(PO)RT *
+     Gibt eine Liste mit den aktuellen Port Parametern aus:
+
+ DEFUNK:CB0DE>Port Parameters:
+               Max EAX- EAX- IPOLL  IPOLL INTERLINK-  L4-
+ -#-Port-------Con-MaxF-Mode-Paclen-Retry-Time-Retry-Auto-Hardware
+  0:CB-Kanal76  3  16    1     128    3    120   3    0   KISS /tnn/TNC/kanal76
+  1:Internet    0  16    1     128    3    120   3    1   AX25IP
+  2:Telnet      0  16    1     128    3    120   3    0   TELNET 23
+  3:HTTP        0  16    1     128    3    120   3    0   HHTPD 8080
+  4:Mailbox     0  16    1     128    3    120   3    0   KISS /dev/ttya0
+  5:Sysop       0  16    1     128    3    120   3    0   KISS /dev/ttya1
+  6:CVS-Server  0  16    1     128    3    120   3    0   IPCONV 3604
+
+     Nur TXDelay  und MaxFrame  werden noch vom Sysop eingestellt. Die anderen
+     Parameter stellt TNN selbst ein.
+
+     TXDelay:
+          Sendervorlaufzeit nach dem Hochtasten des Senders bis zur Aussendung
+          des ersten Datenpaketes in Millisekunden * 10.
+
+     Pers:
+          Persistence Wert (0-255).
+
+     Slot:
+          Zeitschlitz-Intervall  (Slot   time  intervall)   in  10ms.   Dieser
+          Parameter gibt  die Dauer  des Zeitschlitzes  fÅr  die  Persistance-
+          Steuerung an.  Jedesmal, wenn  der TNC  ein Paket ausstrahlen wollte
+          und die  unter Slot-Time  beschriebenen  Zufallszahl  au·erhalb  des
+          Persistance-Bereich lag,  wird dann  fÅr die Dauer des Zeitschlitzes
+          gewartet   und    anschlie·end   die   Persistance-Prozedur   erneut
+          durchlaufen.
+
+     IRTT:
+          Bedeutet Initial-Round-Trip-Time  und ist  der Anfangswert  fÅr  die
+          RTT-Berechnung, also der Wert, der fÅr die erste Berechnung anstelle
+          von SRTT benutzt wird, wenn noch keine Messung erfolgen konnte.
+
+          Der Timer  1 (wann  soll der  TNN Nachfragen,  wenn er Deine Antwort
+          nicht gehîrt hat) berechnet sich wie folgt:
+
+                   FÅr RETRIES  kleiner gleich 3:        T1 = SRTT * 3
+                  fÅr RETRIES grî·er 3:            T1 = SRTT * (RETRIES + 4)
+
+          Beim Connecten wird SRTT aus dem IRTT berechnet (siehe Parms):
+
+              SRTT = (DIGI*2 + 1) * IRTT
+
+          Bei einem direkten Connect entspricht SRTT dann dem IRTT, mit Anzahl
+          DIGI wird  es dann entsprechend grî·er. Wenn nun auf einem Ports ein
+          IRTT = 500 = 5 Sekunden eingestellt wurde bedeutet das:
+
+              Retry 1..3  ->  T1 = 5 * 3 = 15 Sekunden bis zur Nachfrage !
+
+              z.B. bei Retry 6 -> T1 = 5s * ( 6 + 4 ) = 50s Sekunden !!!
+
+          Bei laufendem Betrieb bewegt sich der SRTT dann dynamisch.
+
+     MaxFrame:
+          Anwender-Link MaxFrame  in Anzahl  der Frames. Anzahl der Infopakete
+          auf Layer2-Ebene,  die ohne  Erhalt einer BestÑtigung hintereinander
+          ausgesendet werden dÅrfen.
+
+     L2Retry:
+          Bestimmt die  Anzahl der  Versuche, um  auf Layer2-Ebene  Kontakt zu
+          einer anderen  Station zu bekommen (Antwort auf Kommandos und Poll).
+          Nach dieser  Anzahl von Versuchen wird der Link als defekt gemeldet,
+          falls keine Antwort erfolgt.
+
+     Timer2:
+          Anwender-Link T2  in Millisekunden  * 10.  Dieser Timer bestimmt die
+          Wartezeit, nachdem  ein eingehendes Informationspaket bestÑtigt wird
+          mit einem  RR/REJ/RNR-Paket. Einerseits  ist diese  Verzîgerung  zur
+          Durchsatzsteigerung da,  weil man  in diesem  Intervall anderen eine
+          Chance zum Senden gibt, andererseits wird dem Sende-Layer die Chance
+          gegeben, eine  BestÑtigung in  ein zu  sendendes Infopaket zu packen
+          und somit ein Link-Layer-Paket einzusparen. (Das Ergebnis ist in der
+          Statistik abzulesen.)
+
+(Q)UIT
+     Verbindung wird  vom Knoten  aufgelîst (DISCONNECT).  Dadurch ergibt sich
+     die   Mîglichkeit,    zum   vorher    connecteten   Knoten    reconnected
+     (zurÅckverbunden) zu  werden. Der Text QUIT.TXT wird vor dem Auflîsen der
+     Verbindung gesendet.
+
+(QTH)        (externer Befehl)
+
+(QTH) <locator>  oder  (QTH) <locator> <locator>
+     QTH berechnet Entfernung und Richtung zwischen zwei QTH-Kennern. Wird nur
+     ein QTH-Kenner  angegeben, so  wird die Entfernung zum Knoten berechnet !
+     Au·erdem ermittelt  QTH alle gÅltigen Angaben fÅr die Standorte, z.B. zur
+     Ermittlung  des   neuen  weltweiten   QTH-Kenner  aus  der  geografischen
+     Koordinate. QTH akzeptiert sowohl den neuen weltweiten als auch den alten
+     QTH-Kenner. Au·erdem  kînnen LÑngen- und Breitengrade in Dezimalform oder
+     auch in Grad:Minuten:Sekunden angegeben werden.
+
+(QTH) <locator>
+     Berechnung der  Entfernung und Richtung zwischen dem Standort des Knotens
+     und <QTH>.
+
+(QTH) <locator1> <locator2>
+     Berechnung der Entfernung und Richtung zwischen <locator1> und <locator>.
+
+     GÅltige Eingabeformate:
+     Alter QTH-Kenner :  FM04C oder FM04C/2   (Ohne Angabe gilt Feldraster /2)
+     Neuer QTH-Kenner :  JO52JW
+
+     Geogr. Koordinate:  GGG:MM:SS/GG:MM:SS z.B. 10:47:30/52:56:15
+     (îstl.LÑnge/nîrdl.Breite in Grad:Min:Sek)
+
+     Geogr. Koordinate:  GGG.GGG/GG.GGG z.B. 10.792/52.937
+     (îstl.LÑnge/nîrdl.Breite in Dezimalform)
+
+     Es ist  zu beachten,  da· innerhalb einer geografischen Koordinate nur in
+     Grad:Minuten:Sekunden oder  mit Gleitkommazahlen  (Realzahlen) gearbeitet
+     werden kann. Ein Mischen beider Formate ist unzulÑssig.
+
+(R)OUTES
+     Zeigt die bestehenden Routen zu den Nachbarknoten an.
+
+     Routes of DEFUNK:CB0DE (4/32)
+     Node----Typ-Po--Dst/Rou---L3SRTT[ms]---Maxtime[ms]State--Route---Contime
+     DBQ213   L   4    1/1
+     KR2GAT   I   1  348/264      0/0             6000 conn.          10d, 8h
+     DIG531   I   1   86/3        2/2             2000 conn.          10d, 8h
+     DNQ230   F   0   60/2      430/710              0 conn.           2h,45m
+
+     Routes of DEFUNK:DE0DIG (5/32)
+          Die Routesliste ist auf das wesentliche gekÅrzt ! Die (5/32)
+          besagt, da· in der Linkliste 5 von 32 mîglichen EintrÑgen benutzt
+          sind. Die LÑnge der Linkliste kann ggf. mit SET TNNCFG=xxxx,xx
+          angepa·t werden. (siehe: START.BAT) "Nur bei TNN/Win32"
+
+     NODE :
+          Anzeige des Rufzeichens des benachbarten Knotens.
+
+     Type :
+          Gibt an, um welchen Typ es sich bei diesem Eintrag handelt. Mîglich
+          sind:
+
+     Type I :
+          Nachbar arbeitet mit dem neuen InterNode - Protokoll, in dem
+          TheNetNode nur Laufzeiten austauscht.
+
+     Type L :
+          Local Call und Alias wird mit Laufzeit 4000 ms eingetragen. Es wird
+          keine LaufzeitÅberprÅfung durchgefÅhrt.
+
+          Wird ein L+ eingesetzt, so wird das Ziel alle 5 Minuten connected.
+          Ist das Ziel QRV, so wird dieses mit der Laufzeit in die Routesliste
+          eingetragen und weiter gemeldet.
+
+     Type F :
+          FlexNet Port arbeitet mit FlexNet Protokoll.
+
+     Type N :
+          NetRom-Nachbar kann das Level-3 Protokoll alter Art, sendet jedoch
+          die Me·frames noch unprotokolliert zurÅck.
+
+     Type N+ :
+          NetRom-Nachbar verwendet das neue Protokoll, wo unerreichbare Ziele
+          sofort abgemeldet werden. Die öbermittlung und Messung geschieht im
+          Level-3 nun protokolliert.
+
+     Type N- :
+          NetRom-Nachbar verwendet das alte Protokoll. Nicht erreichbare Ziele
+          fallen auf Grund der Timer aus der Nodesliste. Die öbermittlung und
+          Messung geschieht im Level-2 als UI-Frames und damit NICHT
+          gesichert!
+
+     Po :
+          Port, Åber den die Verbindung lÑuft.
+
+     Dst :
+          Anzahl der Ziele die von dem Nachbarn gemeldet werden.
+
+     L3SRTT[ms] :
+          Zeigt die von diesem Node ermittelte Laufzeit in Millisekunden an,
+          sowie die der Gegenseite.
+
+     State setup :
+          Es wird versucht eine Verbindung zum Nachbarn aufzubauen.
+
+     State conn. :
+          Die Verbindung zum Nachbarn ist erfolgreich aufgebaut worden und
+          bleibt von nun an bestehen. NUR wenn diese Level2 Verbindung
+          besteht, werden auch die NODES / DESTINATIONEN von diesem Nachbarn
+          in die Åbernommen. Damit werden nun Zielknoten aus dem Netz
+          entfernt, die nicht sicher zu erreichen sind oder zu denen der Link
+          nur in einer Richtung besteht.
+
+     Route :
+          Digipeater,  die   nicht  das   TheNet-Protokoll  benutzen  bis  zum
+          eingetragenen TheNet-Knoten.
+
+(R)OUTES (V)ersion :
+     Zeigt zusÑtzlich den Softwarestand der Nachbarknoten mit an und was fÅr
+     ein Broadcast dahin gemacht wird.
+     info-broadcast    = Alter TheNet Broadcast,
+     UI-broadcast  = Broadcast wird gesichert im Level 3 Åbertragen,
+     differential-broaccast = Es werden nur die éderungen Åbertragen.
+
+(S)TAT :
+    Gibt die Statistik, die im Knoten gefÅhrt wird, aus. Mit (S)TAT werden
+    jedoch nur noch die Kopfdaten ausgegeben.
+
+    Weitere Statistiken:
+    (S)tat (*)  Ausgabe aller Statistiken;
+    (S)tat (E)rrorKopf und Error-Statistik;
+    (S)tat (H)ardware  Kopf und Hardware-Statistik;
+    (S)tat (I)p Kopf und TCPIP-Statistik;
+    (S)tat (K)ernel-Interface (nur Linux)
+    (S)tat (L)ink Kopf und Link-Statistik;
+    (S)tat (P)ortsKopf und Port-Statistik.
+
+     Die Kopfdaten ....
+
+ System Statistics: 01.06.05 00:00:13 - 21.04.05 16:29:58
+           Startup: 21.04.05 16:29:58
+           Runtime: 50d,32m
+	   
+                       (min)    (now)    (max)
+        Rounds/sec:      337      737     1487
+      Free Buffers:     9247     9769    10000
+ Overall Throughput:            32400   158208 Baud
+   Active L2-Links:               109      179
+   Active Circuits:                25       53
+      Active Nodes:               399      411
+
+          TNN Load: 2%
+           Sysload: 5.60%
+	   Loadavg: 0.05 0.06 0.00
+     CPU time used: user 2374ms, system 3710ms
+      Buffer usage: 4%
+      Network Heap: 1817800 Bytes
+
+     System Statistics:
+          Datum und  Uhrzeit des  letzten Lîschens  der  Statistik  sowie  das
+          Auslesedatum und  - Uhrzeit.  Wichtig bei  automatischen Abrufen der
+          Statistik fÅr Diagramme.
+
+     Startup: 21.04.05 16:29:58
+          Letzter Neustart der Software.
+
+     RunTime: 50d,32m
+          Laufzeit des Programmes in Tagen/Stunden,Minuten.
+
+     Die folgenden  Angaben sind  jeweils der:  minimaler Wert  aktueller Wert
+          maximaler Wert
+
+     Rounds/sec: <anzahl> <anzahl> <anzahl>
+          Gibt die HauptschleifendurchlÑufe des Programmes an.
+
+     Free Buffers : <anzahl> <anzahl> <anzahl>
+          Zeigt die freien Buffer des Knotens an.
+
+          Ein Buffer sind 64 Info-Byte und 8 Listenzeiger-Byte, insgesamt also
+          72 Byte. Jede zwischengespeicherte Informationen belegt Buffer, die
+          Liste anderer bekannter Knoten belegt Buffer. Der Sinn, diese Anzahl
+          freier Buffer dem Anwender mitzuteilen, ist, da· es keinen Zweck
+          hat, bei einer sehr geringen Anzahl freier Buffer (< ca. 300)
+          Connects zu probieren. Denn wenn TheNetNode keinen freien Buffer
+          mehr zur VerfÅgung hat, wird ein Reset ausgelîst, der alle
+          bestehenden Verbindungen mit totalem Informationsverlust lîscht. Im
+          Normalbetrieb ist dieser Fall aber nahezu ausgeschlossen, da bei
+          normal gesetzten TheNetNode-Parametern eigentlich nie zu wenig
+          Buffer vorhanden sein kînnen (man kann nicht beliebig viele Pakete
+          hintereinander im Knoten "abladen").
+
+     Overall Throughput : <anzahl> <anzahl> <anzahl>
+          Zeigt den Datendurchsatz des Knotens an. Hierbei handelt es sich um
+          reine Infodaten ohne Protokoll- und Overheadbytes !
+
+     Aktive L2-Links : <anzahl> <anzahl>
+          Anzeige  der   Anzahl   der   aktiven   und   maximal   gleichzeitig
+          vorgekommenen Level-2-Verbindungen.
+
+     Active Nodes: <anzahl> <anzahl>
+           Hier  wird die  Anzahl der  derzeit bekannten  Nodes angezeigt. Die
+          zweite Anzahl  gibt die maximal eingestellte Anzahl der verwaltbaren
+          Nodes an.  (Dieses ist  die nÑchste Primzahl nach der unter TNNCFG =
+          <anzahl> <anzahl> eingestellten Grî·e.)
+
+     Aktive Circuits : <anzahl> <anzahl>
+          Anzeige  der   Anzahl   der   aktiven   und   maximal   gleichzeitig
+          vorgekommenen Circuit-Verbindungen.  Hier werden  natÅrlich nur  die
+          Verbindungen angezeigt,  die auf  diesem Knoten beginnen oder enden.
+          Alle anderen Verbindungen werden ja virtuell durch das Netz geleitet
+          und brauchen nicht auf jedem Knoten verwaltet zu werden.
+
+     CPU load : 39%
+          Zeigt die Auslastung der CPU an.
+
+     Buffer usage : 14%
+          VerhÑltnis zwischen belegten und zur VerfÅgung stehenden Buffern in
+          %.
+
+     Network Heap: <anzahl>
+          Sind die durch Routing - Infos belegten Bytes.
+
+     Free RAM (Fmem) : <anzahl>
+          Freier  Hauptspeicher  fÅr  DOS.  Bei  der  DPMI-Version  der  freie
+          Gesamtspeicher (bis 16 MB).
+
+     Die Hardware - Statistik....
+
+ Tokenring-Statistics:
+
+        Tokens/sec:       92      161      180
+    TOKENRING load: 11%
+
+   Token ring speed: 38400 Bit/s.
+   Token-Recoveries: 1
+        Bad-Frames: 0
+   TNC#1      RxAdr:     0  RxErr:     0
+   TNC#3      RxAdr:     0  RxErr:     0
+
+     Tokens/sec: <anzahl> <anzahl> <anzahl>
+          Zeigt die AktivitÑten des Tokenringes an.
+
+     TOKENRING load : 36%
+          Zeigt die Auslastung des Tokenring an.
+
+     Tokenring speed: 38400 Bit/s.
+          Anzeige der eingestellten Baudrate des Tokenringes.
+
+     Token-Recoveries: <anzahl> <datum>
+          Sind Abfragen an die TNC, die nicht wieder zum Rechner zurÅckkommen.
+          Sie werden mit Anzahl, Datum und Uhrzeit angezeigt.
+
+     BAD Frames:
+          Defektes oder falsches Token. Diese Fehler werden auf Port 0
+          gezÑhlt, da nicht festgestellt werden kann, auf welchem port der
+          Fehler entstanden ist.
+
+     TNC#1      RxAdr:     0  RxErr:     0:
+          Sowie Fehler der einzelnen TNC.
+
+     RxAdr Fehler:
+          ?
+
+     RxErr Fehler:
+          ?
+
+ KISS-Statistics:
+   KISS1      RxCRC:     0  RxErr:     0
+
+     KISS1      RxCRC:     0  RxErr:     0
+          Fehler dieser Kiss - Schnittstelle.
+
+     RxCRC Fehler:
+          Ein Frame mit falscher CRC wurde auf einem SMACK- oder RMNC-Kisslink
+          empfangen. Diese Fehler werden erkannt und sind unkritisch, weisen
+          aber auf eine schlechte öbertragung hin.
+
+     RxErr Fehler:
+          ?
+
+ External-Statistics:
+   TNN-ETH    TxErr: 0  RxOvr: 0  OFlow: 0  IOErr: 0
+
+     Fehler die durch externe Treiber entstehen.
+
+     TxErr Fehler:
+          ?
+
+      RxOvr Fehler:
+          ?
+
+     Oflow Fehler:
+          ?
+
+     IOErr Fehler:
+          ?
+
+     Die Error - Statistik....
+
+ Error-Statistics:
+
+                 RxID  RxLen  RxCtl Resets
+  0:70cm_1200      26      0      0      0
+  1:70cm_9600     347      0      0      2
+  2:23cm_9600     383      3      0      0
+  3:Lohfelden     170      3      0      2
+  4:Cluster         0      0      0      0
+  5:Mailbox         0      0      0      2
+  6:Goettingen      0      0      0      0
+
+     RxID Fehler:
+          ?
+
+     RxLen Fehler:
+          ?
+
+     RxCtl Fehler:
+          ?
+
+     Resets:
+          Anzahl der Resets der entsprechenden Port Hardware (Vanessakarten
+          oder TNC im Tokenring).
+
+     Die IP - Statistik ....
+
+ IP-Gateway-Statistics:
+
+ ipForwarding:      1      ipDefaultTTL:      10     ipInReceives:      0
+ ipInHdrErrors:     2      ipInAddrErrors:    0      ipForwDatagrams:   2
+ ipInUnknownProtos: 0      ipInDiscards:      0      ipInDelivers:      0
+ ipOutRequests:     1      ipOutDiscards:     0      ipOutNoRoutes:     2
+ ipReasmTimeout:    30     ipReasmReqds:      0      ipReasmOKs:        0
+ ipReasmFails:      0      ipFragOKs:         0      ipFragFails:       0
+ ipFragCreates:     0
+
+     ipForwarding:
+          0 = IP-Router ausgeschaltet
+          1 = IP-Router eingeschaltet
+
+     ipDefaultTTL:
+          Time-to-live fuer von TNN erzeugte IP-Pakete
+
+     ipInReceives:
+          Anzahl empfangene IP-Pakete
+
+     ipInHdrErrors:
+          Anzahl fehlerhafter IP-Header
+
+     ipInAddrErrors:
+          Anzahl fehlerhafter IP-Adressen
+
+     ipForwDatagrams:
+          Anzahl weitergeleiteter IP-Datagramme
+
+     ipInUnknownProtos:
+          Anzahl IP-Rahmen mit unbekannten Protokollen
+
+     ipInDiscards:
+          Anzahl geloeschter IP-Rahmen
+
+     ipInDelivers:
+          ????????
+
+     ipOutRequests:
+          ????????
+
+     ipOutDiscards:
+          Anzahl geloeschter Pakete
+
+     ipOutNoRoutes:
+          Anzahl IP-Pakete, fuer die keine Route vorhanden war
+
+     ipReasmTimeout:
+          Anzahl der wegen Zeitueberschreitung nicht zusammengesetzter
+          fragmentierter IP-Pakete
+
+     ipReasmReqds:
+          Anzahl notwendiger IP-Framezusammensetzungen
+
+     ipReasmOKs:
+          Anzahl erfolgreich zusammengesetzter IP-Fragmente
+
+     ipReasmFails:
+          Anzahl gescheiterter IP-Fragmentzusammensetzungen
+
+     ipFragOKs:
+          Anzahl IP-Fragmente
+
+     ipFragFails:
+          Anzahl fehlgeschlagener IP-Fragmenterzeugungen
+
+     ipFragCreates:
+          Anzahl erzeugter IP-Fragmente
+
+     Die Link - Statistik ....
+
+   Bytes total          I        RR       REJ       RNR   %RR  %REJ  %RNR
+ Link to DB0GOE           06.03.94 06:38:27 - 06.03.94 21:03:18
+ RX:    4373648      44196     23645      2154       188    30     2     0
+ TX:   14631652      78768     27066       238       220    61     0     0
+ Link to DB0AX            06.03.94 06:38:27 - 06.03.94 21:03:17
+ RX:    1295328      16120     14472       636         0    42     1     0
+ TX:    6824718      33662     11907         6         0    73     0     0
+ Link to DB0NHM           06.03.94 06:38:27 - 06.03.94 21:03:15
+ RX:     931191       5796      9626       663      1124    61     4     7
+ TX:    2915931      15564      6895       407         3   118     7     0
+
+     Bytes total       I       RR       REJ       RNR   %RR  %REJ  %RNR
+          Beschriftungszeile der Linkstatistikzahlen RX bzw. TX:
+
+     RX bzw. TX:
+          <anzahl> Bytes total   Byte insgesamt,
+          <anzahl> I             Infoframe,
+          <anzahl> RR            BestÑtigungs-Frame,
+          <anzahl> REJ           Reject-Frame,
+          <anzahl> %RR           RR Frames/gesendete I Frames in %,
+          <anzahl> %REJ          REJ Frames/gesendete I Frames in %,
+          <anzahl> %RNR          RNR Frames/gesendete I Frames in %.
+
+     %RR:
+          Ziel ist es, nicht jedes einzelne I Frame zu bestÑtigen sondern nach
+          Mîglichkeit mehrere  I-Frames  mit  einem  RR-Frame  zu  bestÑtigen.
+          HierfÅr ist  der T2-Timer zustÑndig. Andererseits darf aber auch die
+          Gegenstelle nicht zu schnell pollen. Dieses Poll-Frame wird wiederum
+          mit einem RR-Frame bestÑtigt.
+
+     %REJ:
+          Gibt Auskunft Åber die QualitÑt eines Interlinks.
+
+     %RNR:
+          Gibt Auskunft Åber die Verarbeitungsgeschwindigkeit der Gegenstelle.
+          RNR gibt es aber auch, wenn die Gegenstelle zu wenig Speicher hat.
+
+     %:   Derzeit  werden   noch  ALLE  auf  dem  Interlink  laufenden  Frames
+          ausgewertet.  Ist   der  Level-2-Verkehr   freigegeben,  so   werden
+          natÅrlich auch  REJ,  RNR  usw.  von  den  Level-2-Verbindungen  mit
+          aufgenommen. Diesen  Unterschied kann  man  aus  der  Statistik  von
+          DB0EAM besonders  gut ablesen.  Auf dem  Interlink nach DB0AX ist im
+          Gegensatz zu  dem Interlink  nach DB0GOE  der Level-2-Verkehr  nicht
+          zugelassen. Nach  DB0AX greifen  die Steuerfunktionen  des Level-3/4
+          Protokolles.  Es   kommt  nur  sehr  selten  zu  einem  RNR-  Frame.
+          Andererseits kann  man hier  auch  den  konsequenten  HF-Technischen
+          Aufbau (keinerlei  gegenseitige Beeinflussung  der  Interlinks)  von
+          DB0EAM ablesen.  Wurden von  DB0AX in  der  Regel  2,4%  der  Pakete
+          rejected, so sind es in der Gegenrichtung fast 0%. Auf dem Interlink
+          nach DB0KH  kînnte das  nur nach  Sperrung des  Level-2 festgestellt
+          werden. Vergleicht  man nun die Statistik von DB0NHM und DB0AX (sind
+          zwar nur  23 Stunden,  aber in der Tendenz gleichbleibend), so sieht
+          man deutlich  den gravierenden  Nachteil  eines  Level2-Systems  wie
+          FlexNet. Die  gro·e Anzahl von RNR wird Åber ALLE Teilstrecken, Åber
+          die der  Level-2 aufgebaut wurde, Åbertragen. Auf dem Interlink nach
+          DB0AX ist Level-2-Digipeating gesperrt, und damit steuert der Level-
+          3/4   den   Datenflu·.   Genauso   nachteilig   verhÑlt   sich   das
+          BestÑtigungsverhalten von FlexNet-Nachbar.
+
+     Link to <call> <datum> - <datum>.
+          Diese Rufzeichen-Statistik  zeigt an,  wann  die  Statistik  zuletzt
+          gelîscht worden ist, und wann das letzte Byte empfangen worden ist.
+
+     Die Port - Statistik ....
+
+              Links       RxB      TxB   RxBaud   TxBaud  RxOver TxOver
+  0:70cm_1200    6/5      5387k   52340k      64      208     83%     8%
+  1:70cm_9600    4/3     27434k  576083k      56      104     42%     1%
+  2:23cm_9600    4/1     10524k   60302k     392      248      6%    12%
+  3:Lohfelden    5/2     20441k  119742k      48       48     46%     9%
+  4:Cluster     23/1     68199k   31129k     128       48     10%    59%
+  5:Mailbox     21/1      2011M  588261k    4720     1616      2%    17%
+  6:Goettingen   1/1    176951k  424651k     496     1216      8%     2%
+
+ Total = 922.987.789 Bytes
+
+          In der Statistik werden nur die Info-Byte erfa·t!
+
+     0:<Portname>
+          Port Nummer  und Portname.
+
+     Links x/y
+          x =  Anzahl der l2 Verbindungen
+          y = Anzahl unterschiedlicher Call.
+          Links wird fÅr die Einstellung der automatischen Parameter
+          gebraucht.
+
+     RxB ... TxB
+          Empfangene ...  gesendete Datenmenge  in Byte;  k =  Kilobyte;  M  =
+          Megabyte; G = Gigabyte.
+
+     RxBaud ... TxBaud
+          Momentane Empfangsseitige ... Sendeseitige Linkbelastung.
+
+     RxOver ... TxOver
+          Prozentuales VerhÑltnis von NutzdatenÅbertragung zu
+          ProtokolldatenÅbertragung.
+
+     Total = <anzahl> Bytes.
+          Summe aller empfangenen und gesendeten Byte.
+
+                                                  (TA)LK <call>
+     Schaltet eine  TALK-Verbindung zu  dem User  mit dem <call>. Als Quittung
+     der Eingebende  wenn der  User mit dem Kommandointerpreter verbunden ist:
+     You are  now talking  with DL0EAM. Laeve this mode with /q. Alle weiteren
+     Eigaben bekommt  der User  als: Msg  from dl0eam: text............ Dieses
+     ist jedoch nur eine einseitige Verbindung.
+
+(SAT)               (externer Befehl)
+     Zeigt die derzeit 40 mîglichen Satelliten sowie eine kurze Hilfe an.
+
+(SAT) <nr>
+     Berechnet die  Satellitenposition zum  Zeitpunkt der Abfrage, bezogen auf
+     den Standort des Knotens. Ausgegeben werden nicht nur die Positionsdaten,
+     sondern auch die nîtigen Antennen-Einstellungen.
+
+(SAT) <nr> <locator> oder (SAT) <nr> <koordinaten>
+     Wie zuvor,  jedoch wird  nicht  der  Locator  des  Knotens,  sondern  der
+     angegebene verwendet.
+
+     GÅltiges Eingabeformat:
+     Geogr. Koordinate:  GGG.GGG GG.GGG z.B. 10.792 52.937
+     (îstl.LÑnge/nîrdl.Breite in Dezimalform)
+
+(SAV)ecall   (externer Befehl)
+
+(SAV)ecall <feldkenner> <text>
+     Die Felder kînnen mit (SAV)ecall ausgefÅllt oder geÑndert werden.
+
+ SAVECALL /N .... . . . . . ..... 30 Zeichen fÅr den Namen
+ SAVECALL /Q .... . . . . . ..... 30 Zeichen des Wohnortes
+ SAVECALL /L ......                6 Zeichen des World-Locators
+ SAVECALL /D .......               7 Zeichen fÅr Eingabe des DOK
+ SAVECALL /V .........             9 Zeichen QRV auf ... Digi
+ SAVECALL /M .................... 25 Zeichen Mybbs der Mailbox
+ SAVECALL /T .... . . . . . ..... 40 Zeichen fÅr freien Text
+            ( ein * als Text lîscht diesen Eintrag )
+ SAVECALL /*     ==> Vorsicht !! lîscht den ganzen Eintrag !
+
+     DOK Bitte so eintragen:   F73 oder  F73/Z25
+     .....sonst klappt es mit dem Suchen nachher nicht.
+
+(SH)owcall   (externer Befehl)
+
+(SH)owcall <call>
+     Ist ein  kleines Programm,  welches die  Visitenkarten der  User, die sie
+     sich selbst SAVECALL erzeugt haben, ausliest und anzeigt.  Muster:
+
+     == ShowCall ====================================== 01.09.95 ===
+     =  Call   :  ......     Name : .............................. =
+     =  Loc    :  ......     QTH  : .............................. =
+     =  QRV on :  ......... MyBBS : ....................           =
+     =  Dok    :  .......  Update : JJMMTTHH CALL                  =
+     =                                                             =
+     =  Free MSG    :  ........................................    =
+     ================================================== de DG3AAH ==
+
+     Die Liste lebt von der Beteiligung der User. Deshalb darf nur der darin
+     lesen und suchen der selbst zumindest die Felder Name, Locator und QTH
+     eingetragen hat. Das <call> kann auch in Verbindung den Platzhaltern "*"
+     und "?" aufgerufen werden. Dabei steht "*" fÅr beliebig viele Zeichen und
+     "?" steht fÅr genau 1 Zeichen. Es wird eine Liste der Calls aus,
+     bestehend aus :
+     - Call, Name, Wohnort und Locator.
+     Die ersten 3 Zeichen mÅssen jedoch angegeben werden, damit nicht
+     unendliche Listen ausgelesen werden.
+
+(SH)owcall W
+     Zeigt die Anzahl der EintrÑge an.
+
+(SO)FTWARE   (externer Befehl)
+     Gibt eine Softwarebeschreibung aus.
+     
+(SPE)ECH
+     Zeigt welche Sprechen im System vorhanden sind.
+
+(TA)LK <call> <text>
+     Mit TALK  <text> kann man einem User eine Textzeile zusenden, wenn dieser
+     mit dem  Kommandointerpreter des  Knotens verbunden  ist. Besteht  zu dem
+     User keine  Verbindung vom Kommandointerpreter, so wird die Textzeile bis
+     zu einem Reconnect aufgehoben. Wird die Verbindung durch einen Disconnect
+     vom User  aufgelîst, wird die Textzeile .....fachgerecht und gebÅhrenfrei
+     entsorgt.
+
+(TI)ME
+     Gibt das Systemdatum und die Uhrzeit aus.
+
+(TOP)        (externer Befehl)
+     Dieser Aufruf  wertet die MHEARD.TAB aus und erzeugt eine "Hitliste". Die
+     Auswertung ist  nicht immer  auf dem neuesten Stand. Die Datei MHEARD.TAB
+     wird in  AbhÑngigkeit des  Parameters 11 aktualisiert. Der aktuelle Stand
+     kann an der Uhrzeit im Kopf der Tabelle abgelesen werden.
+
+(TOP) <anzahl>
+     Gibt eine Liste mit der LÑnge bis maximal <anzahl> aus.
+
+(TOP) -<port>
+     Gibt eine Liste von 10 Calls, die auf dem <port> bekannt sind, aus.
+
+(TOP) <anzahl> -<port>
+     Gibt eine Liste mit der LÑnge bis maximal <anzahl>, die auf diesem <port>
+     bekannt sind, aus.
+
+(TOP) <call>
+     Gibt nur dieses Rufzeichen, aber mit den verschiedenen registrierten SSID
+     aus.
+
+(TOP) <ca*>
+     Z.B.: TOP DG8B* . Gibt alle Rufzeichen aus, die mit DG8B anfangen.
+
+(TOP) -L3
+     Wertet statt  der MHEARD.TAB die L3HEARD.TAB aus. In der werden die Links
+     gespeichert. Der  Parameter -l3  kann  mit  -port  und  anzahl  verknÅpft
+     werden.
+
+(TOP) -h
+     Gibt eine kurze Hilfe aus.
+
+(TOP) -v
+     Zeigt den Versionsstand an.
+
+     MHEARD-Auswertung vom 01.11.97 08:33 UTC bis 07.11.97 22:07 UTC
+
+ Nr. Call   Port          Rx         Tx      Summe   % RxRej TxRej Dama
+   1 DB0CXH CUX      5700751   40803866   46504617  47   571  6931    0  *
+   2 DB0WHV WHV     14771265    8463332   23234597  23   865   881    0
+   3 DL3BCO 70cm     6702818     157864    6860682   6    32     0    4
+   4 DB0DIM CUX      1479456    3923212    5402668   5    62  2919    0  #*
+   5 DG3BAF 70cm     2757348     175502    2932850   2    12     0    0
+   6 DG8BR  70cm     1969490     269554    2239044   2    64     0    0  #
+   7 DG9BJY 70cm     2014585      48985    2063570   2     1     0    0
+
+  .  Hat Call empfangen ---!          !          !   !     !     !    !  !
+  .  Hat Call gesendet ---------------!          !   !     !     !    !  !
+  .  Hat Call Åber den Digi Åbertragen ----------!   !     !     !    !  !
+  .  Hat Call Anteil an Digiauslastung --------------!     !     !    !  !
+  .  Hat Call gesendet, weil schlecht gehîrt --------------!     !    !  !
+  .  Hat Call empfangen, weil Digi schlecht gehîrt --------------!    !  !
+  .  Hat Call gegen DAMA versto·en -----------------------------------!  !
+  .      Call hat   * = VIA gearbeitet ----------------------------------!
+  .      Call ist   # = mit unterschiedlichen SSID auf Ports QRV --------!
+
+ 103 DL6BI  70cm        1333         15       1348   0     0     0    0
+ 104 DG6BAF 70cm         975        135       1110   0     0     0    0
+ 105 DK5BO  70cm         773        190        963   0     0     0    0
+ 106 DB0MHD CUX           87        355        442   0     0     0    0
+
+     Ausgewertet wurden alle Ports.
+     Die aufgelisteten Benutzer haben 98.405.235 Bytes = 100 % öbertragen.
+     Insgesamt wurden 98.405.235 Bytes von 106 User bewegt.
+
+     Falls sich  jemand Åber  die Differenz  zwischen PlÑtze und User wundert:
+     Sie entsteht  wenn ein  Benutzer auf mehreren Ports aktiv ist. Z.B.: 70cm
+     und 23cm.  Oder so...  Tatsache ist,  es wird  das Rufzeichen  nur einmal
+     gezÑhlt.
+
+     Beispiel fÅr eine Einzelausgabe:
+
+ Datum          Port           Rx         Tx RxRej TxRej D Call      Via
+ 31.03.95 22:53 70cm      7528028    1917008  120    0   0 DG3BAF
+ 31.03.95 22:32 70cm       314818    3684301   13    0   0 DG3BAF-2
+ 30.03.95 10:08 70cm            0          5    0    0   0 DG3BAF-15 DL1BKL
+ 25.03.95 09:49 70cm        23946      65179    1    0   0 DG3BAF-1
+ 03.03.95 10:07 70cm         1175        438    0    0   0 DG3BAF-4
+
+     Die Liste erklÑrt sich wohl von selbst.
+
+     Unter D  stehen die  DAMA-Verstî·e, und unter Via steht der, der sich als
+     Digipeater zur VerfÅgung gestellt hat.
+
+(TEL)NET Server
+     Ein simpler Telnet-Server.
+     
+(TR)ACE OPTIONEN PORT
+     Dieser Befehl dient zum erkennen und finden von Fehlern. Es stehen folgende
+     Optionen zur VerfÅgung.
+
+     Optionen:
+     U = Unprotokollierten Paketen,
+     I = Info Paketen,
+     S = Kontroll Paketen,
+     C = Monitor an auch bei bestehendem Connect,
+     H = HEADER, bei I-Frames nur den Header anzeigen, der
+     Infoteil der Frames wird unterdrÅckt,
+     F = FULL, I-Frames mit Infoinhalt anzeigen, es werden die
+     kompletten Frames gemonitort,
+     <port nr> = Nur der angegebene Port wird gemonitort,
+     + <call..call> = Nur diese Call (bis zu 8) monitoren,
+     - <call..call> = Diese Call im Monitor unterdrÅcken.
+
+     Beispiel: TR fusci 2
+
+(U)SER
+     Nach der Eingabe von U (fÅr USER) erscheint z.B.:
+
+ DENET1:KR2GAT> TheNetNode (Linux) (CB) V1.79mh03_rev40 (19459)
+ Uplink(DQA230)   N:KR1GAT           <--> (DQA230    <> DNX213-5) P5 CVS-Server
+ Uplink(DAD213-2) N:KR1GAT
+  Uplink @ Dessau:KR1GAT
+ Uplink(DIG396-1) N:DIG396           <--> (DIG396-1  <> KR2GAT-6) P5 CVS-Server
+ Uplink(DIX393-1) N:DIX393           <--> (DIX393-1  <> KR2GAT-6) P5 CVS-Server
+ Uplink(DNO920-1) N:DNO920           <--> (DNO920-1  <> KR2GAT-6) P5 CVS-Server
+ 
+  DENET1  Ist der  "ALIAS" des  Knotens, eine  Art Pseudonym.  Zum einen  soll
+          dieser ALIAS  eine geographische Information bieten, die einfacheres
+          Zuordnen unbekannter  Calls zu  einem Gebiet ermîglicht. Zum anderen
+          ermîglicht, im  Gegensatz zum  IDENT  (Rufzeichen),  der  ALIAS  ein
+          mehrfaches Connecten eines Knotens, denn man kann z.B.:
+
+          DENET1, DENET2, DENET3,
+
+          etc. gleichzeitig connecten, aber nur einmal KR2GAT.
+
+          Die  andere   Mîglichkeit,  Multiconnect   an  einem   TheNet-Knoten
+          durchzufÅhren,  ist   die  Benutzung  des  eigenen  Rufzeichens  mit
+          verschiedenen SSID  gleichzeitig. Das  kann derzeit  aber nicht jede
+          Software. Als  ALIAS wird  in DL  hÑufig  des  Autokennzeichens  des
+          Haupteinzugsbereiches  verwendet,   kurze  Ortsnamen   kînnen   auch
+          vorteilhaft ausgeschrieben werden, wodurch der Erkennungswert weiter
+          zunimmt.  Andere  Alternativen  wie  z.B.  Postleitzahlen  oder  WW-
+          Locatoren sind nicht sehr einprÑgsam.
+
+          Die Verwendung  des ALIAS,  statt des  Rufzeichens,  ist  K  E  I  N
+          Rufzeichenmi·brauch, da  der ALIAS ja gar keinen den internationalen
+          Normen fÅr  Amateurfunkrufzeichen entsprechenden  Aufbau hat  (haben
+          sollte...). Genausowenig  wie ja  auch ein  Ruf an CQ oder Test kein
+          Rufzeichenmi·brauch ist  oder das  4-Zeichen  Call  bei  Amtor.  Die
+          geforderte Rufzeichen-Nennung  alle 10  Minuten wird  vom Netzknoten
+          mit  einer  Bakenaussendung  an  ID  ausgefÅhrt,  in  der  auch  der
+          verwendete ALIAS mitgeteilt wird. Au·erdem bleibt die Verwendung des
+          ALIAS im  AX25-Adre·feld  auf  Endanwender  begrenzt,  zwischen  den
+          Knoten selbst  werden die  offiziellen IDENT  (Rufzeichen)  benutzt.
+          Auch lÑ·t  sich jeder  TheNet-Knoten anhand  des  INFO-,  USER-  und
+          NODES-Befehles  identifizieren.  Eine  einheitliche  Verwendung  von
+          Autokennzeichen in  Knotenlisten erhîht  die Transparenz  der  Netze
+          wesentlich.
+
+     KR2GAT
+          Ist das offizielle IDENT (Rufzeichen) des TheNet-Knotens.
+
+     Uplink <call>
+          Zeigt an,  da· der Benutzer mit dem Rufzeichen <call> hier am Knoten
+          in das  Netz eingestiegen  ist. Etwa vorhandene Digipeater werden in
+          der nÑchsten Zeile angezeigt.
+
+     Downlink <call>
+          Zeigt an,  da· der  Benutzer hier mit dem Rufzeichen <call> das Netz
+          verlÑ·t. Etwa  vorhandene Digipeater  werden in  der nÑchsten  Zeile
+          angezeigt.
+
+     Host
+          Bedeutet eine Verbindung zum Bedienerterminal des Knotens.
+
+     CQ <call>
+          Kann nur  auf der  rechten  Seite  erscheinen  und  zeigt,  da·  der
+          Benutzer "CQ"  ruft. Um  eine Verbindung  zu ihm aufzubauen, mu· das
+          <call> mit der SSID im Connect-Befehl abgegeben werden.
+
+     <-->
+          Zeigt eine bestehende Verbindung an.
+
+     <..>
+          Zeigt eine im Aufbau befindliche Verbindung an.
+
+          Ein Eintrag  ohne "rechte  Seite" bedeutet,  da· die Verbindung hier
+          zur Zeit  endet und  der Benutzer  mit  dem  Befehlsinterpreter  des
+          Knotens verbunden ist.
+
+     Uplink @ Dessau:KR1GAT
+          Zeigt den  Einstiegsknoten des  User an, sofern dieser nicht aus der
+          Circuit-Zeile bereits  hervorgeht. Dieses  ist immer  dann der Fall,
+          wenn mehrere  Level4-Verbindungen (Circuits)  nacheinander aufgebaut
+          werden.
+
+     Downlink Port_5 via DB0XYZ   oder   Uplink Port_5 via DB0XYZ
+          Zeigt den Downlink-Weg an, den der User genommen hat. >Port_5< steht
+          in diesem  Fall fÅr Port-Namen des entsprechenden Port (siehe (PO)rt
+          Befehl) und ist ein Level2-Interlink.
+
+(U)ser h
+     Wie (U)ser, zeigt zusÑtzlich die Convershost-Verbindungen an.
+
+(U)ser +
+     Zeigt in Tabellenform die Level2-Verbindungen an......
+ 
+ DENET1:KR2GAT> TheNetNode (Linux) (CB), 1.79mh03_rev40 (19474)
+ L2 - User:
+ PO SrcCall   DstCall  LS  Rx Tx Tr SRTT   RxB     TxB  Baud  ConTime Pr Da
+ --------------------------------------------------------------------------
+  1 KR2GAT    DNO275   IXF  0  0  0  50 109928k 685912k 1413   5d,21h  -
+  1 KR2GAT    D12KFG   IXF  0  0  0  50   4583       9   253    1d,0h  -
+  1 KR2GAT    DNX995   IXF  0  0  0  50 259713     188   200   3d,10h  -
+  1 KR2GAT    FIN6CN   IXF  0  0  0  50  50776    6325    15    2h,0m  -
+  1 KR2GAT    BO2NOD   IXF  0  0  0  50 273953k 169538k 1330   5d,20h  -
+  1 KR2GAT    FC6NOD   IXF  0  0  0  50 451216  189109   377    2h,1m  -
+  1 KR2GAT    DLGNOD   IXF  0  0  0 229 104530    2955    33    2d,8h  -
+  1 KR2GAT    DNQ504   IXF  0  0  0  50 508806  794267   128    2d,6h  -
+  1 KR2GAT    CB0RG    IXF  0  0  0  50   2293k   2220k  128    3d,0h  -
+  1 KR2GAT    KR4GAT   IXF  0  0  0 208   9860   23822    96  39m,12s  -
+  1 KR2GAT    DIX393   IXF  0  0  0 246   2239k   3437k  136    3d,2h  -
+  1 KR2GAT    DNX354   IXF  0  0  0  50   2053k   2223k  120    3d,2h  -
+  1 KR2GAT    I45HES   IXF  0  0  0  50   6020k   2651k   96    7d,3h  -
+  1 KR2GAT    D11KFG   IXF  0  0  0  50  71066   66668    96   3h,36m  -
+  1 KR2GAT    DNX233   IXF  0  0  0  50   6446   20086    96  37m,47s  -
+  1 KR2AGT    CB0SFT-1 IXF  0  0  0 104  78228  591668   112   3h,35m  -
+  1 KR2GAT    NB1BKM-1 IXF  0  0  0  50  94387   93401    96   3h,36m  -
+  1 KR2GAT    DIG233   IXF  0  0  0  50  21540   24779   120  38m,10s  -
+  1 KR2GAT    PRKT10   IXF  0  0  0  50   4653   27953   128  12m,21s  -
+  1 KR2GAT    KR1GAT   IXF  0  0  0  50   5630k   4861k  120   6d,18h  -
+  1 KR2GAT    DIX956   IXF  0  0  0  50  11820    8823   552   6m,23s  -
+  1 KR2GAT    KB0BLD   IXF  0  0  0  66  30971   24786    96  50m,13s  -
+  1 KR2GAT    GF1DIG   IXF  0  0  0  50   4544k   4575k  160   6d,21h  -
+  1 KR2GAT    CB0GBZ   IXF  0  0  0  50   1606k   2576k  144    7d,2h  -
+  1 KR2GAT    DOK346   IXF  0  0  0  50   1037k   1109k  344   1d,16h  -
+  1 KR2GAT    KR3GAT   IXF  0  0  0  50 107858  189871   152   3h,17m  -
+  1 KR2GAT    DNO404   IXF  0  0  0  50 184898  216233   112   7h,21m  -
+  1 KR2GAT    CB0DLN-8 IXF  0  0  0  50   5999k   5332k  520   9d,14h  -
+  1 KR2GAT    DIG396   IXF  0  0  0  50  60936   74319   168   1h,32m  -
+  1 KR2GAT    AS1NOD   REJ  0  0  0  50 108014   91700   192   3h,36m  -
+  1 KR2GAT    CB0NET   IXF  0  0  0 207  27023   50862   104   1h,29m  -
+  1 KR2GAT    CB1NET   IXF  0  0  0 224   1112k 739736   120    1d,4h  -
+  1 KR2GAT    DNX580   IXF  0  0  0 177    795     795     0       2s  -
+  1 KR2GAT    LNK989   IXF  0  0  0  50  76149   14340   232  15m,50s  -
+  1 KR2GAT    DNX2DB   IXF  0  0  0 116 193373  184141   840    8h,1m  -
+  1 KR2GAT    DNO459   IXF  0  0  0  50  22473  122805   144   1h,36m  -
+  1 KR2AGT    KR1BOX-8 IXF  0  0  0 144     18     152    24   3m,42s  -
+ /    /         /      /   /  /  /   /     /         /     /      /     /
+ 1)  2)        3)     4)  5) 6) 7)  8)    9)       10)   11)    12)   13)
+
+      1)  Benutzter Port zur einfacheren öbersicht.
+      2)  Quellrufzeichen des L2-QSOs.
+      3)  Zielrufzeichen des L2-QSOs.
+      4)  L2-Link-Status:
+          SET = Link-Setup,
+          FMR = Frame Reject,
+          DRQ = Disconnect Request,
+          HTH = Wartet auf Connect eines Digipeating-Zieles,
+          IXF = Info Transfer,
+          REJ = REJ Send,
+          WAK = Waiting Acknowledge,
+          DBS = Device Busy,
+          RBS = Remote Busy,
+          BBS = Both Busy,
+          WDB = Waiting Ack and Device Busy,
+          WRB = Waiting Ack and Remote Busy,
+          WBB = Waiting Ack and Both Busy,
+          RDB = REJ Send and Device Busy,
+          RRB = REJ Send and Remote Busy,
+          RBB = REJ Send and Both Busy.
+      5)  Anzahl der empfangenen Frames in der Warteschlange fÅr diesen Link.
+      6)  Anzahl der noch zu sendenden Frames in der Warteschlange fÅr diesen
+          Link
+          Wenn ein Link zu einem Nachbarn zusammenbricht, wird dieser bei mehr
+          als 100 ausstehenden Paketen im L2 einfach abgebrochen.
+      7)  Anzahl Retries.
+      8)  Stand des 'Smoothed Round Trip Timers'(in mal 10 ms).
+      9)  Anzahl empfangender Bytes seit Bestehen des Links.
+     10)  Anzahl gesendeter Bytes seit Bestehen des Links.
+     11)  Aktuelle effektive Baudrate fÅr diesen Link.
+     12)  Connectzeit in HH:MM:SS und bei Åber 23:59:59 Stunden dann nur noch
+          als TTT/HH:MM.
+     13)  Bei DAMA-Netzeinstiegen:
+          Aktuelle PrioritÑt des User (0: = hîchste PrioritÑt).
+
+     .......und auch die Level4-Verbindungen.
+
+ L4 - User:
+ Call      Node       S  Rx  Tx Tr Win SRTT     RxB     TxB    Baud   ConTime
+ -----------------------------------------------------------------------------
+ DQA230    KR1GAT     I   0   0  0 10  7425     696   16898      80    3h,40m
+ DAD213-2  KR1GAT     I   0   0  0 10  1075       6     793      48   12m,43s
+ DIG396-1  DIG396     I   0   0  0 10  2620   61024    1419k     48     5d,3h
+ DIX393-1  DIX393     I   0   0  0 10  2042   70971    1532k     96    5d,14h
+ DNO920-1  DNO920     I   0   0  0 10  2670   54939    1389k     48    4d,21h
+ KR1BOX-8  DNO920     I   0   0  0 10  1000      72       9       8    3m,39s
+ /           /       /    /   /  / /    /        /      /        /       /
+  1)        2)     3)    4)  5) 6) 7)  8)       9)     10)      11)     12)
+
+      1)  Rufzeichen des User.
+      2)  Call des Knotens mit dem der User verbunden ist.
+      3)  L4-Circuit-Status.
+          S  = Circuit-Setup,
+          .I  = Eigener Knoten steht im Choke (DatenÅbertragung angehalten),
+          I. = Der Zielknoten steht im Choke,
+          I  = Normaler Info-Transfer,
+          D  = Disconnect-Request.
+      4)  Anzahl der empfangenen Frames in der Warteschlange fÅr diesen
+          Circuit.
+      5)  Anzahl der noch zu sendenden Frames in der Warteschlange fÅr diesen
+          Circuit.
+      6)  Anzahl Transport-Retries.
+      7)  Transport Fenstergrî·e.
+      8)  L4 SRTT.
+      9)  Anzahl empfangender Bytes seit Bestehen des Circuits.
+     10)  Anzahl gesendeter Bytes seit Bestehen des Circuits.
+     11)  Aktuelle effektive Baudrate fÅr diesen Circuit.
+     12)  Connectzeit in HH:MM:SS und bei Åber 23:59:59 Stunden dann nur noch
+          als TTT/HH:MM.
+
+     Zur Messung des L4SRTT:
+          Durch den  Aufbau des  NET/ROM Layer 4 kann man GrundsÑtzlich nur in
+          Senderichtung den  SRTT messen,  d.h. immer  wenn wir  Info  senden,
+          messen wir  die Laufzeit.  Von dem  L4SRTT  wird  hauptsÑchlich  das
+          Acknowledge - Timeout und das Requery - Timeout abgeleitet.
+
+     Acknowledge - Timeout:
+          Der L4 kann Daten Senden, bis ein sogenanntes Sendefenster voll ist.
+          Dieses umfa·t  in der  Regel 10  Frames. Das  Sendefenster wird beim
+          Verbindungsaufbau zwischen  den  Partnern  vereinbart  und  ist  auf
+          beiden Seiten  gleich. Danach wird auch das Acknowledge(BestÑtigung)
+          - Verhalten  ausgerichtet. Sobald das Empfangsfenster halb voll ist,
+          wird sofort  eine BestÑtigung  gesendet, spÑtestens  aber  nach  der
+          einfachen L4SRTT-Zeit.  Damit wird  einerseits  ein  stÑndiger  Flu·
+          sichergestellt, andererseits werden unnîtige ACK verhindert.
+
+     Requery - Timeout:
+          "Requery" ist  hier eigentlich nicht richtig, denn NET/ROM hat keine
+          Kommandos  in   Empfangsrichtung.  Dies  bedeutet,  das  nach  einer
+          bestimmten Zeit  das Frame  vom Sender  wiederholt werden  mu·,  der
+          EmpfÑnger kann nicht mitteilen, das er das Frame nicht bekommen hat.
+          Man  spricht   von  Requery-by-Timeout,   man  kînnte   auch   sagen
+          Retransmission-Timeout.  Dieser   Timeout  wird  wieder  vom  L4SRTT
+          abgeleitet, mit Faktor 3.
+
+     Was sagt uns das?
+          Ein sehr  hoher SRTT-Wert (sagen wir 100s) bedeutet nicht, das diese
+          Verbindung wirklich  so lahm ist, sondern einfach das dort wenig los
+          ist, und  beide seiten  sehr selten ein ACK schicken. Da wir sowieso
+          beim halben  Fenster ein ACK schicken, kann die Verbindung jederzeit
+          schnellen Datentransfer  aufnehmen. Andererseits ist es richtig, das
+          solche Links  mit sehr  langen  Requery  -  Timeout  belegt  werden,
+          schlie·lich kînnte  es sein, das der Partner sich einfach lange Zeit
+          lÑ·t fÅr  die BestÑtigung  (hoher L4SRTT).  Die  hier  vorgestellten
+          AblÑufe sind  TCP/IP entliehen  und den besonderen Anforderungen von
+          NET/ROM angepa·t.  Da TCP/IP  mit Antwortzeiten  im Millisekunden  -
+          Bereich arbeitet,  wir aber  bei einigen  Sekunden, wird  sich  erst
+          zeigen, ob  das alles  so richtig  hinhaut. Durch  Begrenzungen nach
+          unten  und   oben  ist   in  der   Soft  sichergestellt,  das  nicht
+          allzuschiefe "automatische" Timerwerte generiert werden kînnen.
+	  
+ TCPIP-User:
+ Iface   SrcCall   DesCall     NT    T3      RxB    TxB    Baud   ConTime
+ ------------------------------------------------------------------------
+ IPConv: DIX393-1  KR2GAT-6  17983 17983    1532k 70971      96    5d,14h
+ IPConv: DQA230    DNX213-5  17760 17760   16898    696      80    3h,40m
+ IPConv: DIG396-1  KR2GAT-6  17983 17983    1419k 61024      48     5d,3h
+ IPConv: DNO920-1  KR2GAT-6  17983 17983    1389  54939      48    4d,21h
+
+(U)ser (L)inks
+     Zeigt in Tabellenform NUR die Level2-Verbindungen an.
+
+(U)ser (C)ircuit
+     Zeigt in Tabellenform NUR die Level4- (Circuit -) Verbindungen an.
+
+(U)ser <Port Nr.>
+     Zeigt in  Tabellenform NUR  die Level2-Verbindungen des angegebenen Ports
+     an.
+
+(U)ser <call>
+     Zeigt nur den bestimmten User an. Dabei sind die folgenden Abfragen
+     mîglich :
+     u db7*;
+     u db7kg* zeigt aber auch db7kga, db7kgb, db7kgc usw. aber auch alle SSID
+     von DB7KG;
+     u db7kg zeigt db7kg-0 an;
+     u db7kg-15 zeigt db7kg-15an;
+     u db7kg-* geht NICHT
+
+ L2 - User:
+
+ Po SrcCall   DstCall   LS  Rx Tx Tr SRTT   RxB    TxB   Baud   ConTime Pri
+ --------------------------------------------------------------------------
+  2 KS-5      DG9FU-5   IXF  0  0  0   95  2624  96563     96   2:13:33   -
+  2 KS-6      DG9FU     IXF  0  0  0   85   176   5367     72   1:07:41   -
+
+ Uplink(DG9FU-5)                     <-->  Convers(DG9FU-5) Ch 170
+ Uplink 23cm_9600
+ Uplink(DG9FU)
+ Uplink 23cm_9600
+
+ DG9FU de DB0EAM (16:52) >
+
+(V)ERSION
+     Gibt die aktuelle Versionsnummer der Software aus.
+
+(V)ERSION +
+     Zeigt die Version und die Compiler Switches an.
+
+(IPC)ONV
+     IP-CONVERS ist ein weiteres TCPIP-Feature nach TELNET und HTTPD.
+     
+     Somit ist eine Kopplung TNN<>Saupp per IP kinder leicht.
+     Weitere Funktionen des IP-Convers-Server: Tel/Web-Zugang
+     
+     (IRC-Modus ist in Arbeit, geht aber nicht so schnell) :-)
+     

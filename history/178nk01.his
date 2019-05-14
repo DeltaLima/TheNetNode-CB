@@ -1,0 +1,23 @@
+= L3 neu sortiert - es entfallen l3a.c, l3b.c l3c.c; iproute.c heisst nun
+  l3ip.c. Neu: l3inp.c, l3misc.c, l3nbr.c, l3netrom.c, l3rtt.c, l3tab.c,
+  l3var.c, l3vc.c, l7showl3.c. l3.h entfaellt, statt dessen gibt es nun
+  l3local.h (nur fuer L3) und l3global.h (fuer alle Layer).
+  Verbesserungsvorschlaege zur Aufteilung bzw. zu Filenamen sind willkommen!
+
+= L3: Bei der automatischen Nachbarerkennung werden beim umschalten von NETROM
+  auf INP alle bisher als UI gesendeten Ziele erneut gemeldet.
+
+= Node-Call in Kleinschrift anzeigen, wenn INP-Options vorhanden.
+
+= GO32-Include-Files include/{hardware.h,kiss.h,pc.h,vanessa.h,api.h,api32.h}
+  nach os/go32 verschoben.
+
+= Linux-Version: bei STAT wird "Free RAM (Fmem)" nicht mehr angezeigt.
+
+= DG9OBU:
+  - neues Kernel-Interface fuer Linux-Version (s. history/178mh01.his 
+    und history/kernelif.his).
+  - neuer Befehl AXIPR (s. history/axipr.his) für Einstellungen, die bisher
+    nur ueber ax25ip.cfg (incl. Neustart) vorgenommen werden konnten.
+
+= Auto-Update der Konfigurationsdateien TNNxxx.PAS und TNNxxx.TNB.

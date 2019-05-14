@@ -1,0 +1,36 @@
+* Zusaetzliche Makros fuer Prompt:
+  '%l' Anzahl aktiver L2-Links
+  '%p' Portnummer
+  '%P' Pseudo-Name des Ports
+  '%u' Anzahl der User auf dem aktuellen Port
+  '%%' %
+  
+  Zur Erinnerung: diese und die anderen Prompt-Makros funktionieren auch
+                  in CTEXT.TXT und CTEXT.<portnummer> !!!
+
+* Linux: AX25IP umgekrempelt, es ist nun ein paralleler Betrieb von UDP und IP
+  moeglich. Ebenfalls kann die UDP-Portnummer, auf der TNN hoert, nun waehrend
+  des laufenden Betriebs geaendert werden.
+  
+  ACHTUNG !!! Die entsprechenden Ports sind netzwerkseitig nur offen, wenn
+  es auch AXIPR-Routen gibt !!! So lange keine Route oder eine Defaultroute
+  eingetragen wurde, empfaengt TNN deshalb auch nix !!! Dies gilt fuer IP und
+  UDP jeweils getrennt, ohne IP-Routen kein IP-Empfang, ohne UDP-Routen kein
+  UDP-Empfang !!! Die Ports oeffnen und schliessen automatisch je nach
+  Vorhandensein von Routen. Ohne eingetragene Routen sind sie sowieso wertlos,
+  da TNN Sendeframes wegschmeisst, wenn es keine IP-Adresse ermitteln kann.
+  Fuer Empfangsversuche ist also z.B. eine Defaultroute zu 127.0.0.1 im
+  zu beobachtenden Mode notwendig.
+  
+  Die standardmaessig geschlossenen Ports sollten auch gegen Angriffe aus
+  dem Internet schuetzen (Flooding etc.). 
+
+* Linux: Fehler im Kernel-AX.25 behoben, es war kein RX/TX mehr moeglich,
+  weitere Anpassungen wegen KJD-Kernel
+
+* Der "Routes"-Befehl zeigt nun an, wie viele Routen wirklich auf einen
+  jeweiligen Nachbarn zeigen.
+  
+  Die Zahl unter "Dst" gibt wie bisher an, wie viele Ziele von diesem
+  Nachbarn bekannt sind, unter "Rou" steht nun zusaetzlich, fuer wieviele
+  Ziele dieser Nachbar derzeit der beste Weg ist.

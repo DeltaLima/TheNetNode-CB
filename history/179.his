@@ -1,0 +1,6 @@
+= neuen L4 vorerst wieder abgeschaltet um volle Kompatibilitaet zu anderen
+  Systemen zu wahren
+
+= sonst keine Aenderungen seit pre8, nur Debugmodus ausgeschaltet und Hinweise
+  auf geaenderte Stellen aus dem Source entfernt, Adressen in der ALAS
+  aktualisiert, ReadMe auf Release angepasst

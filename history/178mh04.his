@@ -1,0 +1,36 @@
+= Aenderung bei den Subnetz-Bits bei IPA: sind keine angegeben so melden
+  wir uns mit 32 weiter, das sorgt dafuer, dass wir nur die eigene IP an
+  uns ziehen und nicht alles.
+
+= per INP empfangene IP-Adressen und Subnetz-Bits anderer Digis werden in
+  entsprechende IPR- und ARP-Eintraege umgesetzt.
+  (Info: anlegen/aendern ueber src/l3inp.c::update_options(..)
+         loeschen ueber src/l3tab.c::add_route(..., qual=0) ->del_route(...) )
+
+= haben wir keine eigene IP (IPA 0.0.0.0) melden wir auch keine Subnetz-Bits
+
+= ARP- und IPR-Eintraege werden nur gemacht wenn wir eine eigene IP
+  gesetzt haben und Parameter 12 gesetzt (!= 0) ist (siehe unten)
+
+= neuer Par 12 ("AutoIPR")
+   0 : ausgeschaltet, KEINE automatischen IPR- und ARP-Ein/Austragungen
+       (damit kann man die Tabellen einfrieren wenn sie gefuellt sind !)
+   1 : automatische Ein/Austragung OHNE jegliche Pruefung der IP-Adressen
+   2 : automatische Ein/Austragung, unmoegliche IP-Adressen werden ignoriert
+       (x.x.x.0 x.x.x.255)
+   3 : automatische Ein/Austragung, es werden nur IP-Adressen beruecksichtigt,
+       die im GLEICHEN Netz wie man selbst und gueltig sind. (default)
+       (Bsp: hat man die IP 44.1.2.3 werden nur andere 44.x.x.x-IPs eingetragen)
+       
+  Die Pruefung mit Stufe 3 ist *dringend* zu empfehlen, wer sich mal genau
+  anguckt was da z.T. fuer schrottige Adressen von einigen Knoten verbreitet
+  werden, weiss warum. Moechte man alles offen haben ist Stufe 1 zu waehlen,
+  man sollte sich dann aber nicht wundern, wenn z.B. das lokale Ethernet
+  ploetzlich in die Botanik geroutet wird !
+  
+  Auf die Befehle IPR und ARP haben diese Einstellungen keine Wirkung, von
+  Hand sind jederzeit weitere (auch unsinnige) Eintragungen moeglich.
+
+= IPA: IP-Adressen die auf .0 oder .255 enden werden nicht akzeptiert.
+  (.0: Netzwerkbasisadresse, .255: Broadcastadresse, beide sind lt. IP-Spec
+   nicht als Hostadressen zugelassen)

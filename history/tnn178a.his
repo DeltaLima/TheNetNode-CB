@@ -1,0 +1,4 @@
+= KISS / RKISS Fehler bei GO32-Version beseitigt
+= kleine Aenderung im makefile, damit nicht mit jedem "make" alles neu
+  uebersetzt wird
+= ipDefaultTTL -> 32

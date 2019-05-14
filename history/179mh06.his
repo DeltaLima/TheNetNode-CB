@@ -1,0 +1,20 @@
+Aenderungen 179mh05 -> 179mh06:
+-------------------------------
+
+* Linux: der Routenlerner das ax25ip hatte ein Problem mit der Default-Route, was das
+  Lernen von neuen Verbindungen blockieren konnte.
+
+* Linux: Konsolen- und Socketbehandlung modifiziert:
+  Wenn TNN im Hintergrund gestartet wird, fuehrt eine geschlossene Konsole oder
+  ein geschlossener Socket beim Schliessen des TTY nun nicht mehr dazu, dass
+  100% CPU gezogen werden.
+  
+  Einmal als geschlossen bzw. fehlerhaft erkannte TTY werden nicht neu verbunden,
+  abgebrochene Sockets werden fuer eine neue Verbindung wiederhergestellt.
+
+* Linux: neuer Kommandozeilenschalter "-v" fuer ausfuehrlichere Startmeldungen.
+         (nur bei Problemen interessant, nicht fuer den Regelbetrieb)
+
+* Linux: kleinere Aufraeumarbeiten und Sicherheitspruefungen von Systemaufrufen hinzugefuegt.
+
+* Linux/MIPS: PACSAT und einige x86-spezifische Sachen werden nicht mehr mit compiliert

@@ -1,0 +1,9 @@
+= IPA-Befehl modifiziert, Angabe der Subnetz-Bits jetzt moeglich.
+  Es findet KEINE UEBERPRUEFUNG statt ob das Subnetz zur IP passt,
+  also selber ausrechnen ! (soll spaeter mal anders werden)
+  Bsp: IPA 44.130.13.100/32
+
+= Meldung der eigenen IP und Subnetz-Bits per INP an andere Nodes
+= bei "SP" (SaveParam) Speicherung der eigene IP jetzt auch mit den
+  Subnetz-Bits
+

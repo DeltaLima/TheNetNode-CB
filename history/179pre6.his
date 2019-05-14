@@ -1,0 +1,9 @@
+* Diese Version wurde nie veroeffentlicht, sie enthielt nur Veraenderungen,
+  um unter AX25IP mehrere Ports zu ermoeglichen. Dies wird benoetigt, um
+  auf Knoten mit Internetlinks mehrere Verbindungen in Mode N oder N- zu
+  ermoeglichen. Um der Verlinkung via Internet keinen weiteren Vorschub
+  zu leisten, wurde die Ergebnisse nicht in den Code uebernommen.
+  
+  Funktionieren tut das oben beschriebene dennoch in der nicht veroeffent-
+  lichten pre6. Teilweise Anpassungen sind noch notwendig, werden aber
+  nicht weiter verfolgt.

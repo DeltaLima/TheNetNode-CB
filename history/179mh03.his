@@ -1,0 +1,114 @@
+* "Mailbox" und "DX"-Kommando konnten fehlerhaft arbeiten, wenn keine Mailbox
+  oder kein DX-Cluster eingetragen wurde. Initialisierungen verschoben, wurden
+  offensichtlich ignoriert. (Compilerfehler ?)
+
+* Diverse uninitialisierte Variablen gefixt und zusaetzliche Sicherheits-
+  initialisierungen eingebaut. Aufraeumen des Speichers bei Programmende.
+
+= Der L2-RX ignorierte die "QST" ARP-UI-Frames, korrigiert.
+
+= Linux: 6PACK hatte RX-Probleme auf TNC2 mit original 6PACK-Firmware, auf dem
+         TNC3 tritt das Problem nicht auf (fehlerhafte/unvollstaendige 6PACK-
+         Implementation im TNC3).
+         
+         Weiterhin gibt es fuer den Sysop nun ein Kommando "6pack loglevel x",
+         wobei 0 <= x <= 4 gilt. Je groesser x, desto mehr Debugausgabe erfolgt
+         in eine Datei namens "6pack.log". Achtung, x = 4 ist sehr ausfuehrlich
+         und sollte nur benutzt werden, wenn ein Anlass besteht und auch genug
+         Plattenplatz vorhanden ist ! Es erfolgt keine Ausgabe der Meldungen auf
+         der Console bzw. im verbundenen Kanal, es wird nur in besagte Datei gelogt.
+
+= Linux: AX25IP vereinheitlicht, so dass Aufgaben des L1-Treibers nicht wie bisher
+         an Stellen ausserhalb des Treibers erledigt werden.
+         
+= Linux: AX25IP: Korrektur eines Fehlers, der den Empfang bei IP-Links verhinderte.
+
+= Linux: AX25IP: Mehr Frametypen fuehren beim dyn. Routenlerner nun zu einem
+         Eintrag.
+
+= Linux: "ax25ip.cfg"-Konfigurationsdatei wurde bis zum Programmende offen
+         gehalten. Wird jetzt nach dem Einlesen wieder geschlossen.
+
+= Linux: Vanessa nur deinitialisieren wenn auch eine Karte gefunden wurde,
+         Speicher nur unmappen wenn er auch gemapt war.
+
+= Linux: Compilieren war ohne gesetzten "#define KERNELIF" nicht mehr moeglich.
+
+= Linux: Lock-Files ordentlich abraeumen bei Fehlern waehrend des L1-Setups.
+
+* Folgende schaltbare Funktionen wurden aus all.h entfernt und befinden sich
+  nun fest im Code:
+  
+    + IPRTCACHE         IP-Routencache
+    + REALROUTECOUNT    Zaehlung der Routen zum Nachbar
+
+* INP-Modul aufgeraeumt, hier war sehr viel versionsspezifischer Code bzgl.
+  erster INP-Implementationen. Dieser Code wird nun NICHT mehr mit compiliert,
+  er ist nur noch auf Knoten notwendig die mit TNN-Nachbarn mit Versionen
+  kleiner als 1.76 linken ! Wer diese Codeteile benoetigt, muss das
+  "#define OLD_INP" in all.h aktivieren, sonst werden so alte Nachbarn nicht
+  mehr verstanden ! Besagter Code wird asap dauerhaft entfernt, dies ist nur
+  eine Uebergangsloesung !!!
+
++ Linux: "sm02"-Patch integriert, fuer alle HDLC-Devices ("bc*"-Interfaces)
+         und SoundModem ("sm*") wird nun DCD und PTT vom Kernel abgefragt.
+         Einzuschalten mit "#define HDLC_DCDPTTSTAT" in all.h.
+         
+         Fuer den SCC-Treiber kann nun ebenfalls die PTT-Information vom
+         Kernel erhalten werden, einzuschalten mit "#define SCC_DCDPTTSTAT".
+
+         Weiterhin kann nach einem kleinen Patch am Kernel auch der DCD-
+         Zustand der SCC-Devices abgefragt werden, hierzu ist zusaetzlich
+         der "#define OBU_SCC_DCD" zu aktivieren. Achtung, dies funktioniert
+         NUR mit veraendertem Kerneltreiber, mit "vanilla"-Kerneln bzw. deren
+         SCC-Treiber ist ein compilieren nicht mehr moeglich ! Naehere Infos
+         finden sich in "sccpatch.txt".
+
+* Kommandozeile fuer externe Programme konnte ueberlaufen. Behoben. (sm04)
+
+* Linux: Der Routenlerner muss die direkt gehoerte Station, also ggf. das
+         letzte Via, lernen und nicht unbedingt den eigentlichen Absender.
+         (sm04)
+
+* Linux: AXIPR wertete in der alten Syntax bei "R +" die angegeben IP-Adresse
+         nicht korrekt aus.
+
+* Linux: Interaktive Shell. Wird bei "sh" kein direkt auszufuehrender Befehl
+         angegeben, so erhaelt man eine interaktive Shell. Befehle wie z.B.
+         "sh ls -l" werden wie bisher direkt ausgefuehrt. Der Timeout fuer
+         nicht-interaktive Befehle betraegt weiterhin eine Minute, die
+         interaktive Shell hat hier fuenf Minuten mit Timeout-Warnung.
+         (Nur als Sysop, nicht fuer Benutzer verfuegbar)
+
++ Bei UI-Frames wird der via-Pfad ausgewertet und der Weg zum naechsten Hop
+  bestimmt. Es gelten die folgenden Einschraenkungen:
+
+  Falls das eigene Knotencall ...
+
+    ... das naechste Via ist: Falls es noch weitere Via nach uns gibt UND der
+    naechste Hop per L2 erreichbar (also ein Local oder Flexnet-Nachbar) ist,
+    wird das Frame auf dem entsprechenden Port ausgegeben. Sind wir das letzte
+    Via in der Liste, dann wird geprueft, ob das Ziel ein Local oder ein lokaler
+    User ist und falls dem so ist, das Frame auf dem entsprechenden Port ausgegeben.
+    
+    ... nicht das naechste Via ist: Es wird geprueft, ob das gewuenschte Via
+    bekannt UND per L2 (Flexnet oder Local) erreichbar ist, und das Frame dann
+    auf dem entprechenden Port ausgegeben. Calls auf Userports werden hier nicht
+    als moegliche naechste Via-Ziele beruecksichtigt. Ebenfalls werden auf Ports
+    empfangene Frames, die nicht an uns gerichtet sind und wenn der Port keine
+    Interlinks hat, ignoriert.
+    
+    Grundsaetzlich findet keine Ausgabe von UI-Frames statt, wenn das naechste
+    notwendige Ziel, also das naechste Via oder der Zielknoten, nur per NETROM
+    erreichbar ist. Der via-Pfad wird bis auf das Aendern des H-Bit beim eigenen
+    Call nicht veraendert !
+
+    Eventuell soll spaeter mal ein Flexnet-aehnliches UI-Forwarding implementiert
+    werden, da ich aber komplett im NETROM-Land sitze und keine Moeglichkeit habe
+    Flexnet zu beobachten, bin ich auf Traces unter genauer Angabe der Situation
+    angewiesen. Wer so etwas oder sogar Dokumentation beisteuen kann, bitte zuschicken.
+    (dg9obu@nordlink.org oder dg9obu@db0uhi.#nds.deu.eu)
+
+  Die schon im Code vorhandene Mailbaken-Funktion, die mit Hilfe des Knoten-Aliasses
+  eine gezielte Aussendung von UI-Frames auf bestimmten Ports ermoeglichte, ist
+  weiterhin unveraendert vorhanden.

@@ -1,0 +1,274 @@
+Das IP-Kernelinterface von TNN
+==============================
+
+Das Kernelinterface ermoeglicht die direkte Kopplung des TNN-internen
+IP-Routers an den IP-Router des Linuxkernels. Hierdurch koennen (bei reiner
+IP-Kopplung an den Kernel) zusaetzliche Programme wie die AX.25-Utilities
+eingespart werden. Ein Shell-Login in Linux ist ueber diese Funktion nicht
+moeglich, hierfuer werden weiterhin die AX.25-Utilities benoetigt. Wird das
+Interface aktiviert, so werden im Kernel-IP-Router und bei TNN automatisch
+entsprechende Routeneintraege erzeugt, TNN erscheint dann wie eine
+Netzwerkkarte im Kernel.
+
+
+Voraussetzungen
+===============
+
+Das Kernelinterface wurde erfolgreich mit dem 2.2.x- und 2.4.x-Kerneltree
+getestet, Kernel der 2.0.x-Serie sind bisher nicht getestet worden,
+hier funktioniert unter Umstaenden auch das Tool fuer die 2.2.x-Kernel.
+
+In jedem Fall muss die Netzwerkunterstuetzung fuer TCP/IP im Kernel vorhanden
+sein. Dies ist aber eigentlich immer der Fall. Neuere Kernel bringen den
+Treiber meist schon mit oder er liegt als Modul bei. Vor dem Start von
+TNN sollte er ggf. mit "modprobe tun" geladen werden.
+
+Da auf grundlegende Netzwerkfunktionen zugegriffen wird, sollte TNN mit
+Root-Berechtigung laufen !!! Ansonsten funktionieren eventuell einige
+Zugriffe nicht.
+
+Das fuer Kernel 2.2.x benoetigte Paket "tun-1.1.tar.gz" ist bei DB0UHI-4
+im Fileserver unter "/filesurf/linux/tun" oder im Internet unter
+"http://vtun.sourceforge.net/tun/tun-1.1.tar.gz" zu finden.
+
+
+Allgemeine Installation:
+========================
+
+Die Interfacefunktionalitaet ist per Voreinstellung deaktiviert. Um sie zu 
+aktivieren entfernt man die Kommentarzeichen um den Eintrag "#define KERNELIF"
+in der Includedatei "all.h" im "include"-Unterverzeichnis. Danach ist TNN
+mit "make" neu zu compilieren.
+
+Installation unter Kernel 2.4.x und 2.6.x :
+===========================================
+
+Viele aktuelle Distributionen bringen TUN schon mit ! Meistens reicht
+ein "modprobe tun".
+
+Die Installation ist hier sehr einfach. Bei der Kernelkonfiguration mit
+"make menuconfig", "make config" oder aehnlichen Tools muss bei dem Punkt
+"Network device support" der Unterpunkt "Universal TUN/TAP device driver"
+aktiviert werden. Dieser Treiber kann entweder fest in den Kernel oder als
+Modul gebaut werden, wie man es macht ist Geschmackssache. Nachdem der Kernel
+gebaut und installiert ist, muss noch mit den Befehlen "mkdir /dev/net"  und 
+"mknod /dev/net/tun c 10 200" ein Device angelegt werden. Dies erfordert Root-
+Berechtigung. Damit sind wir fertig.
+
+!!! Wichtig: bitte das Kernel-interne TUN benutzen, nicht das tun-Paket !
+!!!          Trotzdem aber hiervon das Infofile mit den Installationsinfos
+!!!          lesen (schadet nicht).
+
+
+Installation unter Kernel 2.2.x:
+================================
+
+Zuerst muss das Paket "tun-1.1.tar.gz" gemaess der Anleitung in dem Paket 
+installiert werden und die Moduleintraege gemacht werden. Es muessen danach
+unter dem Verzeichnis "/dev" Eintraege mit den Namen "tun0" bis "tun9"
+vorhanden sein. 
+
+Vor dem Start von TNN muss das tun-Modul entweder per "modprobe tun " oder
+durch den Autoloader geladen werden (kontrollieren !!!). Falls Warnmeldungen
+nach dem Hinzufuegen der char-major-Eintraege in /etc/modules.conf kommen
+("modules.conf ist more recent...."), dann nochmal "depmod -a" ausfuehren.
+
+Hiermit ist die Installation bereits abgeschlossen, der einzige Unterschied zu
+der Kernel-2.4.x-Installation besteht nur darin, dass das erzeugte Interface
+nicht "tnn" sonder "tun*" heisst, wobei * eine (beliebige) Zahl ist.
+
+
+Steuerung des Interfaces:
+=========================
+
+Um das Interface zu steuern wurde der neue SYSOP(!)-Befehl "KERNELIF" oder kurz
+"KERN" eingefuehrt. Die komplette Steuerung erfolgt ueber diesen Befehl und
+seine Unterfunktionen. Ausserdem wurde der IPR-Befehl fuer die Routeneintraege
+im TNN-Router erweitert um Routen auf das Kernelinterface legen zu koennen.
+
+Das Interface initialisiert sich beim Start nicht automatisch ! Dies ist
+beabsichtigt um durch eine eventuell fehlerhafte Erkennung des Interface-
+Stils des Kernels keine Probleme zu verursachen.
+
+
+Die Interfacefunktionen:
+========================
+
+Hier sollen zuerst die Funktionen im Einzelnen vorgestellt werden, ein
+Ablaufbeispiel findet sich im Anhang.
+
+Das Interface unterstuetzt die Unterfunktionen "INIT", "SETKIP", "DOWN", "UP",
+"CLEAR" und "STATUS", alle sind nur fuer den Sysop verfuegbar.
+
+KERN INIT: Initialisiert das Interface, es wird geprueft ob der Kernel die
+           benoetigten Funktionen bereitstellt. Das Interface initialisiert 
+           sich NICHT von selbst, dies muss explizit mit INIT erfolgen !!!
+           Es ist sonst nicht nutzbar. An dieser Stelle erfolgt ein Warnhinweis
+           falls zu diesem Zeitpunkt mit "IPA" noch keine Node-IP festgelegt
+           wurde. Die Interfacestatistik wird geloescht. Ist das Initerface
+           bereits initialisiert laesst dich dieser Befehl nur auf ein im
+           DOWN-Zustand befindliches Interface anwenden.
+
+
+KERN STATUS: Zeigt den momentanen Status und die Statistik des Interfaces an.
+
+
+KERN CLEAR: Loescht die Statistik der empfangenen und gesendeten Bytes.
+            Dies passiert auch beim "CLEAR" fuer die Gesamtstatistik.
+
+
+KERN SETKIP: Setzt die IP des Linuxkernels. Hier kann entweder eine IP-
+             Adresse oder ein Hostname angegeben werden, letzterer wird
+             entsprechend aufgeloest *wenn* ein Nameserver verfuegbar ist.
+             Die Angabe einer IP-Nummer ist deshalb zu bevorzugen !
+
+             Dieser Parameter *muss* unbedingt passieren, bevor das Interface
+             mit "KERN UP" aktiviert wird, ist dies nicht geschehen kann das
+             Interface nicht benutzt werden ! Die Node-IP von TNN wird wie
+             ueblich mit dem "IPA"-Kommando gesetzt, dies muss ebenfalls vorher
+             passiert sein.
+
+             Bsp: "KERN SETKIP 44.130.13.110" oder 
+                  "KERN SETKIP db0uhi.ampr.org"
+
+             Bei "KERN STATUS" wird grundsaetzlich nur die IP-Nummer angzeigt,
+             nicht aber ein eventuell angegebener Hostname.
+
+
+KERN UP: Aktiviert ein *vollstaendig* konfiguriertes Interface, ist die
+         Konfiguration noch unvollstaendig wird entsprechend auf die
+         fehlenden Einstellungen hingewiesen.
+           
+         Im Kernel wird ein Interface mit dem Namen "tnn" erzeugt
+         und eine Route mit der Node-IP fuer TNN im Kernel-IP-Router
+         eingetragen. Dies passiert alles automatisch auf der Basis der
+         gesetzten IP-Adressen. Im TNN IP-Router wird ebenfalls ein passender
+         Routeneintrag erzeugt.
+
+         !!! Bei Kernel-2.2.x-Style heisst das Interface "tun*" !!!
+                      
+         Das Interface laesst sich nur in den UP-Zustand schalten wenn
+         folgende Einstellungen erfolgt sind: 
+         IPA <node-ip>, KERN INIT, KERN SETKIP <kernel-ip/hostname>.
+
+
+KERN DOWN: Deaktiviert ein aktives Interface zum Kernel. Das eingetragene
+           Interface und die automatisch im Kernel und TNN eingetragenen
+           IP-Routen werden geloescht, sonstige Routen im TNN-Router die
+           auf das Interface zeigen bleiben eingetragen, sie funktionieren
+           aber natuerlich nicht mehr! Zusaetzliche Routen im Linux IP-Router
+           die auf das "tnn"-Interface zeigen werden geloescht !!!
+
+           !!! Bei Kernel-2.2.x-Style heisst das Interface "tun*" !!!
+
+           Daten, die auf ein im DOWN-Zustand befindliches Interface durch
+           noch bestehende Routeneintraege geroutet werden, werden ohne
+           weitere Nachricht geloescht !!!
+             
+
+allgemeines: Einige Kommandos sind nur nach vorheriger, erfolgreicher
+             Ausfuehrung anderer Kommandos moeglich oder haengen vom
+             derzeitigen Zustand des Interfaces ab. Wenn eine Aktion
+             ausgefuehrt werden soll die derzeit aufgrund des Zustandes
+             des Interfaces nicht moeglich ist, so erhaelt man eine
+             entsprechende Fehlermeldung.
+               
+             Die Konfiguration eines Interfaces kann nur geaendert werden
+             wenn es im DOWN-Zustand ist. Ausnahme: IPA-Aenderungen, aber
+             diese werden bei aktivem Interface (noch) nicht an den Kernel
+             durchgereicht. Das Resultat ist denkbar einfach: das Interface
+             geht dann nicht mehr. Man muss das Interface einmal DOWN und
+             dann wieder UP schalten. Aber Vorsicht: zusaetzliche IP-Routen
+             im Linux-Kernel gehen verloren und muessen neu gesetzt werden.
+
+
+Ablaufbeispiel:
+===============
+
+Nachfolgend ein Beispiel um den TNN-Knoten DB0UHI (44.130.13.100) mit dem
+Linux-Kernel auf der Maschine zu verbinden. Dem Kernel wird dabei die
+IP-Adresse 44.130.13.102 (db0uhi-u.ampr.org) zugewiesen. TNN-Befehle sind
+gross geschrieben, Linux-Shellbefehle klein. Bei den SH-Kommandos ist die
+Schreibweise zu beachten, die Linux-Shellbefehle muessen klein geschrieben
+werden, die TNN-Befehle koennen wahlweise gross oder klein geschrieben werden.
+
+
+    - Zuerst die Node-IP des Knotens setzen: "IPA 44.130.13.100"
+    - Danach kann das Interface initialisiert werden: "KERN INIT"
+    - Jetzt muss die IP-Adresse festgelegt werden, die der Kernel
+      bekommen soll. Dies geschieht mit: "KERN SETKIP 44.130.13.102"
+                                    bzw. "KERN SETKIP db0uhi-u.ampr.org"
+    - Jetzt sollte die Konfiguration ueberprueft werden: "KERN STATUS".
+      Dies kann selbstverstaendlich auch schon vorher einmal gemacht
+      werden.
+    - Wenn alles ok ist kann das Interface aktiviert werden: "KERN UP"
+
+    Jetzt kann man noch diverse Checks durchfuehren:
+
+    - Auf TNN-Seite sollte nun ein Routeneintrag in die IP-Routingtabelle
+      erfolgt sein und auf den Port "KERNEL" zeigen. Pruefbar mit: "IPR"
+
+    - Auf Kernel-Seite sollte ein Interface mit dem Namen "tnn" existieren,
+      dies kann unter TNN mit dem Befehl "SH ifconfig" ueberprueft werden.
+      Die IP-Routen kann man sich mit "SH route" anzeigen lassen, hier sollte
+      eine Route erscheinen, die auf das tnn-Device zeigt.
+
+    - Jetzt kann man einen einfachen Test machen: "PING 44.130.13.102".
+      Hiermit PING't TNN den Kernel an. Wenn dies funktioniert ist das
+      Interface betriebsbereit, was es transportiert haengt jetzt nur noch
+      von den Routingeintraegen in TNN und im Kernel ab. Um Routen hinzuzufuegen
+      oder zu loeschen sind die Befehle "IPR" (TNN) und "route" (Kernel) zu
+      benutzen.
+
+Das Interface sollte generell nur einmal am Anfang, z.B. aus der Startdatei
+"tnn178.tnb" heraus, aktiviert werden. Aenderungen an einem aktiven Interface
+sind nicht moeglich, es muss immer mit "KERN DOWN" deaktiviert werden bevor
+z.B. neue IP-Adressen gesetzt werden. Die meisten Funktionen des Interface
+verweigern dann die Befehlsausfuehrung mit entsprechenden Meldungen.
+
+
+Aenderungen am IPR-Befehl:
+==========================
+
+Der IPR-Befehl zum Ein- und Austragen von Routen im TNN IP-Router wurde bei
+dem Port-Abschnitt um den virtuellen Port "KERNEL" erweitert. Routen, die diesen
+Port erhalten, zeigen auf das Kernel-Interface.
+
+GANZ WICHTIG : sollte ein weiterer Port im System existieren dessen Name
+"Kernel" (Gross-/Kleinschreibung egal) lautet, kann es nicht funktionieren !
+Der Portname des realen Ports ist dann zu aendern !!!
+
+Alles weitere zu IPR ist gleich geblieben findet sich in der zugehoerigen Hilfe.
+
+
+Sonstiges:
+==========
+
+- Die Interfacestatistik kann auch mit "STAT K" abgerufen werden.
+- Zu den moeglichen Portnamen fuer echte Ports siehe Hinweis bei den Aenderungen
+  am "IPR"-Befehl.
+- Ist das Kernel-Interface-Feature eincompiliert erscheint auch ein Hinweis
+  beim "VER +"-Versions-Befehl.  
+
+******************************************************************************
+
+Anbindung an Linux Kernel-AX.25:
+================================
+
+Einstellung ueber tnn.ini:
+
+- bei "device" den Interfacenamen (siehe ifconfig) angeben
+- "lockfile" bleibt frei
+- "kisstype" auf den Wert "10" stellen, bei KJD-Kernel "11" verwenden
+- bei "port" den gewuenschten Port angeben
+
+Bsp:
+device ax0
+kisstype 10
+port 1
+
+Danach den Port ueber den PORT-Befehl mit ON aktivieren. Mit OFF laesst sich
+ein Kernelport wieder abschalten, sollte waehrend des Betriebs eines Kernel-
+ports ein Fehler auftreten so wird dieser Port eventuell deaktiviert, er
+laesst sich ggf. wieder mit ON einschalten.
+

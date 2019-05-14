@@ -1,0 +1,41 @@
+Version gleich Datum
+====================
+
+16.01.99
+- 2 Testversionen an DB0CEL und DB0UHI verteilt. Aber ohne MSY D XXX.
+- Kommt der Hinweis"Nicht implementiert."
+
+25.02.99
+- Fehler in GroupSys entfernt. Hat in der 1.ten Zeile nur 10 statt 11 Calls
+- geschrieben. Ist beim Loeschen eines Calls aufgefallen.
+
+01.03.99
+- Fehler in GroupSys entfernt. Beim Call setzen oder loeschen wurde die 
+- Gruppe kleingeschrieben ausgegeben.
+
+04.03.99
+- in 2 Funktionen wurde auf das Fehlen von Dateien falsch reagiert.
+- Nun nicht mehr Stop, sondern Meldung und exit
+
+18.03.99
+- Nun ist das entgueltige Version fertig. 
+
+30.04.99
+- Bei der Linuxversion wurde bei der CHECK-Funktion nur eine! Datei im der
+  Lifetime verringert.
+  xfindnext erwartet das die Datei, die in ffblk steht, existiert.
+  Ich hatte sie gerade geloescht :-((
+  Wurde gerichtet.
+02.05.99
+- Bei der Linux-Version konnte man mehrmals am Tag die Checkfunktion aufrufen.
+  Sollte aber nur einmal am Tag ausfuehrbar sein.
+  Die Dateizeit und Systemzeit passten nicht. Es fehlte 1 Monat bei der Datei-
+  Zeit..
+- In setfiletime beim Monat eine 1 hinzuaddiert. 
+
+20.06.99
+- Durch einen Fehler in der Speicherroutine konnte es unter Linux in einer
+  bestimmten Situation zu einem 'Segmentation fault' kommen.
+  Wurde abgefangen.
+- Ein 'toupper' in 'tolower' geaendert. Sollte ein paar Byte sparen.
+  

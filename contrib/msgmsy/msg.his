@@ -1,0 +1,15 @@
+Version gleich Datum
+====================
+
+16.01.1999
+- Verteilversion
+
+03.06.1999
+- Wegen libc6(glibc2) ein "#include <errno.h>" eingebaut.
+  und main von "void" nach "int" umgestellt.
+
+20.06.99
+- Durch einen Fehler in der Speicherroutine konnte es unter Linux in einer
+  bestimmten Situation zu einem 'Segmentation fault' kommen.
+  Wurde abgefangen.
+ 

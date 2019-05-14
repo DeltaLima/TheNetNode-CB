@@ -1,0 +1,78 @@
++ An FlexNet-Nachbarn melden wir statt wie bisher nun jeden unserer Locals
+  nicht mehr einzeln, sondern nur noch wie bei FlexNet ueblich einen SSID-
+  Bereich.
+  
+  Der gemeldete Bereich errechnet sich aus dem Knotencall sowie der minimalen
+  und maximalen SSID aller per Lokaleintrag (L/L+) angeschlossenen Ziele, die
+  das gleiche Call wie der Digi haben. Versteckte Locals (Alias mit '#' am
+  Anfang) werden ignoriert.
+
+  Die Berechnung des Bereiches erfolgt bei der Sendung des 0er-Frames beim
+  Linkaufbau zu einem FlexNet-Nachbarn. Es kann nun aber vorkommen, dass
+  nicht hinter allen SSID des gemeldeten Bereiches auch ein Local ist. Des
+  weiteren ist fuer andere Knoten nicht ersichtlich, dass DB0XYZ-4 gar nicht
+  direkt am Netz haengt, sondern sich eigentlich hinter DB0XYZ befindet. Aus
+  diesen Gruenden muessen nun auch folgende Linkwuensche akzeptiert werden:
+  
+    * Linkwuensche, die an einen Local gerichtet sind. Diese Linkwuensche
+      werden mit der normalen Gateway-Funktion umgesetzt, der VIA-Schwanz
+      des eingehenden Links wird entfernt !
+    * Linkwuensche, die an eine SSID unseres gemeldeten Bereiches gerichtet
+      sind, hinter denen aber kein Local steckt. Diese Links landen nun ganz
+      normal im Knoten.
+
+    aber:
+
+    * Linkwuensche an Locals die es zwar gibt, die aber grad nicht erreichbar
+      sind (L+), bleiben unbeantwortet. In diesem Fall landet man auch nicht
+      im Digi !
+
+  Aendert sich der verfuegbare SSID-Bereich waehrend der Interlink zum FlexNet-
+  Nachbarn schon besteht, so wird kein Update des Bereichs an den Nachbarn
+  durchgefuehrt, da hierzu der Link gekappt werden muesste. (FlexNet sieht
+  hier nur die Moeglichkeit vor, nach einer Aenderung des SSID-Bereichs diesen
+  per Link-Reset neu zu melden)
+
+  Es ist nun auch moeglich, direkt auf den Einstiegen die Locals
+  unter deren Calls zu connecten. Dies wird spaeter vielleicht noch so
+  eingeschraenkt, dass dies nur auf Ports mit einem FlexNet-Interlink
+  moeglich ist, und auf allen anderen Ports wieder normal mit via connected
+  werden muss.
+
+= Linux: Beim Aendern des UDP-Ports beim AXIPR-Befehl blieb TNN komplett
+         stehen. Es wurde keine Meldung ueber die positive Aenderung angezeigt.
+         (Problem gemeldet von Oliver Kern)
+
+= Linux: Nicht existierende Kernel-AX.25-Interfaces wurden nicht korrekt als
+         nicht funktionierend gekennzeichnet, dadurch war beim Start ein
+         Haenger moeglich. Korrigiert.
+
+= Linux: Die PCISCC4-Einsteckkarte ist nun mit Hilfe des 2.4.x-Treibers
+         von F6FBB mit normalem Kernel-AX.25 nutzbar. TNN verwaltet die
+         wichtigsten Portparameter selbst (TXD, TXT, PERS, Duplex) und
+         uebertraegt sie bei Aenderungen an die Karte. Fuer die korrekte
+         Konfiguration des angeschlossenen Modemtyps MUSS das zusaetzliche
+         Programm "setpciscc" verwendet werden !!! Mit diesem Programm
+         gemachte Aenderungen werden allerdings von TNN (noch) nicht wieder
+         uebernommen, da keine Benachrichtigung erfolgt.
+
+         Zu aktivieren in include/all.h -> #define PCISCC4_KAX25 einschalten,
+         aber NUR wenn ein 2.4-Kernel mit dem Treiber vorhanden ist !!! Mit einem
+         normalen 2.4-Kernel kann dann NICHT compiliert werden !!!
+         
+= L4: "PID-Race" beim neuen L4 behoben. PID-Uebermittlung sollte nun
+  fehlerfrei funktionieren.
+
+= Der IP-Router baut nun auch ausgehend Extended-AX.25 auf, wenn die zu
+  connectende Station im MHeard mit EAX.25 gekennzeichnet ist.
+
+= EAX25: Werte von EAXMODE beim PORT-Befehl geaendert:
+  Mode 0 : nur AX.25 (unveraendert)
+  Mode 1 : AX.25 und EAX.25, Connects nach MHeard (unveraendert, default)
+  Mode 2 : AX.25 und EAX.25, ausgehende Connects zuerst immer in EAX.25,
+           erfolgt nach zwei SABME keine Antwort, dann Rueckfall auf AX.25
+  Mode 3 : nur EAX.25 erlaubt (wie der alte Mode 2)
+
+= Verbesserungsvorschlaege von DL1XAO eingepflegt
+
+= In allen Files im Copyright die Jahreszahl angepasst

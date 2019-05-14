@@ -1,0 +1,86 @@
+
+          Allgemeine Lizenz für Amateurfunk Software (ALAS)
+
+Copyright (C) 1994   NORD><LINK e.V.
+                     Hinter dem Berge 5
+                     D-38108 Braunschweig
+
+Dieses Dokument darf beliebig vervielfältigt oder verteilt werden, 
+solange es nicht verändert wird. Für Anregungen, wie es zu verbessern ist,
+bin ich dankbar. (DF2AU @ DB0FC.#NDS.DEU.EU)
+
+
+1. Vorwort
+Diese Lizenz entstand aus der General Public Licence der Free Software
+Foundation (GPL). Ich habe versucht, den Sinn zu erhalten und mehr Klarheit
+hineinzubringen. Einige Passagen sind vollständig entfallen. Es ist aber 
+jedem Nutzer freigestellt, an Stelle dieser Lizenz die GPL Bedingungen 
+anzuwenden.
+
+Der Sinn dieser Lizenz ist es, den Autor und den Anwender der Software zu 
+schützen. Es sind daher einige Einschränkungen erforderlich und es entstehen 
+auch einige Pflichten für den, der die mit dieser Lizenz verbundene Software 
+weitergibt oder verändert.
+
+Dies wird dadurch erreicht, dass die Software durch Copyright geschützt
+wird und der Nutzer durch diese Lizenz die Möglichkeit einer nahezu
+unbeschränkten Nutzung erhält.
+
+
+2. Geltungsbereich
+Diese Lizenz gilt für jedes Programm oder Teil eines Programmpaketes, das
+eine Copyright Notiz ausgibt, die sich auf diese Lizenz bezieht. Im folgenden
+bedeutet "Programm" entweder das Programm oder einen Teil davon.
+"Du" bist der Lizenznehmer.
+
+
+3. Deine Rechte:
+Du darfst das Programm nutzen oder kopieren oder verteilen oder verändern,
+solange Du damit keine kommerziellen Absichten verbindest.
+
+
+4. Deine Pflichten:
+
+4.1. Du darfst den Copyright Vermerk und den Hinweis auf diese Lizenz nicht 
+verändern und er muss bei jedem Start des Programms eindeutig für den
+Benutzer sichtbar sein.
+
+4.2. Du musst jedem Dritten, dem Du eine Kopie des Programms gibst, die
+gleichen Rechte einräumen, die auch Dir gegeben wurden. Du musst ihm
+auch die gleichen Pflichten auferlegen.
+
+4.3. Du darfst für die Weitergabe kein Geld verlangen ausser den
+Kosten für das Medium und Porto.
+
+4.4. Du darfst das Programm nur komplett weitergeben, so wie Du es bekommen
+hast.
+
+4.5. Wenn Du das Programm veränderst oder Teile davon für eigene Arbeiten
+verwendest - wörtlich oder verändert - so gelten die folgenden Punkte für
+das daraus entstehende neue Programm:
+
+4.5.1. Du musst deutlich sichtbar angeben:
+ - Deinen Namen und Deine Adresse und
+ - die Tatsache, dass Du das Programm geändert hast oder Teile des
+   Programms verwendet hast.
+
+4.5.2. Du musst das Programm entweder mit dem kompletten Quelltext
+weitergeben oder jedem auf Verlangen eine Kopie des Quelltextes gegen eine
+Gebühr von maximal der Kosten des Mediums und der Portokosten aushändigen.
+
+4.5.3. Du darfst keine Beschränkungen aussprechen, die über diese Lizenz
+hinausgehen.
+
+
+5. Sonstiges
+Du erhälst das Programm ohne jede Garantie für Funktion, Fehlerfreiheit oder
+Anwendbarkeit für eine bestimmte Sache. Du verzichtest auf jede
+Schadensersatzforderung, gleich aus welchem Grunde.
+Mit der Nutzung des Programms erkennst Du diese Lizenzbedingungen
+vorbehaltlos an.
+
+
+Vers. 1.0, 13-OCT-92
+Adressen aktualisiert am 20.10.2003
+
+Ende ALAS

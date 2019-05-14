@@ -1,0 +1,80 @@
+= maximale Anzahl der moeglichen Connects von Usern zum Digi auf *einem Port*
+  jeweils fuer jeden Port seperat einstellbar
+  
+  Aktivierung : in include/all.h das "#define USERMAXCON" entkommentieren
+  
+  Anzahl der maximalen Connects einstellbar mit dem PORT-Befehl:
+  "PORT <Portnummer> MAXCON <Anzahl>",
+  die Anzeige des eingestellten Wertes erfolgt mit dem Kommando
+  "PORT *" !!!
+  
+  Eine Anzahl von 0 deaktiviert die Funktion. (Voreinstellung)
+  
+  Diese Einstellung gilt fuer *alle* User auf dem angegebenen Port, einzelne
+  User muessen weiterhin mit SUSPEND beschraenkt werden. Es werden nur neue
+  Connects abgelehnt wenn die maximale Anzahl erreicht ist, wird die Anzahl
+  auf einen Wert niedriger als die aktuelle Anzahl an Connects eines Users
+  eingestellt, so bleiben diese Verbindungen bestehen. Neue Verbindungen die
+  ueber die Maximalzahl hinausgehen werden von Knoten mit BUSY abgelehnt.
+
+  !!! ACHTUNG, WICHTIG !!! !!! ACHTUNG, WICHTIG !!! !!! ACHTUNG, WICHTIG !!!
+  
+  "SP" schreibt auch MAXCON in parms.tnb wenn die Funktion eincompiliert ist,
+  eine TNN-Version OHNE diese Funktionalitaet kann dann die generierten PORT-
+  Zeilen NICHT (!!!) verstehen und IGNORIERT SIE KOMPLETT !!! (d.h. alle
+  Porteinstellungen fuer diesen Port bleiben WIRKUNGSLOS und der Port
+  deshalb ggf. auch falsch konfiguriert und funktioniert nicht !!!.
+  
+  Abhilfe: jede Porteinstellung (oder nur die absolut wichtigen) in seperate
+           Zeilen schreiben. (oder mal den PORT-Befehl ueberarbeiten...)
+  
+  Nachtrag: PORT wurde irgendwann veraendert, beschriebenes Verhalten tritt
+            bei unbekannten Befehlen nicht mehr auf. 
+
+= AutoIPR setzte zwar die Subnetze, aber nicht die Gateways. Korrigiert.
+
+= das Kernelinterface funktionierte wegen Aenderungen am Kernel mit Kernel
+  2.4.6 nicht mehr. Jetzt geht es wieder, bei Problemen mit Kernel 2.2.x und
+  2.4.x-Kerneln VOR 2.4.6 die Kommentare in os/linux/kernelif.h beachten !!!
+
+= bei "SP" wurden beim Dump der IPR- und ARP-Eintraege Eintraege, die auf den
+  Kernel-Port zeigten, nicht korrekt geschrieben. Jetzt ok.
+
+= bei "SP" wird auch die Konfiguration des Kernel-Interfaces geschrieben
+  WENN das Interface konfiguriert UND zum diesem Zeitpunkt aktiv ist.
+  Damit soll sichergestellt werden, dass nur gueltige und funktionierende
+  Konfigurationen geschrieben werden.
+
+= bei "SP" wird auch die Konfiguration der AX25IP-Routen geschrieben
+
+= neuer Sysop-Befehl "ALIAS" zum Einrichten von Kommando-Aliassen.
+  
+  Aktivierung: in include/all.h das "#define ALIASCMD" entkommentieren,
+  die maximale Laenge von Aliassen und den zugeordneten Kommandostrings
+  kann in include/typedef.h (ganz am Ende) geaendert werden, in der
+  Standardeinstellung koennen Aliasse acht Zeichen und die Kommandos 16
+  Zeichen lang sein.
+  
+  !!! Das Alias und das Kommando werden in Grossbuchstaben konvertiert !!!
+  
+  Liste der definierten Aliasse abrufen: "alias".
+  
+  Alias hinzufuegen: "alias funkruf c db0xyz-12" legt das Kommandoalias
+                     "FUNKRUF" an und verknuepft es mit dem Kommando
+                     "C DB0XYZ-12".
+                     
+  Alias loeschen: "alias funkruf" loescht das zuvor definierte Alias "FUNKRUF",
+                  falls solch ein Alias nicht existiert gibts ne Meckermeldung.
+
+= INP: halbstuendlich einmal die ganze Nodesliste an den Nachbarn melden
+  (l3misc.c::brosrv10(...))
+
+= INP: versteckte Nodes werden ignoriert wenn sie empfangen werden
+       (dafuer dass die erst gar nicht gemeldet werden ist eigentlich der
+        Ursprungsnode verantwortlich, aber einige andere Nodesofts kriegen
+        das anscheinend nicht gebacken)
+
+= LINK-Befehl ueberarbeitet, durch Zufall eine nicht erkannte Abbruchbedingung
+  bei der Parameterauswertung gefunden (er suchte wild in der Gegend rum wenn
+  die Zeile nicht ganz gefuellt war, sprich nicht alle erwarteten Parameter
+  vorhanden waren)

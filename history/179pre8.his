@@ -1,0 +1,17 @@
+= Probleme bei den neuen Makros behoben
+
+= In l3tab.c::l3_find_route() wurde beim Aufbau des VIA-Feldes bei L2-Connects
+  eine nicht initialisierte Variable zum Vergleich herangezogen. Dies konnte
+  dazu fuehren, dass das VIA-Feld nicht korrekt aufgebaut wurde, weil
+  eventuell ein falscher Linkpartnertyp festgestellt wurde.
+
+= Funktion l7utils.c::getdig() bereinigt, Rueckgabetyp war nicht mit erwartetem
+  Typ an anderen Stellen im Code identisch und konnte zu falschen Ergebnissen
+  fuehren.
+
+= Linux: Problem mit dem Kernelinterface fuer KJD-Kernel behoben, es konnten
+         keine Interfaces geoeffnet werden.
+
+= In all.h die schaltbaren Optionen neu gruppiert, selten benutzte Optionen
+  weiter unten eingetragen, ausserdem sind die L4-Erweiterungen nun standard-
+  maessig eingeschaltet.

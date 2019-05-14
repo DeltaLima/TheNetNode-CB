@@ -1,0 +1,168 @@
+# This is a sample of the file tnn.ini with all options and devices shown.
+#-----------------------------------------------------------------------------
+# Average rounds/sec (default is missing is 100) - the real value depends
+# on processor power and system load. Increase this on heavy loaded systems
+# and if you have high speed ports (76800 baud and up)
+#rounds 200
+# File permissions for files created by TNN - octal value as used by umask(2)
+# default value = 000 (world readable/writable)
+# use 077 to limit access to the owner of TNN
+#perms 077
+# Working directory for TNN
+tnn_dir /usr/local/tnn/
+# Unix-Socket for TNT hostmode interface (optional)
+#tnn_socket /usr/local/tnn/tnn-socket
+# Program to start before using any hardware ports (optional) - don't use
+# any parameters!
+#tnn_start kill_other_processes
+# Number of buffers (optional; default = 10000)
+buffers 10000
+# file containing process id (mandatory)
+tnn_procfile tnn.pid
+#-----------------------------------------------------------------------------
+# device 1 = Tokenring on /dev/ttyS0; 38400 Bd; Ports 0 and 1
+device /dev/ttyS0
+# lockfile for device 1
+tnn_lockfile /var/lock/LCK..ttyS0
+# speed on device 1
+speed 38400
+# type of KISS on device 1:
+# 0 = KISS, 1 = SMACK, 2 = RMNC-KISS, 3 = Tokenring (1st device only),
+# 4 = Vanessa, 5 = SCC, 6 = TF (experimental!), 7 = IPX (1 IPX port only),
+# 8 = AX25IP (1 AX25IP port only), 9 = Loop, 10 = Kernel-AX.25 Interface
+# 11 = Kernel-AX.25 Interface for DG1KJD-Kernel
+kisstype 3
+# L2-Port associated with device 1 - use several port lines, if kisstype = 3
+port 0
+port 1
+#-----------------------------------------------------------------------------
+# device 2 = standard KISS on /dev/ttyS1; 9600Bd; Port 2
+device /dev/ttyS1
+# lockfile for device 2
+tnn_lockfile /var/lock/LCK..ttyS1
+# speed on device 2
+speed 9600
+# type of KISS on device 2:
+# 0 = KISS, 1 = SMACK, 2 = RMNC-KISS,
+# 4 = Vanessa, 5 = SCC, 6 = TF (experimental!), 7 = IPX (1 IPX port only),
+# 8 = AX25IP (1 AX25IP port only), 9 = Loop, 10 = Kernel-AX.25 Interface
+# 11 = Kernel-AX.25 Interface for DG1KJD-Kernel
+kisstype 0
+# L2-Port associated with device 2
+port 2
+#-----------------------------------------------------------------------------
+# device 3 = SMACK on /dev/ttyS2; 115200 Bd; Port 3
+device /dev/ttyS2
+# lockfile for device 3
+tnn_lockfile /var/lock/LCK..ttyS2
+# speed on device 3
+speed 115200
+# type of KISS on device 3:
+# 0 = KISS, 1 = SMACK, 2 = RMNC-KISS,
+# 4 = Vanessa, 5 = SCC, 6 = TF (experimental!), 7 = IPX (1 IPX port only),
+# 8 = AX25IP (1 AX25IP port only), 9 = Loop, 10 = Kernel-AX.25 Interface
+# 11 = Kernel-AX.25 Interface for DG1KJD-Kernel
+kisstype 1
+# L2-Port associated with device 3
+port 3
+#-----------------------------------------------------------------------------
+# device 4 = RMNC-Kiss on /dev/ttyS3; 19200 Bd; Port 4
+device /dev/ttyS3
+# lockfile for device 4
+tnn_lockfile /var/lock/LCK..ttyS3
+# speed on device 4
+speed 19200
+# type of KISS on device 4:
+# 0 = KISS, 1 = SMACK, 2 = RMNC-KISS,
+# 4 = Vanessa, 5 = SCC, 6 = TF (experimental!), 7 = IPX (1 IPX port only),
+# 8 = AX25IP (1 AX25IP port only), 9 = Loop, 10 = Kernel-AX.25 Interface
+# 11 = Kernel-AX.25 Interface for DG1KJD-Kernel
+kisstype 2
+# L2-Port associated with device 4
+port 4
+#-----------------------------------------------------------------------------
+# device 5 = Vanessa; Port 5
+device Vanessa
+# type of KISS on device 5:
+# 0 = KISS, 1 = SMACK, 2 = RMNC-KISS,
+# 4 = Vanessa, 5 = SCC, 6 = TF (experimental!), 7 = IPX (1 IPX port only),
+# 8 = AX25IP (1 AX25IP port only), 9 = Loop, 10 = Kernel-AX.25 Interface
+# 11 = Kernel-AX.25 Interface for DG1KJD-Kernel
+kisstype 4
+# L2-Port associated with device 5
+port 5
+#-----------------------------------------------------------------------------
+# device 6 = SCC on /dev/scc0; Port 6
+device /dev/scc0
+# lockfile for device 6
+tnn_lockfile /var/lock/LCK..scc0
+# type of KISS on device 6:
+# 0 = KISS, 1 = SMACK, 2 = RMNC-KISS,
+# 4 = Vanessa, 5 = SCC, 6 = TF (experimental!), 7 = IPX (1 IPX port only),
+# 8 = AX25IP (1 AX25IP port only), 9 = Loop, 10 = Kernel-AX.25 Interface
+# 11 = Kernel-AX.25 Interface for DG1KJD-Kernel
+kisstype 5
+# L2-Port associated with device 6
+port 6
+#-----------------------------------------------------------------------------
+# device 7 = TNC with TF 2.7b on /dev/ttyS4; 19200 Bd; Port 7
+# WARNING! This configuration is NOT recommended for a standalone digipeater!
+device /dev/ttyS4
+# lockfile for device 7
+tnn_lockfile /var/lock/LCK..ttyS4
+# speed on device 7
+speed 19200
+# type of KISS on device 7:
+# 0 = KISS, 1 = SMACK, 2 = RMNC-KISS,
+# 4 = Vanessa, 5 = SCC, 6 = TF (experimental!), 7 = IPX (1 IPX port only),
+# 8 = AX25IP (1 AX25IP port only), 9 = Loop, 10 = Kernel-AX.25 Interface
+# 11 = Kernel-AX.25 Interface for DG1KJD-Kernel
+kisstype 6
+# L2-Port associated with device 7
+port 7
+#-----------------------------------------------------------------------------
+# device 8 = IPX; Port 8
+device ipx
+# type of KISS on device 8:
+# 0 = KISS, 1 = SMACK, 2 = RMNC-KISS,
+# 4 = Vanessa, 5 = SCC, 6 = TF (experimental!), 7 = IPX (1 IPX port only),
+# 8 = AX25IP (1 AX25IP port only), 9 = Loop, 10 = Kernel-AX.25 Interface
+# 11 = Kernel-AX.25 Interface for DG1KJD-Kernel
+kisstype 7
+# L2-Port associated with device 8
+port 8
+#-----------------------------------------------------------------------------
+# device 9 = AX25IP; Port 9
+device ax25ip
+# type of KISS on device 9:
+# 0 = KISS, 1 = SMACK, 2 = RMNC-KISS,
+# 4 = Vanessa, 5 = SCC, 6 = TF (experimental!), 7 = IPX (1 IPX port only),
+# 8 = AX25IP (1 AX25IP port only), 9 = Loop, 10 = Kernel-AX.25 Interface
+# 11 = Kernel-AX.25 Interface for DG1KJD-Kernel
+kisstype 8
+# L2-Port associated with device 9
+port 9
+#-----------------------------------------------------------------------------
+# device 10 = Kernel-AX.25; Port 10 (example with Interface ax0)
+device ax0
+# type of KISS on device 10:
+# 0 = KISS, 1 = SMACK, 2 = RMNC-KISS,
+# 4 = Vanessa, 5 = SCC, 6 = TF (experimental!), 7 = IPX (1 IPX port only),
+# 8 = AX25IP (1 AX25IP port only), 9 = Loop, 10 = Kernel-AX.25 Interface
+# 11 = Kernel-AX.25 Interface for DG1KJD-Kernel
+kisstype 10
+# L2-Port associated with device 10
+port 10
+#-----------------------------------------------------------------------------
+# device 11 = DG1KJD-Kernel-AX.25; Port 11 (example with Interface ax0)
+device ax0
+# type of KISS on device 11:
+# 0 = KISS, 1 = SMACK, 2 = RMNC-KISS,
+# 4 = Vanessa, 5 = SCC, 6 = TF (experimental!), 7 = IPX (1 IPX port only),
+# 8 = AX25IP (1 AX25IP port only), 9 = Loop, 10 = Kernel-AX.25 Interface
+# 11 = Kernel-AX.25 Interface for DG1KJD-Kernel
+kisstype 11
+# L2-Port associated with device 11
+port 11
+#
+# END

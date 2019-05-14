@@ -1,0 +1,47 @@
+= Linux: serielle Ports (KISS, RKISS, TOKENRING usw.) bis 460300 Baud
+
+= Linux: Interfaces des Kernel-AX.25 koennen als Ports verwendet werden
+  
+  Aktivierung: #define KERNELIF (wie fuer das IP-Interface) muss aktiviert sein
+  
+  Einstellen: in tnn.ini: als "device" den Interfacenamen (ax0, ax1 usw.)
+              angeben, "kisstype" auf den Wert 10 stellen
+              
+              Bsp:
+              device ax0
+              kisstype 10
+              port 1
+              
+  Das Interface muss natuerlich laufen wenn man sich daran binden will, also
+  das Kernel-AX.25 vor TNN starten, die Portparameter von TNN werden an das
+  Interface durchgereicht und falls von Kernel-Seite (z.b. durch kissparms)
+  Portparameter veraendert werden, so werden diese von TNN erkannt, durch
+  AutoParameter *alle* Parameter des Ports neu berechnet und an das Interface
+  zurueckuebertragen. Hierdurch kann es natuerlich vorkommen, dass die
+  vorher gesetzten Parameter wieder veraendert werden. 
+ 
+  Treten waehrend des Betriebs Probleme mit einem Kernelinterface auf, so
+  wird der betreffende Port ausgetragen ("PORT x OFF"). Ein Wiedereinschalten
+  (mit den alten Einstellungen) ist ggf. mit "PORT x ON" moeglich.
+  
+  DAMA-Master ist ungetestet, er sollte *NICHT* richtig funktionieren weil
+  wir nicht wissen wann das Interface das Frame wirklich fertig gesendet
+  hat !!! Aktivieren laesst er sich aber trotzdem, was dabei rauskommt
+  ist Glueckssache, der Kernel *kann* nicht melden wenn er fertig mit der
+  Aussendung ist. (ist nicht vorgesehen im Kernel-AX.25)
+  
+  DAMA-Slave laesst sich wie gewohnt mit "DAMA S" ueber den Port-Befehl 
+  aktivieren und sollte funktionieren.
+
+= Linux: Watchdog beendet sich auch bei Fehlern auf der Pipe, der
+         Hauptprozess wird schneller gekillt.
+
+= MHeard korrigiert, Fehler wenn User auf mehr als einem Port gehoert wurde
+  (DG8BR)
+
+= in der LINK-Struktur Variable "brotim" (Broadcast-Timer) von BOOLEAN (???)
+  auf UWORD geaendert
+
+= kosmetische Korrekturen beim VER-Befehl. Inzwischen waren dort so viele
+  anzeigbare Optionen moeglich dass die Ausgabe ziemlich chaotisch aussah.
+  Hinweis auf nordlink.org hinzugefuegt.

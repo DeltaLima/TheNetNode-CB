@@ -1,0 +1,91 @@
+= Linux: AX25IP und AXIPX aufgeraeumt und von eigenen select()-Funktionen
+         befreit bei {ax25ip,axipx}_recv(). Die Pruefung auf lesbaren
+         Descriptor geschieht nun mit in linux.c::update_timer(), dort wird
+         nun fuer alle Interfacetypen die einen Filedescriptor benutzen
+         (AX25IP, AXIPX, Kernel-AX.25, Kernel-IP) auf die jeweiligen RX-
+         Funktionen verzweigt. Diese Massnahme sollte bei Verwendung der
+         beiden Modi eine geringere Auslastung bei hoeherer Reaktions-
+         schnelligkeit erbringen.    ACHTUNG: AXIPX nicht getestet !!!
+
+= viele Aenderungen und Fixes von Odo, DL1XAO (siehe 178or*.his)
+
+= Soll ein INP-Link aufgebaut werden UND die RTT-Messung UND der 
+  Faehigkeitsabgleich laeuft noch, dann senden wir keine Node-Infos
+  im NETROM-Format an den Nachbarn falls die RTT-Bake nicht innerhalb
+  von ein paar Sekunden wieder zurueckgekommen ist (l3misc.c::brosrv10())
+
+= L2: Aenderungen an der Statemachine wieder teilweise rueckgaengig gemacht
+  da mit DAMA nicht 100%ig vertraeglich, bei nicht-DAMA funktionsfaehig.
+
+= Linux: Kernel-AX.25 mit dem Kernel-Stack von DG1KJD kompatibel gemacht.
+         Es erfolgt eine automatische Erkennung, welcher Stack vorliegt,
+         allerdings erfolgt eine Umschaltung in den KJD-Mode erst mit dem
+         ERSTEN EMPFANGENEN Frame !!! Frames, die auf einem KJD-Stack VORHER
+         gesendet werden, werden vom Stack als fehlerhaft erkannt und
+         NICHT GESENDET !!! Ein Setzen der L2-Parameter wie TX-Delay etc.
+         ist mit dem KJD-Stack zwar moeglich, wird aber noch nicht
+         unterstuetzt (mangels Testmoeglichkeit). Parameteraenderungen
+         (TX-Delay, TX-Tail etc.) muessen mit den fuer das jeweilige Interface
+         zur Verfuegung stehenden Tools erledigt werden !!!
+
+= L4: Erweiterung des L4, es koennen Pakete jeglicher PID uebertragen
+      werden. Schaltbar per #define NEW_L4 in all.h. Funktioniert nur, wenn
+      Quell- und Zielknoten diese Modifikation unterstuetzen, d.h. nur
+      zwischen zwei TNN's !!! Defaultmaessig NICHT mit eincompiliert,
+      sollte nur zu Testzwecken eingeschaltet werden !!!
+
+= ARP- und IPR-Eintraege werden (intern) markiert, ob sie von einer Automatik
+  (INP-Routenlerner) oder von Hand gemacht wurden. Ueber Automatik gelernte
+  Routen koennen von der Automatik UND von Hand (ARP/IPR-Befehl) ausgetragen
+  werden, von Hand gemachte Eintraege NUR von Hand. Dies verhindert, dass die
+  Automatik Eintraege austraegt, die schon vorher existent waren und
+  unabhaengig von den INP-Infos immer vorhanden sein sollen. So sind statische
+  Routen moeglich die nicht verloren gehen, auch wenn die INP-Infos zu diesem
+  Ziel entfernt werden.
+  
+  !!! aus .tnb-Files geladene Eintraege gelten als VON HAND gemacht !!!
+
+= l3ip.c: Cache fuer IP-Routinginformationen implementiert, war zwar in den
+          Kommentaren zum Code erwaehnt, aber nirgends implementiert. Steht
+          nun in rt_find(). Zu aktivieren in all.h, #define IPRTCACHE.
+
+= L2 nun mit Extended-AX.25. Eincompilieren mit #define EAX25 in all.h.
+
+  Ob eine Gegenstation EAX.25 kann wird in MHeard vermerkt, aber nicht
+  gespeichert ! Ueber die zusaetzlichen Parameter EAXMAXF und EAXMODE beim
+  Port-Befehl laesst sich das Maxframe und das EAX.25-Verhalten auf dem Port
+  steuern. Hierbei gilt fuer EAXMODE folgendes:
+  
+  0 nur AX.25 zugelassen, EAX.25-Verbindungen werden abgelehnt.
+  1 Mode nach Faehigkeiten der Gegenstation bzw. nach MHeard. (AX.25 und EAX.25)
+  2 nur EAX.25 zugelassen, AX.25-Verbindungen werden abgelehnt.
+
+  Bei Mode 1 erfolgt ein Fallback auf AX.25 wenn ein EAX.25-Connect zur
+  Gegenstation mit DM beantwortet wurde. Mode 1 ist standardmaessig
+  eingestellt.
+  
+  EAXMAXF kann max. 127 sein, sollte jedoch 32 nicht ueberschreiten,
+  default ist 16. Bisher ist ein Maxframe groesser 7 noch nicht mit
+  allen Hardwareinterfaces getestet !!! Hier muss experimentiert werden.
+  (auf VANESSA funktionierts einwandfrei)
+  
+  Die zusaetzlichen Parameter bei Port sind mit "P *" abrufbar.
+  Parameter 1 (NoAckBuf) sollte bei Verwendung von EAX.25 entsprechend
+  vergroessert werden, hier sollte mindestens 1,5 * groesstes verwendetes
+  EAX.25-Maxframe eingestellt werden, damit immer genug Daten da sind.
+  
+  Die Maxframe-Automatik funktioniert analog wie bei AX.25 aber nur dann,
+  wenn sie bei AX.25 aktiviert worden ist ! Also dort beim Maxframe
+  ggf. das "a" machen (PO x MAXF=?a). Aenderung in Zukunft moeglich.
+
+= Tokenring: mit neueren Rechnern, die mehrere tausend Runden pro Sekunde
+  schaffen, konnte der Tokenring auf ein fruehzeitiges "Timeout" laufen und
+  einen Tokenverlust annehmen weil zu viele Runden vergangen, das Token aber
+  noch nicht wieder da war, da ein von den Runden abhaengiger Zaehler benutzt
+  wurde. Jetzt wird ein echter Timer und ein Token-Timeout von zwei Sekunden
+  verwendet, Timeout einstellbar ueber TOKENTIMEOUT in all.h.
+
+  Dieser Fehler betraf die DOS und die Linux-Version !!!
+
+= Auf Ports, die als Interlinks arbeiten, Persistence anders einstellen
+  (l2misc.c::autopar() und l3misc::islinkport())

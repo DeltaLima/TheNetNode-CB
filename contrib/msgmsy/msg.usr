@@ -1,0 +1,78 @@
+Uebersicht zur MSG-Hilfe :                                                3.04
+-------------------------
+(MS)G S <ZIELCALL/GRUPPE> <#lifetime> <text>   sendet MSG
+(MS)G R <call> <nummer>                        liest MSG
+(MS)G L                                        listet MSGs
+(MS)G E                                        loescht MSGs
+(MS)G G <gruppe>                               listet Gruppen
+(MS)G V                                        zeigt Version
+
+
+
+Detaillierte Hilfe zu MSG :
+---------------------------
+
+(MS)G S <ZIELCALL/GRUPPE> #<lifetime> <text>
+     Zum Erstellen einer Digimail (MSG) :
+
+     Der Message-Befehl ermoeglicht es, einem Benutzer des Knotens eine kurze
+     (!) Nachricht in den CTEXT zu schreiben. Beim naechsten Connect wird
+     diese Zeile dann bei Ihm im CTEXT erscheinen. Statt des Zielcalls kann
+     auch eine Zielgruppe angegeben werden. Diese ist eine Art Verteiler-
+     liste. Jedes Mitglied der Zielgruppe bekommt eine Kopie der Nachricht.
+
+     Die Lifetime kann, muss aber nicht, angegeben werden. Sie kann von #1 =
+     einem Tag bis #30 = dreissig Tage angegeben werden. Wird keine Lifetime
+     angegeben, so wird sie auf default = 7 Tage  gesetzt. Das taegliche
+     Herabsetzen der Lifetime geschieht im Digi. Ist die  Lifetime abgelaufen
+     und der Adressat ist nicht der Absender, bekommt der Absender seine MSG
+     mit einer Default-Lifetime von 7 Tagen zurueck. Nach dieser Zeit wird 
+     die MSG endgueltig geloescht.
+
+     Abhaengig davon, ob das System mit einer Festplatte oder einer RAMDISK
+     arbeitet, kann die Nachricht bei Absturz oder Reset verloren gehen.
+
+     Beispiel: MSG S DL9GYA #10 Roland, bitte connecte mich, wenn Du zurueck
+     bist!
+
+               MSG S SYSOP Link nach ..... defekt?!
+
+     Letzteres wuerde die Nachricht an die OM's der Gruppe SYSOP weiter-
+     leiten.
+     Die Definition einer neuen Gruppe geschieht nur durch die Sysops. Bitte
+     danach fragen.
+
+(MS)G R
+     Liest die eigenen MSG's aus.
+
+(MS)G R <call>
+     Liest die an <call> gerichteten MSG's aus.
+
+(MS)G R <call> 1 oder 1-3
+     Zusaetzlich kann  noch eine  Numerierung mit  angegeben werden. Also
+     lesen der MSG 1 oder MSG 1-3.
+
+(MS)G L
+     Listet die eigenen Header auf.
+
+(MS)G E
+     Dieser Befehl loescht alle eigenen Digimail-Nachrichten.
+
+(MS)G E 1-2
+     Dieser Befehl loescht Nr. 1-2 der eigenen Digimail-Nachrichten. Es muss
+     mindestens eine Zahl angegeben werden.
+
+(MS)G E 1- <call>
+     Dieser Befehl loescht alle eigenen Digimail-Nachrichten die an <call>
+     geschickt wurden.
+
+(MS)G G
+     zeigt alle vorhandenen Verteiler-Gruppen mit Call's an.
+
+(MS)G G <gruppe>
+     zeigt nur die Call's in der <gruppe> an
+
+     Neue Gruppen koennen nur vom Sysop angelegt werden!
+
+(MS)G V
+     Gibt Versionsnummer und -Datum aus.
