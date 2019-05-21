@@ -102,7 +102,8 @@ msginstall:
 		echo $@
 		install -m 0700 $(BIN)/msg $(TNNUSEREXE)msg
 		install -m 0700 $(BIN)/msy $(TNNSYSEXE)msy
-		cp $(MSGMSY)/msg.{usr,sys} $(TNNMSG)
+		cp $(MSGMSY)/msg.usr $(TNNMSG)
+		cp $(MSGMSY)/msg.sys $(TNNMSG)
 else
 #
 # Nun kommt Dose
