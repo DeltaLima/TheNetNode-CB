@@ -415,7 +415,7 @@ pnmtch(const char *pat, char *nam)
             *n++ = *a + 1;
             break;
           case '*':
-            if (strlen(*n) >= 1)
+            if (n[-1] != *a)
               *n++ = *a;
 
            break;
