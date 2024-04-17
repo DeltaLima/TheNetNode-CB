@@ -61,7 +61,7 @@
 /*#define DEBUG */
 
 #define __AUTHOR__   "cb"       /* Monogramm des Autors/Programmierers  */
-#define __PATCH__    "53"       /* Patch-Level des Autors               */
+#define __PATCH__    "54"       /* Patch-Level des Autors               */
 
 /* Zuerst legen wir die variierenden Texte mal fest                     */
 #ifdef __LINUX__
