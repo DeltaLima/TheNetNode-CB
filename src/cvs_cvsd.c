@@ -1726,7 +1726,9 @@ void update_destinations(PERMLINK *p, char *name, time_t rtt, char *rev)
 
   if (!d)
     return;
-
+  /* changed :15/06/24 by MD2SAW. Prevents empty or to short Dest-names */ 
+  if (strlen(name) < 4)
+    return;
   d->rtt = rtt;
   if (labs(rtt - d->last_sent_rtt) > (d->last_sent_rtt / 8L)) {
     for (pl = 0; pl < MAXCVSHOST; pl++) {
