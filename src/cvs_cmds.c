@@ -3719,9 +3719,11 @@ static void h_pong_command(CONNECTION *cp)
     }
     l->testnexttime = l->testwaittime + max(min(60L * (l->txtime), 7200L), 120L);
     /* I hacked this because of it's nasty behave - rewrite of the whole stuff is in progress */
-    update_destinations(l, l->name,
+    /* update_destinations(l, l->name,
                         (l->rxtime == -1L) ? l->txtime : (l->rxtime + l->txtime) / 2L,
                         cp->rev);
+   */
+   /* 15/06/24 Hack disabled by MD2SAW. Hack cause incorrect entries in the Dest-tab */
   }
 }
 
